@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="/layout.css">
+</head>
+<body>
+  <h1>Bhagavad Gita Shloka</h1>
+
+  <!-- Photo right below title -->
+  <div class="photo-space"></div>
+
+  <!-- Form comes after photo -->
+  <form action="/data" method="POST">
+    <select name="chapter" required>
+      <option value="" disabled selected>Select Chapter</option>
+      <% for (let i = 1; i <= 18; i++) { %>
+        <option value="<%= i %>">Chapter <%= i %></option>
+      <% } %>
+    </select>
+
+    <select name="verse">
+      <option value="0">All Verses</option>
+      <% for (let i = 1; i <= 78; i++) { %>
+        <option value="<%= i %>">Verse <%= i %></option>
+      <% } %>
+    </select>
+
+    <button type="submit">Get Shloka</button>
+  </form>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+  <div class="error-message"><%= error %></div>
+  <% } %>
+  <!-- Output box -->
+  <% if (locals.shloka && shloka.length > 0) { %>
+    <% shloka.forEach(item => { %>
+      <div class="shloka-box">
+        <p><strong>Verse <%= item.number %>:</strong></p>
+        <p><strong>Sanskrit:</strong> <%= item.text %></p>
+        <p><strong>Translation:</strong> <%= item.meaning %></p>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <div class="placeholder-box">
+      Your translations for shlokas will appear here.
+    </div>
+  <% } %>
+</body>
+</html>
