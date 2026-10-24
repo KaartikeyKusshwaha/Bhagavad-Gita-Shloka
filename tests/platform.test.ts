@@ -12,6 +12,9 @@ import { searchPassages } from '../packages/search/src/index.ts';
 import { getPassage, getDivisions } from '../packages/db/src/queries.ts';
 import { passageConnections } from '../packages/search/src/connections.ts';
 import { browseTheme } from '../packages/search/src/themes.ts';
+import { ingestAudio } from '../packages/ingest/src/audio.ts';
+import { createOfflinePack } from '../packages/db/src/offline.ts';
+import { hydrateOffline, parseOfflinePack } from '../packages/shared/src/offline.ts';
 import type { FastifyInstance } from 'fastify';
 let db: Database, app: FastifyInstance;
 beforeAll(async () => {
@@ -21,6 +24,7 @@ beforeAll(async () => {
   await migrate(db);
   await ingestGita(db);
   for (const slug of freeCollections) await ingestCollection(db, slug);
+  await ingestAudio(db);
   app = await createApp(db);
 }, 30000);
 afterAll(async () => {
@@ -28,6 +32,29 @@ afterAll(async () => {
   await db?.close();
 });
 describe('imported text and actual API', () => {
+  it('creates a complete offline edition with shared source records and unchanged Quran strings', async () => {
+    const pack = (await createOfflinePack(db, 'quran'))!;
+    expect(pack.passages).toHaveLength(6236);
+    expect(pack.sources).toHaveLength(1);
+    const parsed = parseOfflinePack(JSON.parse(JSON.stringify(pack))),
+      loaded = hydrateOffline(parsed);
+    const online = (await getPassage(db, 'quran', 'Quran 1:1'))!;
+    expect(loaded[0].original_text).toBe(online.original_text);
+    expect(loaded[0].source.display_rules.copyright_notice).toBe(
+      online.source.display_rules.copyright_notice,
+    );
+    expect(() => parseOfflinePack({ ...pack, sources: [] })).toThrow();
+    expect(await createOfflinePack(db, 'unknown')).toBeNull();
+  });
+  it('publishes a licensed human recording with its actual whole-surah scope', async () => {
+    const p = await getPassage(db, 'quran', 'Quran 1:1');
+    expect(p?.audio?.[0].is_human).toBe(true);
+    expect(p?.audio?.[0].source.display_rules.scope).toContain('all seven verses');
+    const response = await app.inject('/v1/speech/tts?passage_id=quran.1.1');
+    expect(response.json().reciter).toBe('Adeel Shaikh');
+    expect(response.json().source.license).toBe('CC-BY-SA-4.0');
+    expect((await app.inject('/v1/speech/tts?passage_id=bg.2.47')).statusCode).toBe(404);
+  });
   it('distinguishes source sequence from suggestions and shows themed wording across traditions', async () => {
     const p = (await getPassage(db, 'bhagavad-gita', 'BG 2.47'))!;
     const graph = await passageConnections(db, p);

@@ -53,6 +53,18 @@ export interface Passage extends Record<string, unknown> {
   division_id: string;
   source: Source;
   translations: Translation[];
+  audio?: HumanAudio[];
+}
+export interface HumanAudio {
+  id: string;
+  passage_id: string;
+  reciter: string;
+  lang: string;
+  url: string;
+  duration_ms: number;
+  license: string;
+  is_human: true;
+  source: Source;
 }
 export type Verdict =
   | 'accurate'

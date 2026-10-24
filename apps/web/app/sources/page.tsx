@@ -24,6 +24,9 @@ export default async function Sources() {
           <article className="source-card" key={String(source.id)}>
             <span className="eyebrow">
               {String(source.status)} · {Number(source.passage_count)} PASSAGES
+              {Number(source.recording_count) > 0
+                ? ` · ${Number(source.recording_count)} HUMAN RECORDING`
+                : ''}
             </span>
             <h2>{String(source.name)}</h2>
             <p>{String(source.attribution)}</p>

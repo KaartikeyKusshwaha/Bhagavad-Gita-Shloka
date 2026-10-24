@@ -1,5 +1,5 @@
 import type { Database } from './index.ts';
-import type { Passage, Source, Translation } from '../../shared/src/index.ts';
+import type { Passage, Source, Translation, HumanAudio } from '../../shared/src/index.ts';
 const passageSelect = `SELECT p.*,w.slug AS work,w.title AS work_title,t.slug AS tradition,t.name AS tradition_name,d.number AS chapter,to_jsonb(s) AS source FROM published_passages p JOIN works w ON w.id=p.work_id JOIN traditions t ON t.id=w.tradition_id JOIN divisions d ON d.id=p.division_id JOIN sources s ON s.id=p.source_id`;
 export async function hydrate(db: Database, rows: Record<string, unknown>[]): Promise<Passage[]> {
   if (!rows.length) return [];
@@ -9,12 +9,19 @@ export async function hydrate(db: Database, rows: Record<string, unknown>[]): Pr
       [rows.map((x) => x.id)],
     )
   ).rows;
+  const audio = (
+    await db.query(
+      `SELECT a.*,to_jsonb(s) AS source FROM published_audio a JOIN sources s ON s.id=a.source_id WHERE a.passage_id=ANY($1::text[]) ORDER BY a.reciter`,
+      [rows.map((r) => r.id)],
+    )
+  ).rows;
   return rows.map(
     (r) =>
       ({
         ...r,
         source: r.source as Source,
         translations: translations.filter((t) => t.passage_id === r.id) as Translation[],
+        audio: audio.filter((a) => a.passage_id === r.id) as unknown as HumanAudio[],
       }) as Passage,
   );
 }
@@ -118,7 +125,7 @@ export async function getRelated(db: Database, p: Passage) {
 export async function getSourceList(db: Database) {
   return (
     await db.query(
-      `SELECT s.*,count(DISTINCT p.id)::int AS passage_count FROM sources s LEFT JOIN published_passages p ON p.source_id=s.id OR EXISTS(SELECT 1 FROM published_translations tr WHERE tr.passage_id=p.id AND tr.source_id=s.id) GROUP BY s.id ORDER BY s.name`,
+      `SELECT s.*,count(DISTINCT p.id)::int AS passage_count,(SELECT count(*)::int FROM published_audio a WHERE a.source_id=s.id) AS recording_count FROM sources s LEFT JOIN published_passages p ON p.source_id=s.id OR EXISTS(SELECT 1 FROM published_translations tr WHERE tr.passage_id=p.id AND tr.source_id=s.id) GROUP BY s.id ORDER BY s.name`,
     )
   ).rows;
 }

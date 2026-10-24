@@ -16,3 +16,5 @@ dist/
 build/
 .DS_Store
 Thumbs.db
+apps/web/public/sw.js
+apps/web/public/offline-assets.json

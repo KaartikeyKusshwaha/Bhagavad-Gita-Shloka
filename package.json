@@ -9,7 +9,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx apps/api/src/server.ts",
-    "build": "pnpm --filter @scripture/web build",
+    "build": "pnpm --filter @scripture/web build && tsx scripts/offline-assets.ts",
+    "preview": "tsx apps/api/src/server.ts --preview",
     "start": "tsx apps/api/src/server.ts --production",
     "lint": "eslint .",
     "format": "prettier --write .",

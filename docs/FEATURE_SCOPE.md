@@ -57,7 +57,10 @@ The reader now includes an interactive connection graph/list and Explore provide
 keyword-guided cross-tradition themes. Graph source-order links are distinct from
 automatic shared-word suggestions. No scholarly cross-reference dataset has yet
 been imported; that absence is stated in the graph.
-The remaining semantic search, AI provider, human audio, offline
-packs, broader imported corpus,
+Downloadable editions now have a cached offline reader with exact/reference
+search, chapter selection and device-local progress. Human audio currently includes
+one complete Al-Fatiha recording by Adeel Shaikh (CC BY-SA 4.0), streamed only on
+request and explicitly labelled as a whole surah rather than verse-aligned audio.
+The remaining semantic search, AI provider, broader imported corpus,
 production deployment and owner acceptance remain pending. Source research or
 an empty workspace package does not count as a functioning feature.

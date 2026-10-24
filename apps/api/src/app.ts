@@ -21,6 +21,7 @@ import { searchPassages } from '../../../packages/search/src/index.ts';
 import { passageConnections } from '../../../packages/search/src/connections.ts';
 import { browseTheme } from '../../../packages/search/src/themes.ts';
 import { readingThemes } from '../../../packages/shared/src/themes.ts';
+import { createOfflinePack } from '../../../packages/db/src/offline.ts';
 import { verifyClaim } from '../../../packages/verify/src/index.ts';
 import { normalize } from '../../../packages/shared/src/index.ts';
 import { routeSafety } from '../../../packages/llm/src/guardrails.ts';
@@ -62,6 +63,7 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
         imgSrc: ["'self'", 'data:', 'blob:'],
         fontSrc: ["'self'"],
         connectSrc: ["'self'"],
+        mediaSrc: ["'self'", 'https://upload.wikimedia.org'],
         objectSrc: ["'none'"],
         frameAncestors: ["'none'"],
       },
@@ -121,7 +123,10 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
         exact: true,
         fuzzy: true,
         semantic: false,
-        voice: false,
+        voice: 'browser-dependent',
+        human_recordings: Number(
+          (await db.query('SELECT count(*) AS n FROM published_audio')).rows[0].n,
+        ),
         ai_explanations: false,
       },
     };
@@ -130,6 +135,10 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
   app.get('/v1/works', async (req) => {
     const q = z.object({ tradition: z.string().optional() }).parse(req.query);
     return { works: await getWorks(db, q.tradition) };
+  });
+  app.get<{ Params: { slug: string } }>('/v1/works/:slug/offline', async (req, reply) => {
+    const pack = await createOfflinePack(db, req.params.slug);
+    return pack ?? reply.code(404).send(error('NOT_FOUND', 'No published work at that address.'));
   });
   app.get('/v1/themes', async () => ({
     themes: readingThemes.map(({ slug, name }) => ({ slug, name })),
@@ -345,7 +354,7 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
     const q = z.object({ passage_id: z.string(), lang: z.string().optional() }).parse(req.query);
     const audio = (
       await db.query(
-        'SELECT * FROM published_audio WHERE passage_id=$1 AND ($2::text IS NULL OR lang=$2) LIMIT 1',
+        'SELECT a.*,to_jsonb(s) AS source FROM published_audio a JOIN sources s ON s.id=a.source_id WHERE a.passage_id=$1 AND ($2::text IS NULL OR a.lang=$2) LIMIT 1',
         [q.passage_id, q.lang ?? null],
       )
     ).rows[0];

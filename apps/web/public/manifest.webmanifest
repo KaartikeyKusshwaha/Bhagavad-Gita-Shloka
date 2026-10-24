@@ -1,0 +1,11 @@
+{
+  "name": "Open Scripture",
+  "short_name": "Open Scripture",
+  "description": "An attributed scripture reader with private study tools and offline editions.",
+  "start_url": "/offline",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fafaf5",
+  "theme_color": "#2e583c",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

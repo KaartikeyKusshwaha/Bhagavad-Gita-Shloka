@@ -1753,3 +1753,78 @@ button.activity-cell:focus-visible {
   flex-wrap: wrap;
   margin-top: 12px;
 }
+.human-audio {
+  padding: 16px 28px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+.human-audio summary {
+  cursor: pointer;
+  color: var(--green);
+}
+.human-audio audio {
+  width: 100%;
+  margin: 12px 0;
+}
+.human-audio p {
+  line-height: 1.8;
+}
+.human-audio .audio-privacy-note {
+  color: var(--muted);
+  font-size: 11px;
+}
+.offline-download {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+.offline-download p {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+.offline-controls {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.offline-controls label {
+  display: flex;
+  flex: 1;
+  min-width: 200px;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+}
+.offline-controls select {
+  padding: 12px;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  max-width: 100%;
+}
+.offline-pages {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin: 28px 0;
+  font-size: 12px;
+}
+.offline-data-controls {
+  margin: 24px 0;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.offline-data-controls summary {
+  cursor: pointer;
+}

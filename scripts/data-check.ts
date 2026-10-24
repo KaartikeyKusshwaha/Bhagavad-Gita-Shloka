@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFile, readdir } from 'node:fs/promises';
 import { parse } from 'yaml';
 import { licenseGate } from '../packages/ingest/src/licenseGate.ts';
+import { ingestAudio } from '../packages/ingest/src/audio.ts';
 import { connectDatabase } from '../packages/db/src/index.ts';
 import { migrate } from '../packages/db/src/migrate.ts';
 import { ingestGita } from '../packages/ingest/src/index.ts';
@@ -35,6 +36,7 @@ try {
   await migrate(db);
   await ingestGita(db);
   for (const slug of freeCollections) await ingestCollection(db, slug);
+  await ingestAudio(db);
   const unpublished = (
     await db.query(
       "SELECT p.id FROM published_passages p JOIN sources s ON s.id=p.source_id WHERE s.status<>'approved' UNION ALL SELECT tr.id FROM published_translations tr JOIN sources s ON s.id=tr.source_id WHERE s.status<>'approved'",

@@ -14,7 +14,14 @@ export function LessonView() {
     const controller = new AbortController();
     async function load() {
       try {
-        const parsed = decodeLesson(location.hash.slice(1));
+        let parsed: Lesson;
+        try {
+          parsed = decodeLesson(location.hash.slice(1));
+        } catch {
+          throw new Error(
+            'This reading-set link is incomplete or invalid. Ask the sender for the complete link.',
+          );
+        }
         setLesson(parsed);
         const entries = await Promise.all(
           parsed.passages.map(async (p) => {

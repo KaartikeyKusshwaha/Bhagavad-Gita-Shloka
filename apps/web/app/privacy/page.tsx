@@ -60,9 +60,14 @@ export default function Privacy() {
           audio online; the voice controls require your agreement before starting. This website does
           not receive or retain audio. You review the transcript before submitting it as a normal
           text request. Explanation playback uses installed local device voices. No synthetic sacred
-          recitations are provided.
+          recitations are provided. Available human recitations stream from Wikimedia Commons only
+          when you request playback; that host receives the network request.
         </p>
         <h2>Clear device data</h2>
+        <p>Downloaded editions stay in this browser for offline reading and exact search.
+          Remove an individual copy in the offline library or clear site storage to remove all
+          downloads. Only the public offline reader and its interface files are cached; Ask
+          responses, reports and Explore conversations are not cached by the offline service.</p>
         <p>
           Use the History and Study controls to remove those records, or clear this site's browser
           storage to remove all saved history, activity, preferences, bookmarks, and progress.

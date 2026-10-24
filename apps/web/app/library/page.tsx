@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import { getDatabase } from '@core/db/src/index';
 import { getWorks } from '@core/db/src/queries';
 import { readingSources } from '@core/shared/src/reading-sources';
+import { OfflineDownload } from '../../components/offline-download';
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'The library' };
 export default async function Library() {
@@ -40,6 +41,7 @@ export default async function Library() {
             >
               Begin reading <ArrowRight size={16} />
             </Link>
+            <OfflineDownload work={String(work.slug)} />
           </article>
         ))}
       </div>

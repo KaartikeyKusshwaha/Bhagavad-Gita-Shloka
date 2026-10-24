@@ -2,9 +2,11 @@ import { connectDatabase, setDatabase } from '../../../packages/db/src/index.ts'
 import { migrate } from '../../../packages/db/src/migrate.ts';
 import { ingestGita } from '../../../packages/ingest/src/index.ts';
 import { freeCollections, ingestCollection } from '../../../packages/ingest/src/collections.ts';
+import { ingestAudio } from '../../../packages/ingest/src/audio.ts';
 import { createApp } from './app.ts';
 import { resolve } from 'node:path';
 const production = process.argv.includes('--production');
+const preview = process.argv.includes('--preview');
 if (production) Object.assign(process.env, { NODE_ENV: 'production' });
 if (production && (!process.env.RATE_LIMIT_SECRET || !process.env.ADMIN_TOKEN))
   throw new Error('Set persistent ADMIN_TOKEN and RATE_LIMIT_SECRET');
@@ -16,11 +18,14 @@ if (!(await db.query("SELECT id FROM works WHERE id='bhagavad-gita'")).rows.leng
 for (const slug of freeCollections)
   if (!(await db.query('SELECT id FROM works WHERE id=$1', [slug])).rows.length)
     await ingestCollection(db, slug);
+await ingestAudio(db);
 const app = await createApp(db, { web: true });
 const host = process.env.HOST ?? '127.0.0.1',
   port = Number(process.env.PORT ?? 3100);
+if (preview && !['127.0.0.1', 'localhost'].includes(host))
+  throw new Error('Built preview is local-only. Use pnpm start with PostgreSQL for deployment.');
 const { default: next } = await import('next');
-const web = next({ dev: !production, dir: resolve('apps/web'), hostname: host, port });
+const web = next({ dev: !(production || preview), dir: resolve('apps/web'), hostname: host, port });
 await web.prepare();
 const handler = web.getRequestHandler();
 app.setNotFoundHandler(async (req, reply) => {

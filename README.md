@@ -23,10 +23,15 @@ and business operations in the original PDF.
 - Browser speech input with consent/transcript review and local explanation voices.
   Hide/reveal recall, word-difference feedback, spaced reviews, daily reading plans,
   and classroom sets shared as reference-only URL fragments.
+- Optional connection graph/list and cross-tradition keyword trails, with source
+  order kept distinct from automatic wording suggestions.
+- Downloadable editions with a cached offline reader and exact/reference search.
+  One attributed human recording of the complete Al-Fatiha is available online.
 
 The original [implementation plan](docs/build-plan.md) remains a reference. See
 [acceptance status](docs/acceptance.md). Semantic retrieval, meaning-based verdicts,
-further traditions, voice and the remaining website study/exploration tools are unfinished.
+additional imported editions, generated cited answers, semantic retrieval and live
+deployment remain unfinished.
 MCP, WhatsApp and separate client apps are excluded by the maintainer's later scope.
 Human evaluations, printed-edition samples and named reviewers are not fabricated.
 
@@ -55,6 +60,9 @@ POSTGRES_PASSWORD=local-development-password docker compose -f infra/docker-comp
 
 `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm data:check`, `pnpm build`.
 Start the app, then `pnpm test:e2e` for Chromium regression tests.
+Offline tests require the built shell: stop dev, run `pnpm build`, then
+`pnpm preview` with local PGlite configured. Preview binds to loopback only;
+deployment uses `pnpm start` and requires PostgreSQL.
 `pnpm check:all` additionally requires the real human evaluation sets; while those
 are missing, `pnpm eval` returns exit 2. A technical CI pass does not pass those gates.
 

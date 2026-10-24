@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   description:
     'A free, open-source reading room for scripture. Read original texts, trace translations, and check quotations against an attributed collection.',
   manifest: '/manifest.webmanifest',
+  icons: { icon: '/icon.svg' },
 };
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

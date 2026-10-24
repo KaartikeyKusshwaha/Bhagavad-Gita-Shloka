@@ -87,6 +87,22 @@ const passage = z
     chapter: z.number(),
     division_id: z.string(),
     source,
+    audio: z
+      .array(
+        z.object({
+          id: z.string(),
+          passage_id: z.string(),
+          reciter: z.string(),
+          lang: z.string(),
+          url: webUrl,
+          duration_ms: z.number(),
+          license: z.string(),
+          is_human: z.literal(true),
+          source,
+        }),
+      )
+      .max(10)
+      .optional(),
     translations: z
       .array(
         z

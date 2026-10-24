@@ -9,16 +9,17 @@ const destinations = [
 ];
 export function MainNavigation() {
   const path = usePathname();
+  const isActive = (href: string) =>
+    href === '/'
+      ? ['/', '/search', '/verify'].includes(path)
+      : href === '/library'
+        ? path === '/library' || path === '/offline' || path.startsWith('/read/')
+        : path.startsWith('/study') || path === '/lesson';
   return (
     <>
       <nav className="primary-navigation" aria-label="Main navigation">
         {destinations.map(({ href, label, Icon }) => {
-          const active =
-            href === '/'
-              ? path === '/' || path === '/search' || path === '/verify'
-              : href === '/library'
-                ? path === '/library' || path.startsWith('/read/')
-                : path.startsWith('/study');
+          const active = isActive(href);
           return (
             <Link key={href} href={href} aria-current={active ? 'page' : undefined}>
               <Icon size={17} />
@@ -29,21 +30,7 @@ export function MainNavigation() {
       </nav>
       <nav className="mobile-navigation" aria-label="Mobile navigation">
         {destinations.map(({ href, label, Icon }) => (
-          <Link
-            key={href}
-            href={href}
-            aria-current={
-              (
-                href === '/'
-                  ? path === '/'
-                  : href === '/library'
-                    ? path === '/library' || path.startsWith('/read/')
-                    : path.startsWith('/study')
-              )
-                ? 'page'
-                : undefined
-            }
-          >
+          <Link key={href} href={href} aria-current={isActive(href) ? 'page' : undefined}>
             <Icon size={19} />
             <span>{label}</span>
           </Link>

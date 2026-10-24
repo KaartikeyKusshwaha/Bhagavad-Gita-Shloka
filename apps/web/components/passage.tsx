@@ -6,6 +6,7 @@ import type { Passage } from '../../../packages/shared/src/index';
 import { addActivity } from '@core/shared/src/device-data';
 import { useDeviceData, changeDeviceData } from '../lib/device-store';
 import { Practice } from './practice';
+import { HumanAudio } from './human-audio';
 export function PassageCard({
   passage,
   featured = false,
@@ -199,6 +200,7 @@ export function PassageCard({
           <p>No approved human translation is available for this passage.</p>
         )}
       </section>
+      {!compact && passage.audio && <HumanAudio tracks={passage.audio} />}
       {!compact && <Practice key={passage.id} passage={passage} onHide={setPracticeHidden} />}
       {!compact && (
         <div className="passage-bottom">
