@@ -67,3 +67,14 @@ Reading and ordinary search only; excluded from generative AI.
 - Full source record and display rules: [tanzil-uthmani.yml](../data/sources/tanzil-uthmani.yml)
 
 The complete unaltered copyright notice is included in the source record, download bundle and reader.
+
+## Swami Swarupananda · Srimad-Bhagavad-Gita (1909)
+
+- Source: [Internet Sacred Text Archive](https://sacred-texts.com/book/srimad-bhagavad-gita)
+- Terms: [Public-domain text and noncommercial republication permission](https://sacred-texts.com/copyrights)
+- Attribution: Swami Swarupananda (credited translator), Advaita Ashrama, 1909; Internet Sacred Text Archive transcription. Verse wording retained; page and footnote markers omitted. Combined verse ranges are preserved and labelled.
+- Retrieved: 2026-10-25
+- Publication status: approved for this noncommercial college project; commercial reuse is not approved by this record.
+- Bundle SHA-256: `0937117f506c43b2bea4037ef62b4e0b5a763153f8129ddccaf69f3cd9fd7e0e`
+- Full source record: [swarupananda-1909.yml](../data/sources/swarupananda-1909.yml)
+- Mapping decisions: [translation comparison](decisions/009-translation-comparison.md)

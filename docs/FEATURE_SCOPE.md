@@ -38,8 +38,8 @@ checking are outside the initial agreed delivery or later enhancements.
 
 ## Implemented versus pending
 
-The local implementation currently has 700 Gita passages with 700 attributed
-English translations, 6,236 Quran Arabic verses (Tanzil Uthmani 1.1, no translation
+The implementation has 700 Gita passages with Besant and Swarupananda English
+editions and translation comparison, 6,236 Quran Arabic verses (Tanzil Uthmani 1.1, no translation
 loaded), and 423 Dhammapada Pali verses with Bhikkhu Sujato's English translation.
 It provides exact/fuzzy/reference retrieval, conservative quotation
 checking, reader/context, source records and report API. Explore has a single
@@ -66,6 +66,10 @@ search, chapter selection and device-local progress. Human audio currently inclu
 one complete Al-Fatiha recording by Adeel Shaikh (CC BY-SA 4.0), streamed only on
 request and explicitly labelled as a whole surah rather than verse-aligned audio.
 Word-order quizzes and attributed PNG cards are implemented inside the reader.
-The remaining production model hosting, additional reusable editions/translations,
-production deployment and owner acceptance remain pending. Source research or
-an empty workspace package does not count as a functioning feature.
+The Oracle deployment hosts Qwen query embeddings and a verified 6,936-passage
+index; cited Ask uses the explicitly authorized Groq Free-plan account. Its actual
+model browser test passes meaning retrieval, cited follow-ups and history reload.
+The second Gita edition has 671 translation segments mapped to 700 verses, with
+24 combined ranges disclosed. Further editions are additions, not implied current
+coverage. Final owner acceptance remains pending. Source research or an empty
+workspace package does not count as a functioning feature.

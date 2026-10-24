@@ -3,6 +3,7 @@ import { migrate } from '../../../packages/db/src/migrate.ts';
 import { ingestGita } from '../../../packages/ingest/src/index.ts';
 import { freeCollections, ingestCollection } from '../../../packages/ingest/src/collections.ts';
 import { ingestAudio } from '../../../packages/ingest/src/audio.ts';
+import { ingestGitaComparison } from '../../../packages/ingest/src/comparison.ts';
 import { createApp } from './app.ts';
 import { resolve } from 'node:path';
 const production = process.argv.includes('--production');
@@ -15,6 +16,8 @@ setDatabase(db);
 await migrate(db);
 if (!(await db.query("SELECT id FROM works WHERE id='bhagavad-gita'")).rows.length)
   await ingestGita(db);
+if (!(await db.query("SELECT id FROM sources WHERE id='swarupananda-1909'")).rows.length)
+  await ingestGitaComparison(db);
 for (const slug of freeCollections)
   if (!(await db.query('SELECT id FROM works WHERE id=$1', [slug])).rows.length)
     await ingestCollection(db, slug);

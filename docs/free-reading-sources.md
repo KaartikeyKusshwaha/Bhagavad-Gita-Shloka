@@ -7,7 +7,7 @@ in-app integrations or exhaustive coverage of every religious tradition.
 
 | Tradition | Source | Integration route | Current state |
 | --- | --- | --- | --- |
-| Hinduism | Sanskrit/English Wikisource | Attributed downloaded Gita edition | 700 passages loaded |
+| Hinduism | Wikisource / Internet Sacred Text Archive | Attributed downloaded Gita editions | 700 Sanskrit passages, Besant and Swarupananda English, comparison with range labels |
 | Islam | [Tanzil](https://tanzil.net/docs/Text_License) | Verbatim Uthmani 1.1 text | 6,236 Arabic verses loaded; no translation loaded |
 | Christianity | [eBible World English Bible](https://ebible.org/find/show.php?id=eng-web) | Public-domain USFM/USFX/download | Source identified; import pending |
 | Sikhism | [Shabad OS](https://www.shabados.com/docs/database/) | SQLite/npm database; per-translation checks | Source identified; import pending |

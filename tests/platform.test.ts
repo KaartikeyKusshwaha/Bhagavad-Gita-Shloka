@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, it, expect } from 'vitest';
 import { connectDatabase, type Database } from '../packages/db/src/index.ts';
 import { migrate } from '../packages/db/src/migrate.ts';
 import { ingestGita } from '../packages/ingest/src/index.ts';
+import { ingestGitaComparison } from '../packages/ingest/src/comparison.ts';
 import {
   freeCollections,
   ingestCollection,
@@ -23,6 +24,7 @@ beforeAll(async () => {
   );
   await migrate(db);
   await ingestGita(db);
+  await ingestGitaComparison(db);
   for (const slug of freeCollections) await ingestCollection(db, slug);
   await ingestAudio(db);
   app = await createApp(db);
@@ -78,7 +80,7 @@ describe('imported text and actual API', () => {
     const selected = (await browseTheme(db, 'compassion', 'quran'))!;
     expect(selected.hits.every((h) => h.passage.work === 'quran')).toBe(true);
   });
-  it('loads 700 verses, 700 translations and correct chapter counts', async () => {
+  it('loads 700 verses, two human editions and their distinct source numbering', async () => {
     expect(
       Number(
         (
@@ -96,12 +98,16 @@ describe('imported text and actual API', () => {
           )
         ).rows[0].n,
       ),
-    ).toBe(700);
+    ).toBe(1400);
     expect((await getDivisions(db, 'bhagavad-gita')).map((x) => x.verse_count)).toEqual([
       47, 72, 43, 42, 29, 47, 30, 28, 34, 42, 55, 20, 34, 27, 20, 24, 28, 78,
     ]);
     const p = await getPassage(db, 'bhagavad-gita', 'BG 13.1');
     expect(p?.translations[0].source_ref).toBe('Besant 13.2');
+    expect(p?.translations[1].source_ref).toBe('Swarupananda 13.1');
+    const combined = (await getPassage(db, 'bhagavad-gita', 'BG 2.43'))!;
+    expect(combined.translations[1].source_ref).toContain('2.42–44 (combined verses)');
+    expect(combined.translations[1].text).toContain('set determination');
     const rows = (await db.query('SELECT text FROM published_translations')).rows;
     expect(
       rows.filter((row) => /<[^>]+>|Proofreadpage|data-mw|\{\s*"/.test(String(row.text))),

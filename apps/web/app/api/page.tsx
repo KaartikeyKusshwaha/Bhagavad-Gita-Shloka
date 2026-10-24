@@ -61,8 +61,9 @@ export default function Api() {
         <h2>Keep the attribution attached</h2>
         <p>
           Reusers must preserve the source, citation, and applicable license. See /v1/sources before
-          redistributing a text. Meaning-based verification, voice, and machine translation return
-          an explicit unavailable state until their providers and review gates pass.
+          redistributing a text. Meaning search and cited Ask depend on configured providers.
+          Browser dictation requires transcript review. No generated scripture translation or expert
+          pronunciation assessment is offered.
         </p>
       </div>
     </div>

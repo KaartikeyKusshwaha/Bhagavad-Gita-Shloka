@@ -1,33 +1,26 @@
-# Acceptance evidence and remaining scope
+# College website acceptance ledger
 
-The table below tracks the original PDF. The latest college-website scope in
-[FEATURE_SCOPE.md](FEATURE_SCOPE.md) supersedes its excluded channels and business
-operations. Technical checks do not prove editorial, language, human-review or
-deployment requirements. Current history/activity checks are in tests/e2e/explore-study.spec.ts.
+The later user-approved scope in [FEATURE_SCOPE.md](FEATURE_SCOPE.md) controls delivery. The PDF remains reference material; its business formation, reviewer organisations, WhatsApp, MCP, extensions and separate Android app are excluded. Automated checks do not constitute scholarly approval.
 
-| Milestone | Evidence so far | Remaining acceptance |
+| User functionality | Current evidence | Remaining limits |
 | --- | --- | --- |
-| M0 | workspace, strict TS, Fastify/Next production build, SQL migration tests | clean PostgreSQL 16 CI, Compose startup, governance files |
-| M1 | 700 verses and 700 human translations; complete source records; negative license checks | independent printed-edition samples; legacy draft archive; human signoff |
-| M2 | local reader flow, per-chapter counts, context, source footer and report API | Lighthouse >=95, low-bandwidth/page weight, deployed browser checks; retain legacy until passed |
-| M3 | exact, pg_trgm fuzzy, Roman Sanskrit matching | BGE-M3 worker/1024 vectors, RRF integration, Hindi/Hinglish expansion, 50-case human eval and 50k performance gate |
-| M4 | six pipeline boundaries, exact/misattributed wording checks, quote guard | full semantic verdicts, LLM integration, 60 human claims, 500-output quote audit |
-| M5 | shared multi-tradition schema | source importers, licenses, per-work samples and five searchable traditions |
-| M6 | ±5 passages of context, translation layer | additional translations, commentary, themes and xrefs with reviewed sources |
-| M7 | refusal states for unavailable providers | actual speech/translation providers, native language evaluation, licensed human audio, WhatsApp and share cards |
-| M8 | pending | extension, offline packs, Android build and required device/manual checks |
-| M9 | durable reports and named-reviewer correction API | reviewer UI/appointments, correction e2e, dual approval tracker, scholar queue, caption reports, lessons and aggregate admin UI |
+| Simple website | Explore / Read / Study; responsive built-site flows and accessibility scans | Final owner usability test |
+| Multi-faith reading | 700 Gita with two English editions and comparison, 6,236 Quran Arabic, 423 Dhammapada Pali/English; actual chapter/verse counts, references, context | Further traditions use labelled free source hosts |
+| Source integrity | License records, bundle hashes, all-passage markup checks, verbatim Tanzil line hash | Independent printed-edition review not claimed |
+| Exact/fuzzy/semantic search | Real PostgreSQL/PGlite tests; deployed Qwen index of 6,936 eligible passages and actual live browser test | Meaning quality experimental; SuttaCentral excluded from models |
+| Quotation checks | Exact wording and attribution checks with visible evidence | No automatic theological/contextual certainty |
+| Ask/follow-up | Actual local Qwen and deployed Groq answers, previous-question/passage context, reload and history test | Free-tier quotas; owner quality assessment |
+| Browser voice | Consent and transcript-before-send test; local device explanation voices | Actual microphone/language/device quality needs owner testing |
+| Human audio | One licensed complete Al-Fatiha recording, scope/source labels, live playback at 49.824 seconds | Further recordings and recitation review |
+| Graph/themes | Graph/list, filter, preview/follow; cited cross-tradition keyword trails | No scholarly xref dataset imported; adjacency and suggestions labelled |
+| Study | Real daily plan, explicit completion, word-order quiz, recall alignment, spaced review, progress | Device-local data; no pronunciation assessment |
+| Classroom/sharing | Reference-only share links, recipient reconstruction, print view, attributed PNG | No class-management system or accounts |
+| History/tracker | Reopen/search/rename/delete/pause; real-action heatmap/streaks; keyboard/mobile checks | No cloud sync; storage eviction possible |
+| Offline | Downloaded edition/source pack; actual network-disabled reload, exact/reference search and navigation fallback | Audio, Ask, reports and external hosts need internet |
+| Deployment | Oracle HTTPS, separate Node/PostgreSQL service, full 14-flow deployed browser run, live model browser run, persistence through restart, successful isolated backup restore | Latest comparison/privacy UI upgrade validation in progress; final owner test |
 
-The maintainer's non-profit legal setup, permissions and appointment of people are
-explicit owner tasks in the plan. No endorsement or legal formation is claimed.
+Checkpoint baseline: 28 backend/unit tests, 14 previously passing deployed browser flows, one new comparison browser flow under validation, and a separate passing deployed actual-model Ask/semantic browser test. CI tests PostgreSQL 16, repeated migrations, imports, data integrity and the production build. Inspect the latest run output before claiming a fresh pass.
 
-## Imported-edition decisions
+The optional human benchmark remains unprovided. pnpm eval reports pending and exits 2 without real reviewed files; CI uses --allow-pending and claims no score. Do not fabricate scripture samples or human reviews. Final real-time acceptance belongs to the owner.
 
-- Sanskrit/IAST: attributed Sanatan CC BY-SA structured copy of Sanskrit Wikisource.
-- English: parsed directly from Wikisource's Besant 1922 discourse pages, rather than
-  filling the 53 missing translations in the bulk mirror with generated text.
-- Chapter 13 uses the 700-verse reference system. Besant 13.2–35 maps to BG 13.1–34.
-- Printed marker errors (3.42, 10.31, 17.19, 18.14 and 18.32) are parsed using their
-  existing text and adjacent Sanskrit numbers. No verse wording is generated.
-- A markup leakage bug was caught in mobile QA and fixed using BeautifulSoup;
-  all 700 translations now receive a negative markup/metadata regression check.
+Gita edition decisions: Besant 1922 chapter 13 verses 2–35 map to platform BG 13.1–34. Printed marker errors are parsed from adjacent source numbering without generating words. Quran display strings preserve downloaded Unicode order; normalization is a separate search column. Full provenance and decisions are under docs/decisions.

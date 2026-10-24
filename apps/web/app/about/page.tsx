@@ -1,44 +1,5 @@
 import Link from 'next/link';
-export const metadata = { title: 'About & roadmap' };
-const rows = [
-  ['M0 · Foundation', 'Implemented; CI and deployment validation in progress'],
-  [
-    'M1 · Gita data',
-    '700 passages and 700 human translations imported; printed-edition sample signoff pending',
-  ],
-  [
-    'M2 · Reader & API',
-    'Reader, chapter counts, context, citations, report flow and automated mobile accessibility checks implemented; independent audit pending',
-  ],
-  [
-    'M3 · Search',
-    'Exact, fuzzy and optional model-based meaning search implemented; independent recall evaluation pending',
-  ],
-  [
-    'M4 · Verify',
-    'Deterministic wording and attribution check; six-step meaning pipeline and human evaluation pending',
-  ],
-  [
-    'M5 · More traditions',
-    'Gita, Quran Arabic and Dhammapada Pali/English imported; further collections pending',
-  ],
-  [
-    'M6 · Context & comparison',
-    'Context, graph/list and keyword theme trails implemented; additional translations and scholarly cross-reference data pending',
-  ],
-  [
-    'M7 · Website speech',
-    'Browser dictation, explanation playback and one licensed human Al-Fatiha recording implemented; voice quality depends on device/language',
-  ],
-  [
-    'M8 · Offline reading',
-    'Downloaded editions, offline exact search and network-disabled browser checks implemented',
-  ],
-  [
-    'M9 · Community',
-    'Reports and gated correction API implemented; named reviewers and remaining community tools pending',
-  ],
-];
+export const metadata = { title: 'About Open Scripture' };
 export default function About() {
   return (
     <div className="page-shell">
@@ -47,62 +8,62 @@ export default function About() {
         <h1>
           More understanding.
           <br />
-          <em>Fewer words without a source.</em>
+          <em>Keep the source close.</em>
         </h1>
         <p>
-          A free, open-source college project for scripture reading and quotation checks. No
-          paywall, advertising, or account required to read.
+          A free college project for reading scripture, following questions and building a reading
+          habit.
         </p>
       </div>
       <div className="prose">
-        <h2>Start with the text</h2>
+        <h2>A quiet place to explore</h2>
         <p>
-          Scripture, human translation, commentary, and machine explanation are different layers.
-          They deserve clear labels and separate spaces. Every published passage includes a license
-          and a path to its source.
+          Explore brings search, quotation checks and cited questions into one conversation. Read
+          keeps the passage, human translation and surrounding context together. Study holds your
+          bookmarks, reading plan, practice and activity calendar.
+        </p>
+        <h2>Know which edition you are reading</h2>
+        <p>
+          The collection includes 700 Bhagavad Gita passages in Sanskrit and Roman transliteration,
+          with English editions by Annie Besant and Swami Swarupananda; 6,236 Quran verses in Tanzil
+          Arabic; and 423 Dhammapada verses in Pali and Bhikkhu Sujato’s English. Some Swarupananda
+          translations span a labelled range of verses.
         </p>
         <p>
-          This beta includes the Bhagavad Gita, Quran and Dhammapada. All traditions use the same
-          data model and retrieval rules. The platform does not rank religions, issue personal
-          religious rulings, or generate sacred text.
+          Further traditions have clearly labelled external reading links. Those sites are separate
+          from this searchable collection. Every imported edition carries its source and reuse
+          terms. <Link href="/library">Browse the collection</Link> or{' '}
+          <Link href="/sources">inspect the sources</Link>.
         </p>
-        <h2>What is ready, and what is still a promise</h2>
+        <h2>Read with context</h2>
         <p>
-          Implementation status is not a claim that a milestone’s scholarly or quality gates have
-          passed. Human-written evaluations, printed-edition samples, named reviewers, and
-          permissions remain explicit release requirements.
+          Original text, human translation and AI explanation are labelled separately. Meaning
+          search and related wording suggest places to read; they do not prove a quotation or an
+          equivalent doctrine. Source-order connections are distinct from automatic suggestions. No
+          scholarly cross-reference collection is loaded.
         </p>
-      </div>
-      <table className="data-table">
-        <caption className="sr-only">Implementation roadmap</caption>
-        <thead>
-          <tr>
-            <th>Milestone</th>
-            <th>Current status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(([name, status]) => (
-            <tr key={name}>
-              <td>{name}</td>
-              <td>{status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="prose">
-        <h2>Contribute with care</h2>
         <p>
-          Text corrections, source provenance, language review, accessibility feedback, and
-          development all help.{' '}
+          AI explanations need the cited source and your judgment. Experimental speech practice
+          compares recognized words; it does not assess pronunciation or chanting. Browser voice
+          availability varies. Human audio currently covers one complete Al-Fatiha recording.
+        </p>
+        <h2>Your reading belongs to you</h2>
+        <p>
+          No account, advertising or tracking scripts are required. Saved conversations, progress
+          and practice stay in this browser. You can pause or clear them. Ask sends selected
+          question context to its configured AI provider; see <Link href="/privacy">Privacy</Link>{' '}
+          before sharing sensitive information.
+        </p>
+        <p>
+          This is a college-project beta. Automated checks cover its technical behavior; they do not
+          establish scholarly accuracy. Use the passage’s report link for a text or attribution
+          issue.
+        </p>
+        <p>
           <a href="https://github.com/KaartikeyKusshwaha/Bhagavad-Gita-Shloka">
-            Read the source and contribution guide
+            View the open-source project
           </a>
-          , or <Link href="/report">report a text issue</Link>.
-        </p>
-        <p>
-          Collection labels describe the actual editions available here. This college website
-          remains a beta pending independent text review and final maintainer testing.
+          .
         </p>
       </div>
     </div>

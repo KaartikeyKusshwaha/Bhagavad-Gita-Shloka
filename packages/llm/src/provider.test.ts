@@ -1,6 +1,6 @@
-import { it, expect } from 'vitest';
+import { it, expect, vi } from 'vitest';
 import type { Passage, Source } from '../../shared/src/index.ts';
-import { canUseAI, validateCitedAnswer } from './provider.ts';
+import { canUseAI, generateCitedAnswer, validateCitedAnswer } from './provider.ts';
 const source: Source = {
   id: 'fixture-source',
   name: 'Synthetic test fixture',
@@ -76,4 +76,44 @@ it('excludes source editions that disallow model use', () => {
       [restricted],
     ),
   ).toThrow();
+});
+it('sends the hosted provider an explicit paragraph schema without local-runtime options', async () => {
+  vi.stubEnv('MODEL_PROVIDER', 'groq');
+  vi.stubEnv('LLM_BASE_URL', 'https://api.groq.com/openai/v1');
+  vi.stubEnv('LLM_MODEL', 'openai/gpt-oss-20b');
+  vi.stubEnv('MODEL_API_KEY', 'synthetic-test-key');
+  const fetcher = vi.fn(async (_url: unknown, init?: RequestInit) => {
+    const body = JSON.parse(String(init?.body));
+    expect(body.chat_template_kwargs).toBeUndefined();
+    expect(body.reasoning_effort).toBe('low');
+    const format = body.response_format;
+    expect(format.type).toBe('json_schema');
+    expect(format.json_schema.strict).toBe(true);
+    expect(
+      format.json_schema.schema.properties.paragraphs.items.properties.citations.items.enum,
+    ).toEqual(['fixture.1']);
+    return new Response(
+      JSON.stringify({
+        choices: [
+          {
+            message: {
+              content: JSON.stringify({
+                paragraphs: [{ text: 'A plain study explanation.', citations: ['fixture.1'] }],
+              }),
+            },
+          },
+        ],
+      }),
+    );
+  });
+  vi.stubGlobal('fetch', fetcher);
+  try {
+    expect((await generateCitedAnswer('Explain the fixture.', [passage])).paragraphs).toHaveLength(
+      1,
+    );
+    expect(fetcher).toHaveBeenCalledOnce();
+  } finally {
+    vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
+  }
 });

@@ -631,11 +631,13 @@ export function Explore({
         )}
         <p className="composer-caption">
           {mode === 'ask'
-            ? 'Answers use cited passages. AI availability and edition permissions vary.'
+            ? 'Ask sends your question and selected context to the configured AI provider. Answers cite source passages.'
             : mode === 'verify'
               ? 'A wording match confirms text, not a theological interpretation.'
               : 'Search the published collection. Source and language availability vary.'}{' '}
-          <Link href="/library">Browse texts</Link>
+          <Link href={mode === 'ask' ? '/privacy' : '/library'}>
+            {mode === 'ask' ? 'Privacy' : 'Browse texts'}
+          </Link>
         </p>
         {!active && (
           <div className="explore-suggestions">

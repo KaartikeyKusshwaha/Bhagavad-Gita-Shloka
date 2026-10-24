@@ -1,4 +1,5 @@
 export const metadata = { title: 'Privacy' };
+export const dynamic = 'force-dynamic';
 export default function Privacy() {
   return (
     <div className="page-shell">
@@ -39,9 +40,12 @@ export default function Privacy() {
           When model services are configured, meaning-search text is sent to the configured
           embedding runtime. Ask sends your question, up to three preceding questions, and
           attributed source evidence to the configured answer runtime. Saved conversations remain in
-          this browser; only the selected context is used for that request. The local demo uses
-          existing Qwen models running on this computer. Provider availability is shown through
-          actual capabilities; no answer is generated when the runtime is unavailable.
+          this browser; only the selected context is used for that request.{' '}
+          {process.env.MODEL_PROVIDER === 'groq'
+            ? 'This deployment uses Groq for Ask; Groq receives that question, context and evidence under its own data policies. Do not include personal or sensitive information.'
+            : 'The local demo can use existing Qwen models on the host computer.'}{' '}
+          Meaning search uses a Qwen embedding runtime on the website host. Provider availability is
+          checked; no answer is generated when the runtime is unavailable.
         </p>
         <p>
           Search text is used for the request. Server verification logs contain a SHA-256 hash of

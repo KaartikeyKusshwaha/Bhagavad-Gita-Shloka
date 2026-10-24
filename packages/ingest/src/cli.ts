@@ -3,6 +3,7 @@ import { migrate } from '../../db/src/migrate.ts';
 import { ingestGita, publishSource } from './index.ts';
 import { freeCollections, ingestCollection } from './collections.ts';
 import { ingestAudio } from './audio.ts';
+import { ingestGitaComparison } from './comparison.ts';
 const db = await connectDatabase();
 try {
   await migrate(db);
@@ -10,6 +11,7 @@ try {
   else if (process.argv[2] === 'gita') console.log(await ingestGita(db));
   else if (process.argv[2] === 'all') {
     console.log(await ingestGita(db));
+    console.log(await ingestGitaComparison(db));
     for (const slug of freeCollections) console.log(await ingestCollection(db, slug));
     console.log(await ingestAudio(db));
   } else

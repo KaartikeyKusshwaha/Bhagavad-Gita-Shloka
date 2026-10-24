@@ -40,11 +40,12 @@ function baseUrl(kind: 'chat' | 'embedding') {
   return url;
 }
 async function post(kind: 'chat' | 'embedding', path: string, body: unknown, timeout: number) {
-  const key = process.env.MODEL_API_KEY;
+  const key = process.env[kind === 'chat' ? 'MODEL_API_KEY' : 'EMBEDDING_API_KEY'];
   const response = await fetch(new URL(path, baseUrl(kind)), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'User-Agent': 'OpenScripture/0.1',
       ...(key ? { Authorization: `Bearer ${key}` } : {}),
     },
     body: JSON.stringify(body),
@@ -65,11 +66,13 @@ export async function modelReady(kind: 'chat' | 'embedding') {
   if (cached && Date.now() - cached.at < 5000) return cached.ready;
   let ready = false;
   try {
+    const key = process.env[kind === 'chat' ? 'MODEL_API_KEY' : 'EMBEDDING_API_KEY'];
     ready = (
       await fetch(url, {
-        headers: process.env.MODEL_API_KEY
-          ? { Authorization: `Bearer ${process.env.MODEL_API_KEY}` }
-          : {},
+        headers: {
+          'User-Agent': 'OpenScripture/0.1',
+          ...(key ? { Authorization: `Bearer ${key}` } : {}),
+        },
         signal: AbortSignal.timeout(1500),
       })
     ).ok;
@@ -195,13 +198,49 @@ export async function generateCitedAnswer(
             },
           ],
           temperature: 0.1,
-          max_tokens: 600,
           stream: false,
-          chat_template_kwargs: { enable_thinking: false },
-          reasoning_effort: 'none',
+          ...(process.env.MODEL_PROVIDER === 'groq'
+            ? {
+                max_completion_tokens: 1500,
+                reasoning_effort: 'low',
+                reasoning_format: 'hidden',
+              }
+            : {
+                max_tokens: 600,
+                chat_template_kwargs: { enable_thinking: false },
+                reasoning_effort: 'none',
+              }),
           response_format:
             process.env.MODEL_PROVIDER === 'groq'
-              ? { type: 'json_object' }
+              ? {
+                  type: 'json_schema',
+                  json_schema: {
+                    name: 'cited_study_answer',
+                    strict: true,
+                    schema: {
+                      type: 'object',
+                      additionalProperties: false,
+                      required: ['paragraphs'],
+                      properties: {
+                        paragraphs: {
+                          type: 'array',
+                          items: {
+                            type: 'object',
+                            additionalProperties: false,
+                            required: ['text', 'citations'],
+                            properties: {
+                              text: { type: 'string' },
+                              citations: {
+                                type: 'array',
+                                items: { type: 'string', enum: evidence.map((p) => p.id) },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                }
               : {
                   type: 'json_object',
                   schema: z.toJSONSchema(answerSchema, { target: 'draft-7' }),

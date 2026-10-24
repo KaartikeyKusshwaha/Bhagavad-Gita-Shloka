@@ -35,7 +35,22 @@ export function PassageCard({
   async function copy() {
     try {
       await navigator.clipboard.writeText(
-        `${passage.ref}\n${passage.original_text}\n\n${translation?.text ?? ''}\n${translation?.translator ?? ''}\n${passage.source.url}\n${window.location.origin}/read/${passage.work}/${passage.ref.replace(' ', '-')}${typeof rules.copyright_notice === 'string' ? `\n\n${rules.copyright_notice}` : ''}`,
+        [
+          passage.ref,
+          passage.original_text,
+          ...(translation
+            ? [
+                translation.text,
+                `${translation.translator} · ${String(translation.source_ref ?? passage.ref)}`,
+                translation.source.attribution,
+                `${translation.source.license} · ${translation.source.url}`,
+              ]
+            : []),
+          passage.source.attribution,
+          `${passage.source.license} · ${passage.source.url}`,
+          `${window.location.origin}/read/${passage.work}/${passage.ref.replace(' ', '-')}`,
+          ...(typeof rules.copyright_notice === 'string' ? [rules.copyright_notice] : []),
+        ].join('\n\n'),
       );
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -102,7 +117,7 @@ export function PassageCard({
           </Link>
         </div>
         <div className="passage-tools">
-          <SharePassage passage={passage} />
+          <SharePassage passage={passage} translationId={translation?.id} />
           <button
             onClick={bookmark}
             aria-label={saved ? 'Remove bookmark' : 'Bookmark on this device'}
@@ -173,7 +188,11 @@ export function PassageCard({
           {passage.translations.length > 1 && (
             <label className="translation-picker">
               <span className="sr-only">Translation</span>
-              <select value={selected} onChange={(e) => setSelected(e.target.value)}>
+              <select
+                aria-label="Translation"
+                value={selected}
+                onChange={(e) => setSelected(e.target.value)}
+              >
                 {passage.translations.map((t) => (
                   <option key={t.id} value={t.id}>
                     {t.translator}
@@ -204,6 +223,32 @@ export function PassageCard({
           <p>No approved human translation is available for this passage.</p>
         )}
       </section>
+      {!compact && passage.translations.length > 1 && (
+        <details className="translation-comparison" hidden={practiceHidden}>
+          <summary>Compare human translations</summary>
+          <p className="comparison-note">
+            Different translators make different choices. Combined verse ranges retain their source
+            labels.
+          </p>
+          <div className="comparison-grid">
+            {passage.translations.map((item) => (
+              <section key={item.id} aria-label={`${item.translator} · ${passage.ref}`}>
+                <h2>{item.translator}</h2>
+                <p className="translation-text" lang={item.lang}>
+                  {item.text}
+                </p>
+                <p className="translation-credit">{String(item.source_ref ?? passage.ref)}</p>
+                <p className="source-inline">
+                  <a href={item.source.url} target="_blank" rel="noreferrer">
+                    Translation source
+                  </a>{' '}
+                  · {item.source.license}
+                </p>
+              </section>
+            ))}
+          </div>
+        </details>
+      )}
       {!compact && passage.audio && <HumanAudio tracks={passage.audio} />}
       {!compact && <Practice key={passage.id} passage={passage} onHide={setPracticeHidden} />}
       {!compact && (

@@ -1,14 +1,15 @@
 # Open Scripture
 
 A free, open-source college website for scripture reading and quotation checking.
-The former Gita lookup is preserved in `legacy/` until the M2 acceptance checks pass.
+The former Gita lookup is preserved in `legacy/` for reference.
 This is an implementation in progress. The [finalized website scope](docs/FEATURE_SCOPE.md)
 records the maintainer's later decisions and takes precedence over extra channels
 and business operations in the original PDF.
 
 ## Current working slice
 
-- 700 Sanskrit Gita passages, Roman transliteration and 700 Annie Besant translations.
+- 700 Sanskrit Gita passages, Roman transliteration and two attributed English editions
+  (Besant and Swarupananda), with optional side-by-side comparison and range labels.
 - 6,236 verbatim Tanzil Uthmani Quran verses (Arabic only), and 423 Dhammapada
   verses (Pali and Bhikkhu Sujato's English translation), with edition-specific references.
 - Next.js reader with database-derived chapter/verse counts, permalinked passages,
@@ -30,8 +31,9 @@ and business operations in the original PDF.
 
 The original [implementation plan](docs/build-plan.md) remains a reference. See
 [acceptance status](docs/acceptance.md). Existing Qwen models provide optional
-meaning search and cited Ask/follow-up answers locally; production model hosting,
-additional imported translations and live deployment remain in progress.
+meaning search and cited Ask/follow-up answers locally. The Oracle deployment uses
+the same Qwen embedding model and the user-authorized Groq Free-plan account for
+Ask. See the deployment record for actual checks and limitations.
 MCP, WhatsApp and separate client apps are excluded by the maintainer's later scope.
 Human evaluations, printed-edition samples and named reviewers are not fabricated.
 
@@ -76,6 +78,6 @@ The ancient Sanskrit text and a particular modern transcription are distinct rig
 
 ## Deployment
 
-Render/Oracle deployment preparation and verified live state are tracked in
-[infra/README.md](infra/README.md). No deployment is claimed until HTTPS and the
-live data/report persistence checks pass. Never commit environment secrets.
+[Open Scripture is hosted on Oracle](https://scripture.129-225-126-21.sslip.io/).
+Verified state and operating notes are tracked in [infra/README.md](infra/README.md).
+Never commit environment secrets.

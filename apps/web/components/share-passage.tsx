@@ -3,7 +3,13 @@ import { useState } from 'react';
 import { Share2 } from 'lucide-react';
 import type { Passage } from '@core/shared/src/index';
 
-export function SharePassage({ passage }: { passage: Passage }) {
+export function SharePassage({
+  passage,
+  translationId,
+}: {
+  passage: Passage;
+  translationId?: string;
+}) {
   const [message, setMessage] = useState(''),
     [pending, setPending] = useState(false);
   const href = () =>
@@ -60,7 +66,8 @@ export function SharePassage({ passage }: { passage: Passage }) {
             : 'Georgia',
         passage.original_script === 'Arabic',
       );
-      const translation = passage.translations[0];
+      const translation =
+        passage.translations.find((t) => t.id === translationId) ?? passage.translations[0];
       if (translation) {
         block(translation.text, 27, 'Georgia');
         block(
@@ -83,6 +90,7 @@ export function SharePassage({ passage }: { passage: Passage }) {
           '#526856',
           8,
         );
+        block(translation.source.attribution, 15, 'Arial', false, '#526856', 8);
         block(translation.source.url, 14, 'Arial', false, '#526856', 18);
       }
       if (typeof passage.source.display_rules.copyright_notice === 'string')

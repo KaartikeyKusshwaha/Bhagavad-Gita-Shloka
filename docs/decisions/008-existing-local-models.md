@@ -39,9 +39,11 @@ are separate from provider-free CI and must be run with actual configured models
 Synthetic endpoint tests check vector storage, source exclusion and stale-vector
 rejection; they are not model-quality benchmarks. Human evaluation remains pending.
 
-Deployment: the available Oracle E2 micro has 1 GB RAM and existing apps. Its
-resource-limited website can be deployed separately, but both local models must
-not be started on that host. A model-capable free host or separately verified
-free API is still needed for production model availability. No paid upgrade is
-authorized. Oracle session refresh/browser access is needed to inspect other
-free capacity through the current account.
+Deployment uses a different split: the user explicitly confirmed the existing
+Groq account is on the Free plan and authorized this project to use it. Groq
+hosts the answer model; the Oracle E2 micro hosts only the Qwen embedding model,
+with CPU/memory limits and swap. The actual query trial returned a normalized
+1024-dimensional vector in six seconds without a service restart. The 6,936
+precomputed vectors were transferred with a verified checksum. The deployed
+live-model browser test passed semantic retrieval, cited Ask/follow-up, history
+reload and source exclusion. See infra/README.md. No paid upgrade is authorized.
