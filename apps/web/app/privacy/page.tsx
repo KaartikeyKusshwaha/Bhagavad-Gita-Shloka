@@ -27,6 +27,13 @@ export default function Privacy() {
           bookmarks, or reading progress. Other people using this browser profile may see this local
           data.
         </p>
+        <p>
+          Reading plans and spaced-revision dates are also stored only in this browser. Remove a
+          plan or individual revision entries in Study tools. Classroom share links contain the
+          chosen references, title and discussion questions in the URL fragment; anyone with the
+          link can read them. The application does not save a server lesson record. Avoid personal
+          information in classroom links.
+        </p>
         <h2>Search and quotation checks</h2>
         <p>
           Search text is used for the request. Server verification logs contain a SHA-256 hash of
@@ -48,7 +55,11 @@ export default function Privacy() {
         </p>
         <h2>Voice</h2>
         <p>
-          Voice upload is not enabled yet. Audio is not accepted or retained. No synthetic sacred
+          Voice input starts only when you select Start microphone. If on-device recognition is
+          supported, it stays on your device. Otherwise, the browser’s speech provider may process
+          audio online; the voice controls require your agreement before starting. This website does
+          not receive or retain audio. You review the transcript before submitting it as a normal
+          text request. Explanation playback uses installed local device voices. No synthetic sacred
           recitations are provided.
         </p>
         <h2>Clear device data</h2>

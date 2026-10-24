@@ -5,6 +5,7 @@ import { Copy, Check, Flag, ArrowUpRight, Bookmark } from 'lucide-react';
 import type { Passage } from '../../../packages/shared/src/index';
 import { addActivity } from '@core/shared/src/device-data';
 import { useDeviceData, changeDeviceData } from '../lib/device-store';
+import { Practice } from './practice';
 export function PassageCard({
   passage,
   featured = false,
@@ -17,16 +18,22 @@ export function PassageCard({
   const [script, setScript] = useState<'original' | 'roman'>('original'),
     [copied, setCopied] = useState(false),
     [notice, setNotice] = useState('');
+  const [practiceHidden, setPracticeHidden] = useState(false);
   const device = useDeviceData(),
     saved = device.bookmarks.some((b) => b.id === passage.id),
     read = device.readPassages.includes(passage.id);
   const [selected, setSelected] = useState(passage.translations[0]?.id ?? '');
   const translation =
     passage.translations.find((t) => t.id === selected) ?? passage.translations[0];
+  const rules = passage.source.display_rules ?? {},
+    language = String(rules.language ?? 'Sanskrit'),
+    lang = String(rules.lang ?? 'sa'),
+    rtl = rules.direction === 'rtl',
+    hasRoman = Boolean(passage.transliteration);
   async function copy() {
     try {
       await navigator.clipboard.writeText(
-        `${passage.ref}\n${passage.original_text}\n\n${translation?.text ?? ''}\n${translation?.translator ?? ''}\n${passage.source.url}\n${window.location.origin}/read/${passage.work}/${passage.ref.replace(' ', '-')}`,
+        `${passage.ref}\n${passage.original_text}\n\n${translation?.text ?? ''}\n${translation?.translator ?? ''}\n${passage.source.url}\n${window.location.origin}/read/${passage.work}/${passage.ref.replace(' ', '-')}${typeof rules.copyright_notice === 'string' ? `\n\n${rules.copyright_notice}` : ''}`,
       );
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -105,21 +112,32 @@ export function PassageCard({
           </button>
         </div>
       </div>
-      <section className="scripture-block" aria-label="Primary text">
+      <section className="scripture-block" aria-label="Primary text" hidden={practiceHidden}>
         <div className="layer-row">
-          <span className="layer-label">Primary text · Sanskrit</span>
-          <div className="script-toggle" role="group" aria-label="Script">
-            <button aria-pressed={script === 'original'} onClick={() => setScript('original')}>
-              देव
-            </button>
-            <button aria-pressed={script === 'roman'} onClick={() => setScript('roman')}>
-              Aa
-            </button>
-          </div>
+          <span className="layer-label">Primary text · {language}</span>
+          {hasRoman && (
+            <div className="script-toggle" role="group" aria-label="Script">
+              <button aria-pressed={script === 'original'} onClick={() => setScript('original')}>
+                देव
+              </button>
+              <button aria-pressed={script === 'roman'} onClick={() => setScript('roman')}>
+                Aa
+              </button>
+            </div>
+          )}
         </div>
         <p
-          className={script === 'original' ? 'sanskrit' : 'roman'}
-          lang={script === 'original' ? 'sa' : 'sa-Latn'}
+          className={
+            script === 'roman'
+              ? 'roman'
+              : lang === 'sa'
+                ? 'sanskrit'
+                : rtl
+                  ? 'arabic-text'
+                  : 'primary-latin'
+          }
+          lang={script === 'original' ? lang : `${lang}-Latn`}
+          dir={rtl && script === 'original' ? 'rtl' : 'ltr'}
         >
           {script === 'original' ? passage.original_text : passage.transliteration}
         </p>
@@ -130,7 +148,13 @@ export function PassageCard({
           <span> · {passage.source.license}</span>
         </p>
       </section>
-      <section className="translation-block" aria-label="Human translation">
+      {typeof rules.copyright_notice === 'string' && (
+        <details className="text-copyright">
+          <summary>Tanzil text notice</summary>
+          <pre>{rules.copyright_notice}</pre>
+        </details>
+      )}
+      <section className="translation-block" aria-label="Human translation" hidden={practiceHidden}>
         <div className="layer-row">
           <span className="layer-label">Human translation · English</span>
           {passage.translations.length > 1 && (
@@ -167,6 +191,7 @@ export function PassageCard({
           <p>No approved human translation is available for this passage.</p>
         )}
       </section>
+      {!compact && <Practice key={passage.id} passage={passage} onHide={setPracticeHidden} />}
       {!compact && (
         <div className="passage-bottom">
           <button className="mark-read-button" onClick={markRead} aria-pressed={read}>

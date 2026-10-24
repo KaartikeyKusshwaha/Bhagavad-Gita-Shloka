@@ -8,7 +8,7 @@ const rows = [
   ],
   [
     'M2 · Reader & API',
-    'Reader, chapter counts, context, citations, and report flow implemented; accessibility audit pending',
+    'Reader, chapter counts, context, citations, report flow and automated mobile accessibility checks implemented; independent audit pending',
   ],
   [
     'M3 · Search',
@@ -18,16 +18,19 @@ const rows = [
     'M4 · Verify',
     'Deterministic wording and attribution check; six-step meaning pipeline and human evaluation pending',
   ],
-  ['M5 · More traditions', 'Source and reviewer gates pending; not included in search'],
+  [
+    'M5 · More traditions',
+    'Gita, Quran Arabic and Dhammapada Pali/English imported; further collections pending',
+  ],
   [
     'M6 · Context & comparison',
     'Surrounding passages available; additional translations, commentary, themes, and cross-references pending',
   ],
   [
-    'M7 · Speech & WhatsApp',
-    'Provider setup, licensed audio, and language review pending; disabled',
+    'M7 · Website speech',
+    'Browser dictation with transcript review and local explanation voices implemented; human audio and language quality review pending',
   ],
-  ['M8 · Offline & clients', 'Offline and companion clients in development'],
+  ['M8 · Offline reading', 'Downloadable reading packs pending'],
   [
     'M9 · Community',
     'Reports and gated correction API implemented; named reviewers and remaining community tools pending',
@@ -44,8 +47,8 @@ export default function About() {
           <em>Fewer words without a source.</em>
         </h1>
         <p>
-          An open-source, non-profit scripture reading and quotation-checking platform. No paywall,
-          advertising, or account required to read.
+          A free, open-source college project for scripture reading and quotation checks. No
+          paywall, advertising, or account required to read.
         </p>
       </div>
       <div className="prose">
@@ -56,9 +59,9 @@ export default function About() {
           and a path to its source.
         </p>
         <p>
-          This beta begins with the Bhagavad Gita. All traditions use the same data model and
-          retrieval rules. The platform does not rank religions, issue personal religious rulings,
-          or generate sacred text.
+          This beta includes the Bhagavad Gita, Quran and Dhammapada. All traditions use the same
+          data model and retrieval rules. The platform does not rank religions, issue personal
+          religious rulings, or generate sacred text.
         </p>
         <h2>What is ready, and what is still a promise</h2>
         <p>
@@ -95,9 +98,8 @@ export default function About() {
           , or <Link href="/report">report a text issue</Link>.
         </p>
         <p>
-          A tradition remains beta until a named reviewer from that tradition approves its samples
-          and prompts. The maintainer handles the project’s legal non-profit setup and appointment
-          of reviewers.
+          Collection labels describe the actual editions available here. This college website
+          remains a beta pending independent text review and final maintainer testing.
         </p>
       </div>
     </div>

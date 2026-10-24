@@ -15,6 +15,7 @@ import {
   getChapter,
   getSourceList,
   getPassageById,
+  getReadingSlice,
 } from '../../../packages/db/src/queries.ts';
 import { searchPassages } from '../../../packages/search/src/index.ts';
 import { verifyClaim } from '../../../packages/verify/src/index.ts';
@@ -126,6 +127,18 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
   app.get('/v1/works', async (req) => {
     const q = z.object({ tradition: z.string().optional() }).parse(req.query);
     return { works: await getWorks(db, q.tradition) };
+  });
+  app.get<{ Params: { slug: string } }>('/v1/works/:slug/reading', async (req, reply) => {
+    const q = z
+      .object({
+        after: z.coerce.number().int().min(0).default(0),
+        limit: z.coerce.number().int().min(1).max(20).default(5),
+      })
+      .parse(req.query);
+    const passages = await getReadingSlice(db, req.params.slug, q.after, q.limit);
+    return passages.length
+      ? { passages }
+      : reply.code(404).send(error('NOT_FOUND', 'No published passages at this reading position.'));
   });
   app.get<{ Params: { slug: string } }>('/v1/works/:slug/divisions', async (req, reply) => {
     const divisions = await getDivisions(db, req.params.slug);

@@ -9,19 +9,24 @@ and business operations in the original PDF.
 ## Current working slice
 
 - 700 Sanskrit Gita passages, Roman transliteration and 700 Annie Besant translations.
+- 6,236 verbatim Tanzil Uthmani Quran verses (Arabic only), and 423 Dhammapada
+  verses (Pali and Bhikkhu Sujato's English translation), with edition-specific references.
 - Next.js reader with database-derived chapter/verse counts, permalinked passages,
   surrounding context, exact/fuzzy search, wording and attribution checks.
-- Full source/license records, NFC data checks, separate text/translation labels,
+- Full source/license records, Unicode/verbatim data checks, separate text/translation labels,
   anonymous reports and reviewer-gated public corrections.
 - Strict TypeScript, Fastify REST API and OpenAPI; PostgreSQL pg_trgm/pgvector schema.
 - No live scripture API calls when reading, no trackers, no generated scripture.
 - Three destinations: Explore, Read, Study; one Explore composer and optional history drawer.
 - Browser-local conversations with reopen/search/rename/delete/pause controls, real
   learning-activity calendar, read marks, streaks and saved passages.
+- Browser speech input with consent/transcript review and local explanation voices.
+  Hide/reveal recall, word-difference feedback, spaced reviews, daily reading plans,
+  and classroom sets shared as reference-only URL fragments.
 
 The original [implementation plan](docs/build-plan.md) remains a reference. See
 [acceptance status](docs/acceptance.md). Semantic retrieval, meaning-based verdicts,
-more traditions, voice and the remaining website study/exploration tools are unfinished.
+further traditions, voice and the remaining website study/exploration tools are unfinished.
 MCP, WhatsApp and separate client apps are excluded by the maintainer's later scope.
 Human evaluations, printed-edition samples and named reviewers are not fabricated.
 
@@ -34,7 +39,7 @@ corepack enable
 pnpm install --frozen-lockfile
 $env:DATABASE_MODE='pglite'
 pnpm db:migrate
-pnpm ingest gita
+pnpm ingest all
 pnpm dev
 ```
 

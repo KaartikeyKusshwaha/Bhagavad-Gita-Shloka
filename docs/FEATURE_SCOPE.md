@@ -38,14 +38,22 @@ checking are outside the initial agreed delivery or later enhancements.
 
 ## Implemented versus pending
 
-The local implementation currently has the 700-passage Gita import, 700 attributed
-English translations, exact/fuzzy/reference retrieval, conservative quotation
+The local implementation currently has 700 Gita passages with 700 attributed
+English translations, 6,236 Quran Arabic verses (Tanzil Uthmani 1.1, no translation
+loaded), and 423 Dhammapada Pali verses with Bhikkhu Sujato's English translation.
+It provides exact/fuzzy/reference retrieval, conservative quotation
 checking, reader/context, source records and report API. Explore has a single
 composer and persistent device history. Study has real activity/streak counts,
 calendar keyboard navigation, bookmarks, and deliberate read marks.
+The reader has hide/reveal recall practice, experimental browser dictation,
+word-difference feedback and self-rated spaced review. Study tools provide a
+daily reading plan, revision queue and reference-based classroom share links.
+Explore dictation requires transcript review. Explanation playback uses installed
+local voices; actual microphone recognition and voice availability vary by browser.
 
 An Ask mode exists but currently returns retrieved texts and a visible explanation
 that conversational AI is not enabled. It is not a finished AI assistant.
-The other agreed features, broader imported corpus, free provider integrations,
+The remaining graph/themes, semantic search, AI provider, human audio, offline
+packs, broader imported corpus,
 production deployment and owner acceptance remain pending. Source research or
 an empty workspace package does not count as a functioning feature.

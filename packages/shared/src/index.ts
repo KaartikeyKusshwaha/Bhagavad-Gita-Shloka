@@ -1,12 +1,20 @@
 export function normalize(text: string): string {
   // Strip Latin diacritics only: Devanagari vowel signs are meaningful and must survive.
-  return text
-    .normalize('NFC')
-    .toLowerCase()
-    .replace(/[À-žḀ-ỿ]/g, (c) => c.normalize('NFD').replace(/\p{M}/gu, ''))
-    .replace(/[^\p{L}\p{N}\p{M}\s]/gu, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
+  return (
+    text
+      .normalize('NFC')
+      .toLowerCase()
+      .replace(/[À-žḀ-ỿ]/g, (c) => c.normalize('NFD').replace(/\p{M}/gu, ''))
+      // Arabic search/recall accepts unvowelled input; displayed source text is untouched.
+      .replace(
+        /[\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06dc\u06df-\u06e4\u06e7-\u06e8\u06ea-\u06ed\u0640]/g,
+        '',
+      )
+      .replace(/ٱ/g, 'ا')
+      .replace(/[^\p{L}\p{N}\p{M}\s]/gu, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+  );
 }
 export interface Source extends Record<string, unknown> {
   id: string;

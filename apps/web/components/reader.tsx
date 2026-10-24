@@ -26,20 +26,23 @@ export function Reader({
       <div className="breadcrumbs">
         <Link href="/library">The library</Link>
         <span>/</span>
-        <Link href="/read/bhagavad-gita">Bhagavad Gita</Link>
+        <Link href={`/read/${first.work}`}>{first.work_title}</Link>
         <span>/</span>
         <span>Chapter {chapter}</span>
       </div>
       <div className="reader-layout">
         <aside className="chapter-sidebar">
-          <span className="eyebrow">HINDUISM · BETA</span>
-          <h2>Bhagavad Gita</h2>
-          <p>18 chapters · 700 verses</p>
+          <span className="eyebrow">{first.tradition_name} · BETA</span>
+          <h2>{first.work_title}</h2>
+          <p>
+            {divisions.length} chapters · {divisions.reduce((n, d) => n + d.verse_count, 0)}{' '}
+            passages
+          </p>
           <nav className="chapter-nav" aria-label="Chapters">
             {divisions.map((d) => (
               <Link
                 key={d.number}
-                href={`/read/bhagavad-gita/chapter/${d.number}`}
+                href={`/read/${first.work}/chapter/${d.number}`}
                 aria-current={d.number === chapter ? 'page' : undefined}
               >
                 <span>
@@ -50,10 +53,13 @@ export function Reader({
               </Link>
             ))}
           </nav>
-          <div className="notice">
-            <strong>A note on editions</strong>700-verse recension. In chapter 13, the Besant
-            translation’s verse number is one higher. Every translation shows its edition reference.
-          </div>
+          {first.work === 'bhagavad-gita' && (
+            <div className="notice">
+              <strong>A note on editions</strong>700-verse recension. In chapter 13, the Besant
+              translation’s verse number is one higher. Every translation shows its edition
+              reference.
+            </div>
+          )}
         </aside>
         <div className="reader-main">
           <div className="page-heading">
@@ -61,9 +67,16 @@ export function Reader({
               CHAPTER {String(chapter).padStart(2, '0')} · {current?.verse_count} VERSES
             </span>
             <h1>{current?.title}</h1>
-            <p>Original Sanskrit, a human translation, and room to read around the words.</p>
+            <p>
+              {String(
+                first.source.display_rules?.description ??
+                  'Original Sanskrit, a human translation, and room to read around the words.',
+              )}
+            </p>
           </div>
           <ReaderPicker
+            key={first.id}
+            work={first.work}
             divisions={divisions}
             chapter={chapter}
             verse={passages.length === 1 ? first.verse_number : 0}
@@ -78,7 +91,7 @@ export function Reader({
               <nav className="verse-navigation" aria-label="Previous and next passage">
                 {context.before.at(-1) ? (
                   <Link
-                    href={`/read/bhagavad-gita/${context.before.at(-1)!.ref.replace(' ', '-')}`}
+                    href={`/read/${first.work}/${context.before.at(-1)!.ref.replace(' ', '-')}`}
                   >
                     <ArrowLeft size={14} /> {context.before.at(-1)!.ref}
                   </Link>
@@ -86,14 +99,13 @@ export function Reader({
                   <span />
                 )}
                 {context.after[0] && (
-                  <Link href={`/read/bhagavad-gita/${context.after[0].ref.replace(' ', '-')}`}>
+                  <Link href={`/read/${first.work}/${context.after[0].ref.replace(' ', '-')}`}>
                     {context.after[0].ref} <ArrowRight size={14} />
                   </Link>
                 )}
               </nav>
-              <section className="context-section">
-                <span className="eyebrow">BEFORE & AFTER</span>
-                <h2>A verse belongs to a conversation.</h2>
+              <details className="context-section">
+                <summary>Read the surrounding passages</summary>
                 <p className="results-count">
                   Five passages on either side, where available. Read the full chapter for the wider
                   setting.
@@ -113,14 +125,9 @@ export function Reader({
                     </Link>
                   ))}
                 </div>
-              </section>
+              </details>
             </>
           )}
-          <div className="notice">
-            <strong>Translation, commentary, and interpretation are different layers.</strong>This
-            edition currently has one approved human translation. Commentary and scholarly
-            interpretation will appear separately when reviewed material is available.
-          </div>
           <Link className="text-link" href="/sources">
             See the full source and license records <ArrowRight size={15} />
           </Link>

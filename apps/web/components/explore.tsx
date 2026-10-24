@@ -31,6 +31,7 @@ import {
 import { routeSafety } from '@core/llm/src/guardrails';
 import { useDeviceData, changeDeviceData } from '../lib/device-store';
 import { PassageCard } from './passage';
+import { SpeechInput, SpeakExplanation } from './speech';
 interface WorkOption {
   slug: string;
   title: string;
@@ -121,6 +122,7 @@ function Reply({ turn }: { turn: ExploreTurn }) {
         <div className="response-explanation">
           <span>{turn.mode === 'verify' ? 'About this text check' : 'About this answer'}</span>
           <p>{turn.reply.explanation ?? turn.reply.note}</p>
+          <SpeakExplanation text={turn.reply.explanation ?? turn.reply.note ?? ''} />
         </div>
       )}
       {turn.reply.coverage_note && <p className="response-coverage">{turn.reply.coverage_note}</p>}
@@ -490,6 +492,13 @@ export function Explore({ works }: { works: WorkOption[] }) {
             </button>
           </div>
         </form>
+        <SpeechInput
+          disabled={pending}
+          onTranscript={(text) => {
+            setQuery(text.slice(0, mode === 'search' ? 500 : 3000));
+            composer.current?.focus();
+          }}
+        />
         <p className="composer-caption">
           {mode === 'ask'
             ? 'Cited text retrieval is available. Conversational AI is not enabled yet.'

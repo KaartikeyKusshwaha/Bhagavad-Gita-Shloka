@@ -1,6 +1,7 @@
 import type { Database } from '../../db/src/index.ts';
 import { getContext, getPassage, getWorks } from '../../db/src/queries.ts';
 import { searchPassages } from '../../search/src/index.ts';
+import { parsePassageReference } from '../../shared/src/references.ts';
 import {
   normalize,
   coverageMessage,
@@ -25,8 +26,13 @@ export function parseClaim(input: string, source?: string): ParsedClaim {
         ? 'quran'
         : /\b(bible|gospel)\b/i.test(input)
           ? 'bible'
-          : undefined);
-  const reference = input.match(/(?:\bBG\s*|\b(?:verse|chapter)\s+)?(\d{1,2})[.:](\d{1,3})/i);
+          : /\b(dhp|dhammapada)\b/i.test(input)
+            ? 'dhammapada'
+            : undefined);
+  const referenceText = input.match(
+    /(?:\b(?:BG|Quran|Koran|Gita)\s*)?\d{1,3}[.:]\d{1,3}|\b(?:Dhp|Dhammapada)\s+\d{1,3}/i,
+  )?.[0];
+  const reference = referenceText ? parsePassageReference(referenceText, claimedWork) : null;
   const quote =
     quoted?.[1] ??
     input
@@ -39,8 +45,8 @@ export function parseClaim(input: string, source?: string): ParsedClaim {
   return {
     quote,
     claimedWork,
-    claimedRef: reference ? `BG ${Number(reference[1])}.${Number(reference[2])}` : undefined,
-    lang: /[\u0900-\u097f]/.test(input) ? 'hi' : 'en',
+    claimedRef: reference?.ref,
+    lang: /[\u0900-\u097f]/.test(input) ? 'hi' : /[\u0600-\u06ff]/.test(input) ? 'ar' : 'en',
   };
 }
 export async function searchThreeWays(db: Database, claim: ParsedClaim) {

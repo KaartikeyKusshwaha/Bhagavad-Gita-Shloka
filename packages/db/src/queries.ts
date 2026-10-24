@@ -59,7 +59,10 @@ export async function getContext(db: Database, p: Passage, before = 5, after = 5
 export async function getWorks(db: Database, tradition?: string) {
   return (
     await db.query(
-      `SELECT w.*,t.slug AS tradition,t.name AS tradition_name,t.board_status,count(p.id)::int AS passage_count FROM works w JOIN traditions t ON t.id=w.tradition_id JOIN published_passages p ON p.work_id=w.id WHERE ($1::text IS NULL OR t.slug=$1) GROUP BY w.id,t.slug,t.name,t.board_status ORDER BY t.name,w.canon_order,w.title`,
+      `SELECT w.*,t.slug AS tradition,t.name AS tradition_name,t.board_status,count(p.id)::int AS passage_count,
+       count(DISTINCT p.division_id)::int AS division_count,
+       (SELECT s.display_rules FROM published_passages p2 JOIN sources s ON s.id=p2.source_id WHERE p2.work_id=w.id ORDER BY p2.ordinal LIMIT 1) AS display_rules
+       FROM works w JOIN traditions t ON t.id=w.tradition_id JOIN published_passages p ON p.work_id=w.id WHERE ($1::text IS NULL OR t.slug=$1) GROUP BY w.id,t.slug,t.name,t.board_status ORDER BY t.name,w.canon_order,w.title`,
       [tradition ?? null],
     )
   ).rows;
@@ -67,7 +70,7 @@ export async function getWorks(db: Database, tradition?: string) {
 export async function getDivisions(db: Database, work: string) {
   return (
     await db.query(
-      `SELECT d.*,count(p.id)::int AS verse_count FROM divisions d JOIN works w ON w.id=d.work_id JOIN published_passages p ON p.division_id=d.id WHERE w.slug=$1 GROUP BY d.id ORDER BY d.number`,
+      `SELECT d.*,count(p.id)::int AS verse_count,jsonb_agg(jsonb_build_object('number',p.verse_number,'ref',p.ref) ORDER BY p.ordinal) AS verses FROM divisions d JOIN works w ON w.id=d.work_id JOIN published_passages p ON p.division_id=d.id WHERE w.slug=$1 GROUP BY d.id ORDER BY d.number`,
       [work],
     )
   ).rows;
@@ -89,6 +92,17 @@ export async function getTraditions(db: Database) {
       `SELECT t.*,count(DISTINCT w.id)::int AS work_count,count(p.id)::int AS passage_count FROM traditions t LEFT JOIN works w ON w.tradition_id=t.id LEFT JOIN published_passages p ON p.work_id=w.id GROUP BY t.id ORDER BY t.name`,
     )
   ).rows;
+}
+export async function getReadingSlice(db: Database, work: string, after: number, limit: number) {
+  return hydrate(
+    db,
+    (
+      await db.query(
+        `${passageSelect} WHERE w.slug=$1 AND p.ordinal>$2 ORDER BY p.ordinal LIMIT $3`,
+        [work, after, limit],
+      )
+    ).rows,
+  );
 }
 export async function getRelated(db: Database, p: Passage) {
   return hydrate(

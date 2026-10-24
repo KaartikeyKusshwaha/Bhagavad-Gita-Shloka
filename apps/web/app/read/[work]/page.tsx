@@ -1,14 +1,16 @@
 import { notFound } from 'next/navigation';
 import { getDatabase } from '@core/db/src/index';
-import { getDivisions, getPassage, getContext } from '@core/db/src/queries';
+import { getDivisions, getChapter, getContext } from '@core/db/src/queries';
 import { Reader } from '../../../components/reader';
 export const dynamic = 'force-dynamic';
-export const metadata = { title: 'Read the Bhagavad Gita' };
+export const metadata = { title: 'Read' };
 export default async function WorkPage({ params }: { params: Promise<{ work: string }> }) {
   const { work } = await params,
     db = await getDatabase();
   const divisions = await getDivisions(db, work),
-    passage = await getPassage(db, work, 'BG 1.1');
+    passage = divisions.length
+      ? (await getChapter(db, work, Number(divisions[0].number)))[0]
+      : null;
   if (!passage) notFound();
   return (
     <Reader

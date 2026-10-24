@@ -1,0 +1,20 @@
+{
+  "id": "sujato-dhp",
+  "name": "Bhikkhu Sujato · Dhammapada English",
+  "url": "https://suttacentral.net/dhp1-20/en/sujato",
+  "license": "CC0-1.0",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution": "Translated by Bhikkhu Sujato for SuttaCentral. Public-domain dedication via CC0. Segment breaks joined; Bilara <j> join markers omitted from presentation.",
+  "display_rules": {
+    "layer": "Human translation",
+    "language": "English",
+    "lang": "en",
+    "no_generative_ai": true,
+    "edition": "Bilara published commit 6a395ceb6f28549111d7d96859f7f6f6610afc01",
+    "bundle": "dhammapada.json"
+  },
+  "checksum": "99133048fa61d9293b5c1e1293e7bb485bd2000f6b6257f27dbeed05e6d449a1",
+  "retrieved_at": "2026-10-24",
+  "status": "approved",
+  "commercial_ok": true
+}

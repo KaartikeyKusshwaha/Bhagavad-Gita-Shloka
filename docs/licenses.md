@@ -10,7 +10,17 @@ Generated from the checked-in source records. Each text keeps its own terms; cod
 - Retrieved: 2026-10-24
 - Publication status: approved
 - Bundle SHA-256: `b258e6b57075274cf89471f3c9c3da22191508979d87568e3598a92b73be138c`
-- Display rules: {"layer": "Translation", "chapter_13": "Platform BG 13.1–34 corresponds to Besant 13.2–35; Besant’s opening question is not part of the 700-verse recension."}
+
+## SuttaCentral · Dhammapada Pali
+
+- Source: [SuttaCentral · Dhammapada Pali](https://suttacentral.net/dhp)
+- License: [Public-domain ancient text; SuttaCentral CC0 transcription](https://suttacentral.net/licensing?lang=en)
+- Attribution: Pali Dhammapada, Mahāsaṅgīti edition, via SuttaCentral Bilara. Segments joined into verses; headings and colophons excluded.
+- Retrieved: 2026-10-24
+- Publication status: approved
+- Bundle SHA-256: `99133048fa61d9293b5c1e1293e7bb485bd2000f6b6257f27dbeed05e6d449a1`
+
+Reading and ordinary search only; exclude from generative AI.
 
 ## Sanskrit Wikisource · Bhagavad Gita
 
@@ -20,4 +30,25 @@ Generated from the checked-in source records. Each text keeps its own terms; cod
 - Retrieved: 2026-10-24
 - Publication status: approved
 - Bundle SHA-256: `b258e6b57075274cf89471f3c9c3da22191508979d87568e3598a92b73be138c`
-- Display rules: {"layer": "Primary text", "edition": "700-verse recension", "upstream": "https://sanatan.digital/api/v1/works/bhagavad-gita.json"}
+
+## Bhikkhu Sujato · Dhammapada English
+
+- Source: [Bhikkhu Sujato · Dhammapada English](https://suttacentral.net/dhp1-20/en/sujato)
+- License: [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
+- Attribution: Translated by Bhikkhu Sujato for SuttaCentral. Public-domain dedication via CC0. Segment breaks joined; Bilara <j> join markers omitted from presentation.
+- Retrieved: 2026-10-24
+- Publication status: approved
+- Bundle SHA-256: `99133048fa61d9293b5c1e1293e7bb485bd2000f6b6257f27dbeed05e6d449a1`
+
+Reading and ordinary search only; exclude from generative AI.
+
+## Tanzil Project · Quran Uthmani 1.1
+
+- Source: [Tanzil Project · Quran Uthmani 1.1](https://tanzil.net/)
+- License: [CC-BY-3.0 with Tanzil verbatim-text terms](https://tanzil.net/docs/Text_License)
+- Attribution: Tanzil Project, Quran Uthmani text version 1.1. Copyright (C) 2007–2026 Tanzil Project. Copied verbatim; see the complete included notice.
+- Retrieved: 2026-10-24
+- Publication status: approved
+- Bundle SHA-256: `aaf2e85b84843b7a10205e53a26432c9c4dbb2395f9d415e39998b6a62065f79`
+
+Complete unaltered Tanzil notice: [source record](../data/sources/tanzil-uthmani.yml) and the in-reader “Tanzil text notice”.

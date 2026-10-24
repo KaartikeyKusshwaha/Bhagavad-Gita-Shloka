@@ -28,9 +28,9 @@ export const readingSources: ReadingSource[] = [
     collection: 'Quran',
     source_name: 'Tanzil',
     url: 'https://tanzil.net/',
-    method: 'download',
+    method: 'integrated',
     terms_url: 'https://tanzil.net/docs/Text_License',
-    note: 'Free Arabic text download. Preserve the text verbatim, attribution, copyright notice and source link. Translation rights are checked separately.',
+    note: '6,236 Arabic Uthmani 1.1 verses loaded verbatim. No English translation is loaded. Source notice and link are included.',
     checked_at: '2026-10-24',
   },
   {
@@ -72,9 +72,9 @@ export const readingSources: ReadingSource[] = [
     collection: 'Dhammapada and early Buddhist texts',
     source_name: 'SuttaCentral',
     url: 'https://suttacentral.net/',
-    method: 'download',
+    method: 'integrated',
     terms_url: 'https://github.com/suttacentral/bilara-data/blob/published/LICENSE.md',
-    note: 'Selected Bilara translations are CC0. Preserve author/source information and respect the source’s model-training request.',
+    note: '423 Dhammapada verses in Pali with Bhikkhu Sujato’s CC0 English translation. Reading and ordinary search only; excluded from generative AI.',
     checked_at: '2026-10-24',
   },
   {

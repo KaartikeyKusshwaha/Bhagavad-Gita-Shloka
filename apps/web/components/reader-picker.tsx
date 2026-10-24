@@ -6,6 +6,7 @@ interface Division {
   number: number;
   verse_count: number;
   title: string;
+  verses?: { number: number; ref: string }[];
 }
 export function ReaderPicker({
   divisions,
@@ -21,7 +22,11 @@ export function ReaderPicker({
   const router = useRouter(),
     [selected, setSelected] = useState(chapter),
     [selectedVerse, setVerse] = useState(verse ? String(verse) : 'all');
-  const count = divisions.find((d) => d.number === selected)?.verse_count ?? 0;
+  const division = divisions.find((d) => d.number === selected),
+    count = division?.verse_count ?? 0,
+    verses =
+      division?.verses ??
+      Array.from({ length: count }, (_, i) => ({ number: i + 1, ref: `BG ${selected}.${i + 1}` }));
   return (
     <form
       className="reader-picker"
@@ -30,7 +35,7 @@ export function ReaderPicker({
         router.push(
           selectedVerse === 'all'
             ? `/read/${work}/chapter/${selected}`
-            : `/read/${work}/BG-${selected}.${selectedVerse}`,
+            : `/read/${work}/${encodeURIComponent(verses.find((v) => String(v.number) === selectedVerse)!.ref.replace(' ', '-'))}`,
         );
       }}
     >
@@ -61,9 +66,9 @@ export function ReaderPicker({
           onChange={(e) => setVerse(e.target.value)}
         >
           <option value="all">All {count} verses</option>
-          {Array.from({ length: count }, (_, i) => (
-            <option key={i + 1} value={i + 1}>
-              {i + 1}
+          {verses.map((v) => (
+            <option key={v.number} value={v.number}>
+              {v.number}
             </option>
           ))}
         </select>

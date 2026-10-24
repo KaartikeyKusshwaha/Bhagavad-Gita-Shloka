@@ -4,11 +4,12 @@ import Link from 'next/link';
 import { BookOpen, Bookmark, Check, ChevronRight, Download, Flame, Trash2 } from 'lucide-react';
 import { activityDays, calendarDays, learningStats, localDay } from '@core/shared/src/device-data';
 import { useDeviceData, changeDeviceData } from '../lib/device-store';
-export function Study() {
+import { StudyTools, type StudyWork } from './study-tools';
+export function Study({ works }: { works: StudyWork[] }) {
   const data = useDeviceData(),
     [today, setToday] = useState<Date | null>(null),
     [selected, setSelected] = useState(''),
-    [tab, setTab] = useState<'activity' | 'saved'>('activity'),
+    [tab, setTab] = useState<'activity' | 'saved' | 'tools'>('activity'),
     [error, setError] = useState('');
   const graph = useRef<HTMLDivElement>(null),
     cells = useRef<(HTMLButtonElement | null)[]>([]);
@@ -104,6 +105,9 @@ export function Study() {
         <button aria-pressed={tab === 'saved'} onClick={() => setTab('saved')}>
           <Bookmark size={15} />
           Saved passages<span>{data.bookmarks.length}</span>
+        </button>
+        <button aria-pressed={tab === 'tools'} onClick={() => setTab('tools')}>
+          Study tools
         </button>
       </div>
       {tab === 'activity' ? (
@@ -262,6 +266,8 @@ export function Study() {
             </div>
           </details>
         </section>
+      ) : tab === 'tools' ? (
+        <StudyTools works={works} />
       ) : (
         <section className="saved-passages" aria-label="Saved passages">
           {data.bookmarks.length ? (

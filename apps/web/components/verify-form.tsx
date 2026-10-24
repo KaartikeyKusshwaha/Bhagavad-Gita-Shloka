@@ -66,7 +66,8 @@ export function VerifyForm() {
           <select id="claimed-source" value={source} onChange={(e) => setSource(e.target.value)}>
             <option value="">Find the source</option>
             <option value="bhagavad-gita">Bhagavad Gita</option>
-            <option value="quran">Quran (not yet loaded)</option>
+            <option value="quran">Quran · Arabic</option>
+            <option value="dhammapada">Dhammapada</option>
             <option value="bible">Bible (not yet loaded)</option>
           </select>
         </div>

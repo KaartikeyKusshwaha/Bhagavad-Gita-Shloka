@@ -1,6 +1,7 @@
 import { connectDatabase, setDatabase } from '../../../packages/db/src/index.ts';
 import { migrate } from '../../../packages/db/src/migrate.ts';
 import { ingestGita } from '../../../packages/ingest/src/index.ts';
+import { freeCollections, ingestCollection } from '../../../packages/ingest/src/collections.ts';
 import { createApp } from './app.ts';
 import { resolve } from 'node:path';
 const production = process.argv.includes('--production');
@@ -12,6 +13,9 @@ setDatabase(db);
 await migrate(db);
 if (!(await db.query("SELECT id FROM works WHERE id='bhagavad-gita'")).rows.length)
   await ingestGita(db);
+for (const slug of freeCollections)
+  if (!(await db.query('SELECT id FROM works WHERE id=$1', [slug])).rows.length)
+    await ingestCollection(db, slug);
 const app = await createApp(db, { web: true });
 const host = process.env.HOST ?? '127.0.0.1',
   port = Number(process.env.PORT ?? 3100);

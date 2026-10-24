@@ -1,13 +1,21 @@
 import { describe, it, expect } from 'vitest';
 import { connectDatabase } from './index.ts';
 import { migrate } from './migrate.ts';
+import { readdir } from 'node:fs/promises';
 describe('PostgreSQL schema', () => {
   it('migrates twice, installs search extensions and hides draft sources', async () => {
     const db = await connectDatabase({ memory: true });
     try {
       await migrate(db);
       await migrate(db);
-      expect((await db.query('SELECT name FROM schema_migrations')).rows).toHaveLength(3);
+      const expected = (await readdir(new URL('../migrations/', import.meta.url)))
+        .filter((name) => name.endsWith('.sql'))
+        .sort();
+      expect(
+        (await db.query('SELECT name FROM schema_migrations ORDER BY name')).rows.map(
+          (row) => row.name,
+        ),
+      ).toEqual(expected);
       expect(
         (await db.query("SELECT similarity('karma','karm') AS score")).rows[0].score,
       ).toBeGreaterThan(0.3);
