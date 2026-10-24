@@ -213,4 +213,23 @@ describe('imported text and actual API', () => {
     ).not.toThrow();
     await web.close();
   });
+  it('keeps follow-up questions attached to their cited passage instead of searching the whole conversation', async () => {
+    const r = await app.inject({
+      method: 'POST',
+      url: '/v1/ask',
+      payload: {
+        question: 'How does that differ from avoiding work?',
+        work: 'bhagavad-gita',
+        history: [
+          {
+            question: 'What does BG 2.47 say about results?',
+            answer: 'Earlier answer context.',
+            passage_ids: ['bg.2.47'],
+          },
+        ],
+      },
+    });
+    expect(r.statusCode).toBe(200);
+    expect(r.json().passages[0].passage.id).toBe('bg.2.47');
+  });
 });

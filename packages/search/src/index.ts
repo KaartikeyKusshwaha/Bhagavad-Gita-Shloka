@@ -76,9 +76,9 @@ export async function searchPassages(
   const rows = (
     await db.query(
       `WITH scores AS MATERIALIZED (
-    SELECT id,GREATEST(similarity(text_norm,$1),word_similarity($1,text_norm)) AS score FROM published_passages WHERE ($6::text IS NULL OR original_script=$6) AND (text_norm % $1 OR $1 <% text_norm)
-    UNION ALL SELECT id,GREATEST(similarity(transliteration_norm,$1),word_similarity($1,transliteration_norm)) FROM published_passages WHERE transliteration_norm<>'' AND ($6::text IS NULL OR $6='Latin') AND (transliteration_norm % $1 OR $1 <% transliteration_norm)
-    UNION ALL SELECT passage_id,GREATEST(similarity(text_norm,$1),word_similarity($1,text_norm)) FROM published_translations WHERE ($4::text IS NULL OR lang=$4) AND (text_norm % $1 OR $1 <% text_norm)
+    SELECT p.id,GREATEST(similarity(p.text_norm,$1),word_similarity($1,p.text_norm)) AS score FROM published_passages p JOIN works w ON w.id=p.work_id WHERE ($2::text IS NULL OR w.slug=$2) AND ($3::text IS NULL OR w.tradition_id=$3) AND ($6::text IS NULL OR p.original_script=$6) AND (p.text_norm % $1 OR $1 <% p.text_norm)
+    UNION ALL SELECT p.id,GREATEST(similarity(p.transliteration_norm,$1),word_similarity($1,p.transliteration_norm)) FROM published_passages p JOIN works w ON w.id=p.work_id WHERE ($2::text IS NULL OR w.slug=$2) AND ($3::text IS NULL OR w.tradition_id=$3) AND p.transliteration_norm<>'' AND ($6::text IS NULL OR $6='Latin') AND (p.transliteration_norm % $1 OR $1 <% p.transliteration_norm)
+    UNION ALL SELECT tr.passage_id,GREATEST(similarity(tr.text_norm,$1),word_similarity($1,tr.text_norm)) FROM published_translations tr JOIN published_passages p ON p.id=tr.passage_id JOIN works w ON w.id=p.work_id WHERE ($2::text IS NULL OR w.slug=$2) AND ($3::text IS NULL OR w.tradition_id=$3) AND ($4::text IS NULL OR tr.lang=$4) AND (tr.text_norm % $1 OR $1 <% tr.text_norm)
   ), ranked AS (
     SELECT p.id,max(scores.score) AS score FROM scores JOIN published_passages p ON p.id=scores.id JOIN works w ON w.id=p.work_id JOIN traditions t ON t.id=w.tradition_id
     WHERE ($2::text IS NULL OR w.slug=$2) AND ($3::text IS NULL OR t.slug=$3) GROUP BY p.id HAVING max(scores.score)>=0.35

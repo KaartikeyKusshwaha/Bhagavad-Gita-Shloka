@@ -19,36 +19,36 @@ export async function askFromSources(
   const history = (options.history ?? [])
     .filter((h) => routeSafety(h.question).kind === 'ordinary')
     .slice(-5);
-  const contextual =
-    history.length && /\b(it|this|that|they|them|its|more|explain|why|how)\b/i.test(question)
-      ? `${history.at(-1)!.question}\nFollow-up: ${question}`
-      : question;
+  const followup = history.length > 0 && /\b(it|this|that|they|them|its|more)\b/i.test(question);
   const ref = findPassageReference(
     question,
     options.work ?? findPassageReference(history.at(-1)?.question ?? '')?.work,
   );
   const referenced = ref ? await getPassage(db, ref.work, ref.ref) : null;
+  const reusable: SearchHit[] = [];
+  if (!ref && followup)
+    for (const id of (history.at(-1)?.passage_ids ?? []).slice(0, 3)) {
+      const p = await getPassageById(db, id);
+      if (
+        p &&
+        (!options.work || p.work === options.work) &&
+        (!options.tradition || p.tradition === options.tradition)
+      )
+        reusable.push({ passage: p, score: 1, match_type: 'reference' });
+    }
   const hits: SearchHit[] = ref
     ? referenced &&
       (!options.work || ref.work === options.work) &&
       (!options.tradition || referenced.tradition === options.tradition)
       ? [{ passage: referenced, score: 1, match_type: 'reference' }]
       : []
-    : await searchPassages(db, contextual, {
-        work: options.work,
-        tradition: options.tradition,
-        limit: 5,
-      });
-  for (const id of (ref ? [] : (history.at(-1)?.passage_ids ?? [])).slice(0, 3)) {
-    if (hits.some((h) => h.passage.id === id)) continue;
-    const p = await getPassageById(db, id);
-    if (
-      p &&
-      (!options.work || p.work === options.work) &&
-      (!options.tradition || p.tradition === options.tradition)
-    )
-      hits.unshift({ passage: p, score: 0, match_type: 'reference' });
-  }
+    : reusable.length
+      ? reusable
+      : await searchPassages(db, question, {
+          work: options.work,
+          tradition: options.tradition,
+          limit: 5,
+        });
   const retrieval = {
     passages: hits.slice(0, 8),
     answer: null,
@@ -58,7 +58,7 @@ export async function askFromSources(
   const focusWork =
     options.work ??
     ref?.work ??
-    (history.length
+    (reusable.length
       ? hits.find((h) => history.at(-1)!.passage_ids.includes(h.passage.id))?.passage.work
       : undefined);
   const usable = hits
