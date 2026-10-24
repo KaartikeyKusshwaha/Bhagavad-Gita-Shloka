@@ -1,4 +1,5 @@
 import type { Database } from './index.ts';
+import { cachedRead } from './read-cache.ts';
 import type { Passage, Source, Translation, HumanAudio } from '../../shared/src/index.ts';
 const passageSelect = `SELECT p.*,w.slug AS work,w.title AS work_title,w.metadata AS work_metadata,t.slug AS tradition,t.name AS tradition_name,d.number AS chapter,to_jsonb(s) AS source FROM published_passages p JOIN works w ON w.id=p.work_id JOIN traditions t ON t.id=w.tradition_id JOIN divisions d ON d.id=p.division_id JOIN sources s ON s.id=p.source_id`;
 export async function hydrate(db: Database, rows: Record<string, unknown>[]): Promise<Passage[]> {
@@ -65,6 +66,9 @@ export async function getContext(db: Database, p: Passage, before = 5, after = 5
   };
 }
 export async function getWorks(db: Database, tradition?: string) {
+  return cachedRead(db, `works:${tradition ?? ''}`, () => loadWorks(db, tradition));
+}
+async function loadWorks(db: Database, tradition?: string) {
   return (
     await db.query(
       `WITH coverage AS (
@@ -79,6 +83,9 @@ export async function getWorks(db: Database, tradition?: string) {
   ).rows;
 }
 export async function getDivisions(db: Database, work: string) {
+  return cachedRead(db, `divisions:${work}`, () => loadDivisions(db, work));
+}
+async function loadDivisions(db: Database, work: string) {
   return (
     await db.query(
       `SELECT d.*,count(p.id)::int AS verse_count,jsonb_agg(jsonb_build_object('number',p.verse_number,'ref',p.ref) ORDER BY p.ordinal) AS verses FROM divisions d JOIN works w ON w.id=d.work_id JOIN published_passages p ON p.division_id=d.id WHERE w.slug=$1 GROUP BY d.id ORDER BY d.number`,
