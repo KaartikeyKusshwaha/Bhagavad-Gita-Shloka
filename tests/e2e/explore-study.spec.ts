@@ -90,6 +90,16 @@ test('Explore and Study work on mobile, with accessible controls and an overlay 
   ).toEqual([]);
   await page.getByRole('button', { name: 'Open Explore history' }).click();
   await expect(page.getByRole('button', { name: 'Close history' })).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(page.getByText('Manage device history', { exact: true })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('button', { name: 'Close history' })).toBeFocused();
+  await page.getByText('Manage device history', { exact: true }).click();
+  await page.getByRole('button', { name: 'Close history' }).focus();
+  await page.keyboard.press('Shift+Tab');
+  await expect(page.getByRole('button', { name: 'Clear all Explore history' })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('button', { name: 'Close history' })).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Open Explore history' })).toBeFocused();
   await page.goto('/study');

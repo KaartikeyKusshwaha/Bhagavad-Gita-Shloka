@@ -334,10 +334,11 @@ export function Explore({ works }: { works: WorkOption[] }) {
   }
   function trapDrawer(event: React.KeyboardEvent) {
     if (event.key !== 'Tab') return;
-    const nodes = listRef.current?.querySelectorAll<HTMLElement>(
-      'button:not([disabled]),a[href],input',
+    const candidates = listRef.current?.querySelectorAll<HTMLElement>(
+      'button:not([disabled]),a[href],input:not([disabled]),summary,[tabindex="0"]',
     );
-    if (!nodes?.length) return;
+    const nodes = Array.from(candidates ?? []).filter((node) => node.checkVisibility());
+    if (!nodes.length) return;
     const first = nodes[0],
       last = nodes[nodes.length - 1];
     if (event.shiftKey && document.activeElement === first) {
