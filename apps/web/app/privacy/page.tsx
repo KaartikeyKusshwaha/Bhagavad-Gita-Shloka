@@ -38,14 +38,21 @@ export default function Privacy() {
         <h2>Search and quotation checks</h2>
         <p>
           When model services are configured, meaning-search text is sent to the configured
-          embedding runtime. Ask sends your question, up to three preceding questions, and
-          attributed source evidence to the configured answer runtime. Saved conversations remain in
-          this browser; only the selected context is used for that request.{' '}
+          embedding runtime. Ask sends your question, up to three preceding exchanges, and
+          attributed source evidence to the configured answer runtime. If you enable “Use relevant
+          saved conversations,” up to two relevant earlier exchanges can also be sent. Private
+          bookmark notes are never included. Saved conversations remain in this browser; only the
+          selected context is used for that request.{' '}
           {process.env.MODEL_PROVIDER === 'groq'
             ? 'This deployment uses Groq for Ask; Groq receives that question, context and evidence under its own data policies. Do not include personal or sensitive information.'
             : 'The local demo can use existing Qwen models on the host computer.'}{' '}
           Meaning search uses a Qwen embedding runtime on the website host. Provider availability is
           checked; no answer is generated when the runtime is unavailable.
+        </p>
+        <p>
+          Optional study translation sends only the selected eligible passage and target language to
+          the answer provider. Translations are labelled unreviewed and temporarily cached in server
+          memory. Conversations do not train or permanently update the model.
         </p>
         <p>
           Search text is used for the request. Server verification logs contain a SHA-256 hash of

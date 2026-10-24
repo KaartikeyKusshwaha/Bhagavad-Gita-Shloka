@@ -1,0 +1,21 @@
+{
+  "id": "atharvaveda-edition",
+  "name": "Ralph T. H. Griffith, 1895–1896 · Atharvaveda",
+  "url": "https://archive.sacred-texts.com/hin/av/index.htm",
+  "license": "Public-domain text; noncommercial archive republication permission",
+  "license_url": "https://sacred-texts.com/copyrights",
+  "commercial_ok": false,
+  "attribution": "Ralph T. H. Griffith, 1895–1896; Internet Sacred Text Archive transcription. Source wording retained; navigation, page markers and separated footnotes omitted. Reading-block numbers are platform locators.",
+  "retrieved_at": "2026-10-25",
+  "status": "approved",
+  "display_rules": {
+    "bundle": "library-manifest.json",
+    "layer": "Human translation",
+    "language": "English",
+    "lang": "en",
+    "direction": "ltr",
+    "machine_translation_allowed": true,
+    "description": "Griffith’s historical English edition, arranged by source books and hymns. Reading-block locators are separate from source verse numbers."
+  },
+  "checksum": "ec23bdf1fdd9a0df53b68d5e09ee2a4915613befc75fd07b1da67b76a4ceb351"
+}

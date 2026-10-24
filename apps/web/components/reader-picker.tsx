@@ -13,11 +13,15 @@ export function ReaderPicker({
   chapter = 2,
   verse = 47,
   work = 'bhagavad-gita',
+  sectionLabel = 'Chapter',
+  passageLabel = 'Verse',
 }: {
   divisions: Division[];
   chapter?: number;
   verse?: number;
   work?: string;
+  sectionLabel?: string;
+  passageLabel?: string;
 }) {
   const router = useRouter(),
     [selected, setSelected] = useState(chapter),
@@ -40,10 +44,10 @@ export function ReaderPicker({
       }}
     >
       <label htmlFor="chapter-picker">
-        Chapter
+        {sectionLabel}
         <select
           id="chapter-picker"
-          aria-label="Chapter"
+          aria-label={sectionLabel}
           value={selected}
           onChange={(e) => {
             setSelected(Number(e.target.value));
@@ -58,14 +62,16 @@ export function ReaderPicker({
         </select>
       </label>
       <label htmlFor="verse-picker">
-        Verse
+        {passageLabel}
         <select
           id="verse-picker"
-          aria-label="Verse"
+          aria-label={passageLabel}
           value={selectedVerse}
           onChange={(e) => setVerse(e.target.value)}
         >
-          <option value="all">All {count} verses</option>
+          <option value="all">
+            All {count} {passageLabel.toLowerCase()}s
+          </option>
           {verses.map((v) => (
             <option key={v.number} value={v.number}>
               {v.number}

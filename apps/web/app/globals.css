@@ -1371,3 +1371,423 @@ svg {
   min-width: 0;
   max-width: 100%;
 }
+.library-shell {
+  max-width: 1280px;
+}
+.passage-locator {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+  margin: 10px 0 16px;
+}
+.browse-tradition {
+  background: transparent;
+  border: 0;
+  padding: 14px 0;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.library-intro {
+  padding: 32px 0 42px;
+  max-width: 680px;
+}
+.library-intro h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(42px, 5.5vw, 70px);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+  margin: 16px 0 22px;
+}
+.library-intro h1 em {
+  color: var(--green);
+  font-weight: 400;
+}
+.library-intro p {
+  max-width: 540px;
+  color: var(--muted);
+  font-size: 16px;
+}
+.library-total {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 22px;
+}
+.religion-tabs {
+  display: flex;
+  gap: 6px;
+  overflow: auto;
+  padding: 12px 0 18px;
+  border-bottom: 1px solid var(--line);
+  scrollbar-width: thin;
+}
+.religion-tabs button {
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 24px;
+  padding: 9px 15px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.religion-tabs button[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--paper);
+}
+.religion-tabs small {
+  opacity: 0.75;
+  margin-left: 7px;
+  font-size: 10px;
+}
+.library-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 23px 0 14px;
+}
+.library-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--card);
+  padding: 0 14px;
+  min-width: 0;
+}
+.library-search input {
+  border: 0;
+  outline: none;
+  background: transparent;
+  padding: 12px 0;
+  min-width: 0;
+  width: 100%;
+  color: var(--ink);
+  font-size: 13px;
+}
+.library-filters select {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--card);
+  padding: 12px;
+  color: var(--ink);
+  font-size: 12px;
+  max-width: 220px;
+}
+.family-heading {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 34px 0 19px;
+}
+.family-heading > span {
+  font-size: 10px;
+  color: var(--muted);
+  font-family: var(--sans);
+}
+.family-heading h2 {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 400;
+}
+.family-heading i {
+  height: 1px;
+  background: var(--line);
+  flex: 1;
+}
+.library-shelf {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 17px;
+}
+.book-card {
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--card);
+  padding: 25px 24px 13px;
+  display: flex;
+  flex-direction: column;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  min-width: 0;
+}
+.book-card:hover {
+  border-color: var(--green);
+  box-shadow: 0 5px 20px #253a3008;
+}
+.book-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--green);
+  min-height: 32px;
+}
+.book-card-top .eyebrow {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+.book-card-top svg {
+  flex-shrink: 0;
+}
+.book-card h3 {
+  font-family: var(--serif);
+  font-size: 27px;
+  font-weight: 400;
+  line-height: 1.18;
+  margin: 12px 0;
+}
+.book-card > p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.book-languages {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+.book-languages span {
+  padding: 3px 8px;
+  background: var(--tint);
+  border-radius: 5px;
+  font-size: 10px;
+}
+.book-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  padding: 17px 0 8px;
+  margin-top: auto;
+  gap: 10px;
+}
+.book-card-bottom > span {
+  font-size: 11px;
+}
+.book-card-bottom small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+}
+.book-open {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  color: var(--green);
+  font-weight: 600;
+}
+.book-options {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 10px;
+}
+.book-options summary {
+  cursor: pointer;
+  padding: 5px 0;
+}
+.book-options p {
+  margin: 12px 0;
+}
+.book-options .button {
+  font-size: 11px;
+}
+.library-footnote {
+  margin: 40px 0 10px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
+  max-width: 800px;
+}
+.resume-reading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 22px;
+  border: 1px solid var(--line);
+  background: var(--tint);
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+.resume-reading small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+}
+.resume-reading strong {
+  font-weight: 400;
+  font-size: 14px;
+}
+.reader-part > summary {
+  padding: 12px 0;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--green);
+}
+.chapter-nav {
+  max-height: 65vh;
+  overflow: auto;
+}
+.chapter-nav a > span {
+  overflow-wrap: anywhere;
+}
+.marked-gold {
+  border-left: 3px solid #b98a32 !important;
+}
+.marked-sage {
+  border-left: 3px solid #6b9067 !important;
+}
+.marked-rose {
+  border-left: 3px solid #b96e81 !important;
+}
+.marked-blue {
+  border-left: 3px solid #668aac !important;
+}
+.bookmark-notes,
+.study-translation {
+  margin: 18px 0 0;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--muted);
+}
+.bookmark-notes summary,
+.study-translation summary {
+  cursor: pointer;
+  color: var(--green);
+}
+.bookmark-notes label {
+  display: block;
+  margin: 15px 0 4px;
+}
+.bookmark-notes textarea {
+  display: block;
+  min-height: 100px;
+  width: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 6px;
+  resize: vertical;
+}
+.marker-colors {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+.marker-colors button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  color: #253a30;
+}
+.marker-gold {
+  background: #eddaad;
+}
+.marker-sage {
+  background: #cbdfc6;
+}
+.marker-rose {
+  background: #ecd0d8;
+}
+.marker-blue {
+  background: #cddde9;
+}
+.saved-note {
+  font-style: italic;
+  white-space: pre-wrap;
+  margin-top: 10px !important;
+}
+.translation-controls {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+  flex-wrap: wrap;
+}
+.translation-controls select {
+  padding: 8px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  border-radius: 7px;
+}
+.study-translation > p {
+  margin-top: 10px;
+}
+.study-translation section > p {
+  font-size: 17px;
+  line-height: 1.9;
+  color: var(--ink);
+  white-space: pre-wrap;
+  margin: 12px 0;
+}
+.saved-context-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--muted);
+  margin: 0 10px 12px;
+  flex-wrap: wrap;
+}
+.saved-context-toggle span {
+  flex-basis: 100%;
+  font-size: 10px;
+  margin-left: 22px;
+}
+.primary-latin {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 1000px) {
+  .library-shelf {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 650px) {
+  .library-shelf {
+    grid-template-columns: 1fr;
+  }
+  .library-intro {
+    padding: 12px 0 28px;
+  }
+  .library-filters {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .library-search {
+    flex-basis: 100%;
+  }
+  .library-filters select {
+    flex: 1;
+    max-width: none;
+  }
+  .book-card {
+    padding: 23px 20px 13px;
+  }
+  .family-heading h2 {
+    font-size: 23px;
+  }
+}

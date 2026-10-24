@@ -24,15 +24,19 @@ export default function About() {
         </p>
         <h2>Know which edition you are reading</h2>
         <p>
-          The collection includes 700 Bhagavad Gita passages in Sanskrit and Roman transliteration,
-          with English editions by Annie Besant and Swami Swarupananda; 6,236 Quran verses in Tanzil
-          Arabic; and 423 Dhammapada verses in Pali and Bhikkhu Sujato’s English. Some Swarupananda
-          translations span a labelled range of verses.
+          Read includes Hindu epics, the four Vedas and Upanishads; the Bible and Tanakh; Buddhist
+          and Jain texts; Sikh Gurbani; and editions from Zoroastrianism, Taoism, Confucianism,
+          Shinto, the Bahá’í faith and Latter-day Saints. The Quran combines preserved Tanzil Arabic
+          with Talal Itani’s attributed English edition. The original Gita and Dhammapada
+          collections remain available with their distinct source terms.
         </p>
         <p>
-          Further traditions have clearly labelled external reading links. Those sites are separate
-          from this searchable collection. Every imported edition carries its source and reuse
-          terms. <Link href="/library">Browse the collection</Link> or{' '}
+          This is a selection of identified editions, not every text or translation worldwide.
+          Historical English editions are labelled as translations. Where a source lacks verse
+          numbering, reading-block numbers are platform locators. Optional machine-assisted
+          translations are unreviewed study aids, separate from published editions. Every imported
+          edition carries its source and reuse terms.{' '}
+          <Link href="/library">Browse the collection</Link> or{' '}
           <Link href="/sources">inspect the sources</Link>.
         </p>
         <h2>Read with context</h2>

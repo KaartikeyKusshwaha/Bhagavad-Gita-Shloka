@@ -1,0 +1,21 @@
+{
+  "id": "acaranga-sutra-edition",
+  "name": "Hermann Jacobi, 1884 · Ācārāṅga Sutra",
+  "url": "https://archive.sacred-texts.com/jai/sbe22/index.htm",
+  "license": "Public-domain text; noncommercial archive republication permission",
+  "license_url": "https://sacred-texts.com/copyrights",
+  "commercial_ok": false,
+  "attribution": "Hermann Jacobi, 1884; Internet Sacred Text Archive transcription. Source wording retained; navigation, page markers and separated footnotes omitted. Reading-block numbers are platform locators.",
+  "retrieved_at": "2026-10-25",
+  "status": "approved",
+  "display_rules": {
+    "bundle": "library-manifest.json",
+    "layer": "Human translation",
+    "language": "English",
+    "lang": "en",
+    "direction": "ltr",
+    "machine_translation_allowed": true,
+    "description": "Jacobi’s historical English edition, with the source lectures and lessons. This collection represents these texts, not every Jain canon."
+  },
+  "checksum": "ec23bdf1fdd9a0df53b68d5e09ee2a4915613befc75fd07b1da67b76a4ceb351"
+}

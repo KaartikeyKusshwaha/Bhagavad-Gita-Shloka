@@ -9,7 +9,7 @@ export default async function WorkPage({ params }: { params: Promise<{ work: str
     db = await getDatabase();
   const divisions = await getDivisions(db, work),
     passage = divisions.length
-      ? (await getChapter(db, work, Number(divisions[0].number)))[0]
+      ? (await getChapter(db, work, Number(divisions[0].number), 1))[0]
       : null;
   if (!passage) notFound();
   return (

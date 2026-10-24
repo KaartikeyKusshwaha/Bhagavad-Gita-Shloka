@@ -22,8 +22,15 @@ export const collectionSchema = z.object({
     lang: z.string().min(2),
     script: z.string().min(1),
     source_id: z.string().min(1),
+    metadata: z.record(z.string(), z.unknown()).optional(),
   }),
-  divisions: z.array(z.object({ number: z.number().int().positive(), title: z.string().min(1) })),
+  divisions: z.array(
+    z.object({
+      number: z.number().int().positive(),
+      title: z.string().min(1),
+      metadata: z.record(z.string(), z.unknown()).optional(),
+    }),
+  ),
   passages: z.array(
     z.object({
       id: z.string().min(1),
@@ -34,6 +41,7 @@ export const collectionSchema = z.object({
       original_text: z.string().min(1),
       transliteration: z.string(),
       translations: z.array(translationSchema),
+      metadata: z.record(z.string(), z.unknown()).optional(),
     }),
   ),
   copyright_notice: z.string().optional(),
@@ -76,6 +84,14 @@ export async function readCollection(slug: (typeof freeCollections)[number]) {
 
 export async function ingestCollection(db: Database, slug: (typeof freeCollections)[number]) {
   const { data, sources, checksum } = await readCollection(slug);
+  return ingestEdition(db, data, sources, checksum);
+}
+export async function ingestEdition(
+  db: Database,
+  data: z.infer<typeof collectionSchema>,
+  sources: ReturnType<typeof licenseGate>[],
+  checksum: string,
+) {
   const w = data.work;
   return db.transaction(async (tx) => {
     for (const s of sources)
@@ -99,21 +115,28 @@ export async function ingestCollection(db: Database, slug: (typeof freeCollectio
         ],
       );
     await tx.query(
-      'INSERT INTO works(id,tradition_id,slug,title,original_lang) VALUES($1,$2,$1,$3,$4) ON CONFLICT(id) DO NOTHING',
-      [w.id, w.tradition, w.title, w.lang],
+      'INSERT INTO works(id,tradition_id,slug,title,original_lang,metadata,canon_order) VALUES($1,$2,$1,$3,$4,$5::jsonb,$6) ON CONFLICT(id) DO UPDATE SET metadata=EXCLUDED.metadata,canon_order=EXCLUDED.canon_order',
+      [
+        w.id,
+        w.tradition,
+        w.title,
+        w.lang,
+        JSON.stringify(w.metadata ?? {}),
+        Number(w.metadata?.canonical_order ?? 0),
+      ],
     );
     for (const d of data.divisions)
       await tx.query(
-        'INSERT INTO divisions(id,work_id,number,title) VALUES($1,$2,$3,$4) ON CONFLICT(id) DO NOTHING',
-        [`${w.id}.${d.number}`, w.id, d.number, d.title],
+        'INSERT INTO divisions(id,work_id,number,title,metadata) VALUES($1,$2,$3,$4,$5::jsonb) ON CONFLICT(id) DO NOTHING',
+        [`${w.id}.${d.number}`, w.id, d.number, d.title, JSON.stringify(d.metadata ?? {})],
       );
     for (let i = 0; i < data.passages.length; i += 200) {
       const batch = data.passages.slice(i, i + 200);
       // Preserve display text verbatim. Search normalization is a separate column.
       await tx.query(
-        `INSERT INTO passages(id,work_id,division_id,source_id,ref,ordinal,verse_number,original_text,text_norm,original_script,transliteration,transliteration_norm)
-        SELECT x.id,$2,x.division_id,$3,x.ref,x.ordinal,x.verse_number,x.original_text,x.text_norm,$4,x.transliteration,x.transliteration_norm
-        FROM jsonb_to_recordset($1::jsonb) AS x(id text,division_id text,ref text,ordinal int,verse_number int,original_text text,text_norm text,transliteration text,transliteration_norm text)
+        `INSERT INTO passages(id,work_id,division_id,source_id,ref,ordinal,verse_number,original_text,text_norm,original_script,transliteration,transliteration_norm,metadata)
+        SELECT x.id,$2,x.division_id,$3,x.ref,x.ordinal,x.verse_number,x.original_text,x.text_norm,$4,x.transliteration,x.transliteration_norm,COALESCE(x.metadata,'{}'::jsonb)
+        FROM jsonb_to_recordset($1::jsonb) AS x(id text,division_id text,ref text,ordinal int,verse_number int,original_text text,text_norm text,transliteration text,transliteration_norm text,metadata jsonb)
         ON CONFLICT(id) DO NOTHING`,
         [
           JSON.stringify(

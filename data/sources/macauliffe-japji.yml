@@ -1,0 +1,20 @@
+{
+  "id": "macauliffe-japji",
+  "name": "M. A. Macauliffe · Japji Sahib (1909)",
+  "url": "https://archive.sacred-texts.com/skh/tsr1/tsr121.htm",
+  "license": "Public-domain text; noncommercial archive republication permission",
+  "license_url": "https://sacred-texts.com/copyrights",
+  "commercial_ok": false,
+  "attribution": "Max Arthur Macauliffe, The Sikh Religion, volume I (1909); Internet Sacred Text Archive. Bracketed editorial footnotes and print page markers omitted; verse wording unchanged.",
+  "retrieved_at": "2026-10-25",
+  "status": "approved",
+  "display_rules": {
+    "bundle": "library-manifest.json",
+    "layer": "Human translation",
+    "language": "English",
+    "lang": "en",
+    "direction": "ltr",
+    "machine_translation_allowed": true
+  },
+  "checksum": "ec23bdf1fdd9a0df53b68d5e09ee2a4915613befc75fd07b1da67b76a4ceb351"
+}

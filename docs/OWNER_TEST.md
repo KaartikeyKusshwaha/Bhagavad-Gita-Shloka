@@ -14,8 +14,14 @@ The site has three main destinations: Explore, Read and Study.
    context and the connection graph/list; follow a neighbouring passage.
 3. **More texts:** read Quran 2:255 in Arabic and Dhammapada chapter 2, beginning
    at verse 21. Check the source notices. Quran 1:1 offers one human recording
-   covering the complete Al-Fatiha. Other traditions' hosted links are external;
-   their text is not part of local search.
+   covering the complete Al-Fatiha. In Read, switch among the 13 tradition tabs;
+   open the Ramayana, a Veda, a Jain sutra, Tanakh Genesis and a Bible book. Use
+   the language filter and available Hindi edition. Long chapters have pages.
+   On a bookmark, add a colour and private note, then reload. Mark read and use
+   Continue reading. On an eligible historical English passage, request a study
+   translation; confirm its unreviewed label and separate source edition. Restricted
+   editions must not offer that action. Enable saved-conversation context only if
+   you want selected earlier exchanges sent with Ask.
 4. **Study:** bookmark a passage, mark it read, create a daily reading plan,
    practice recall, try the word-order quiz and schedule a revision. Reload and
    inspect the activity grid. Share a classroom set link in another browser.

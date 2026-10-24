@@ -3,6 +3,8 @@ const routes = [
   ['GET', '/v1/traditions', 'Collection coverage and reviewer status'],
   ['GET', '/v1/works', 'Published works; optional tradition filter'],
   ['GET', '/v1/works/bhagavad-gita/divisions', 'Chapter counts from the database'],
+  ['GET', '/v1/works/quran/chapters/2?page=2', 'Paginated section text: 80 passages per page'],
+  ['POST', '/v1/study-translation', 'Eligible passage_id and target_lang; unreviewed AI study aid'],
   [
     'GET',
     '/v1/passages/bhagavad-gita/BG-2.47',
@@ -62,8 +64,9 @@ export default function Api() {
         <p>
           Reusers must preserve the source, citation, and applicable license. See /v1/sources before
           redistributing a text. Meaning search and cited Ask depend on configured providers.
-          Browser dictation requires transcript review. No generated scripture translation or expert
-          pronunciation assessment is offered.
+          Browser dictation requires transcript review. Optional AI study translations are labelled
+          unreviewed, kept separate from published editions and disabled for restricted sources. No
+          expert pronunciation assessment is offered.
         </p>
       </div>
     </div>

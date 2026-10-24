@@ -1,0 +1,21 @@
+{
+  "id": "ganguli-mahabharata",
+  "name": "Kisari Mohan Ganguli · Mahabharata (1883–1896)",
+  "url": "https://archive.sacred-texts.com/hin/maha/index.htm",
+  "license": "Public-domain text; noncommercial archive republication permission",
+  "license_url": "https://sacred-texts.com/copyrights",
+  "commercial_ok": false,
+  "attribution": "Kisari Mohan Ganguli, English translation (1883–1896); Internet Sacred Text Archive, Distributed Proofing, Mantra Caitanya and J. B. Hare. Text-format edition; source-listed printed/section-number errata are retained.",
+  "retrieved_at": "2026-10-25",
+  "status": "approved",
+  "display_rules": {
+    "bundle": "library-manifest.json",
+    "layer": "Human translation",
+    "language": "English",
+    "lang": "en",
+    "direction": "ltr",
+    "machine_translation_allowed": true,
+    "description": "Historical human English translation. Paragraph blocks are reading locators, not Sanskrit shloka numbers."
+  },
+  "checksum": "ec23bdf1fdd9a0df53b68d5e09ee2a4915613befc75fd07b1da67b76a4ceb351"
+}

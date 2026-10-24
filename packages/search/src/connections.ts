@@ -63,15 +63,17 @@ export async function passageConnections(db: Database, p: Passage): Promise<Conn
     const related = (
       await db.query(
         `WITH documents AS MATERIALIZED (
-          SELECT p.id,p.ordinal,p.text_norm||' '||p.transliteration_norm AS text FROM published_passages p
+          SELECT p.id,p.ordinal,p.text_norm AS text FROM published_passages p WHERE to_tsvector('simple',p.text_norm) @@ to_tsquery('simple',$3)
           UNION ALL
-          SELECT p.id,p.ordinal,tr.text_norm FROM published_translations tr JOIN published_passages p ON p.id=tr.passage_id
+          SELECT p.id,p.ordinal,p.transliteration_norm FROM published_passages p WHERE p.transliteration_norm<>'' AND to_tsvector('simple',p.transliteration_norm) @@ to_tsquery('simple',$3)
+          UNION ALL
+          SELECT p.id,p.ordinal,tr.text_norm FROM published_translations tr JOIN published_passages p ON p.id=tr.passage_id WHERE (tr.lang='en' AND to_tsvector('english',tr.text_norm) @@ to_tsquery('english',$3)) OR (tr.lang='hi' AND to_tsvector('simple',tr.text_norm) @@ to_tsquery('simple',$3))
         )
         SELECT id,ordinal,array_agg(DISTINCT token ORDER BY token) AS shared
         FROM documents CROSS JOIN unnest($2::text[]) words(token)
         WHERE NOT(id=ANY($1::text[])) AND (' '||text||' ') LIKE ('% '||token||' %')
         GROUP BY id,ordinal ORDER BY count(DISTINCT token) DESC,ordinal LIMIT 2`,
-        [nodes.map((n) => n.id), words],
+        [nodes.map((n) => n.id), words, words.join(' | ')],
       )
     ).rows;
     for (const candidate of related) {

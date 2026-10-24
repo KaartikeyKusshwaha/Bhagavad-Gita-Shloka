@@ -29,9 +29,8 @@ export async function semanticCoverage(
   if (cached && Date.now() - cached.at < 5000) return cached.value;
   const row = (
     await db.query(
-      `SELECT count(*)::int AS eligible,
-    count(*) FILTER(WHERE EXISTS(SELECT 1 FROM embeddings e WHERE e.passage_id=p.id AND e.model=$1 AND e.content_hash=encode(sha256(convert_to(COALESCE(tr.text,p.original_text),'UTF8')),'hex')))::int AS indexed ${eligible}
-    AND ($2::text IS NULL OR w.slug=$2) AND ($3::text IS NULL OR t.slug=$3)`,
+      `SELECT (SELECT count(*)::int FROM published_passages p JOIN sources s ON s.id=p.source_id JOIN works w ON w.id=p.work_id WHERE COALESCE((s.display_rules->>'no_generative_ai')::boolean,false)=false AND ($2::text IS NULL OR w.slug=$2) AND ($3::text IS NULL OR w.tradition_id=$3)) AS eligible,
+      (SELECT count(*)::int FROM embeddings e JOIN published_passages p ON p.id=e.passage_id JOIN works w ON w.id=p.work_id JOIN sources s ON s.id=p.source_id LEFT JOIN LATERAL (SELECT tr.text FROM published_translations tr JOIN sources ts ON ts.id=tr.source_id WHERE tr.passage_id=p.id AND tr.lang='en' AND COALESCE((ts.display_rules->>'no_generative_ai')::boolean,false)=false ORDER BY tr.translator LIMIT 1) tr ON true WHERE e.model=$1 AND COALESCE((s.display_rules->>'no_generative_ai')::boolean,false)=false AND e.content_hash=encode(sha256(convert_to(COALESCE(tr.text,p.original_text),'UTF8')),'hex') AND ($2::text IS NULL OR w.slug=$2) AND ($3::text IS NULL OR w.tradition_id=$3)) AS indexed`,
       [modelName('embedding'), work ?? null, tradition ?? null],
     )
   ).rows[0];

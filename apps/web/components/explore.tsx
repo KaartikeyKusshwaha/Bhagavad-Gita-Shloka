@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import {
   ArrowUp,
   BookOpen,
@@ -164,7 +164,6 @@ export function Explore({
   semanticAvailable?: boolean;
 }) {
   const device = useDeviceData(),
-    router = useRouter(),
     params = useSearchParams();
   const [mode, setMode] = useState<ExploreMode>('search'),
     [query, setQuery] = useState(''),
@@ -242,7 +241,7 @@ export function Explore({
     setError('');
     setQuery('');
     setDrawer(false);
-    router.replace('/', { scroll: false });
+    window.history.replaceState(null, '', '/');
     composer.current?.focus();
   }
   function selectConversation(thread: ExploreConversation) {
@@ -256,7 +255,7 @@ export function Explore({
     setQuery('');
     setError('');
     closeDrawer();
-    router.replace(`/?chat=${encodeURIComponent(thread.id)}`, { scroll: false });
+    window.history.replaceState(null, '', `/?chat=${encodeURIComponent(thread.id)}`);
   }
   function removeConversation(id: string) {
     try {
@@ -340,11 +339,35 @@ export function Explore({
                         question: text,
                         work: work || undefined,
                         lang: 'en',
-                        history: active?.turns
+                        history: [
+                          ...(device.useSavedContext && device.rememberHistory
+                            ? device.conversations
+                                .filter((c) => c.id !== activeId)
+                                .flatMap((c) => c.turns)
+                                .filter(
+                                  (t) =>
+                                    !t.reply.safety &&
+                                    (!work || t.work === work) &&
+                                    t.query
+                                      .toLowerCase()
+                                      .split(/\W+/)
+                                      .some(
+                                        (word) =>
+                                          word.length > 3 && text.toLowerCase().includes(word),
+                                      ),
+                                )
+                                .slice(0, 2)
+                            : []),
+                          ...(active?.turns ?? []).slice(-3),
+                        ]
                           .filter((t) => !t.reply.safety)
-                          .slice(-3)
+                          .slice(-5)
                           .map((t) => ({
                             question: t.query.slice(0, 1500),
+                            answer: t.reply.answer?.paragraphs
+                              .map((p) => p.text)
+                              .join(' ')
+                              .slice(0, 900),
                             passage_ids: turnPassages(t.reply)
                               .slice(0, 8)
                               .map((p) => p.id),
@@ -386,7 +409,7 @@ export function Explore({
         );
       }
       if (!reply.safety && device.rememberHistory)
-        router.replace(`/?chat=${encodeURIComponent(threadId)}`, { scroll: false });
+        window.history.replaceState(null, '', `/?chat=${encodeURIComponent(threadId)}`);
       bottom.current?.scrollIntoView({
         behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
         block: 'end',
@@ -485,6 +508,24 @@ export function Explore({
         </div>
       )}
       <div className="composer-area">
+        {mode === 'ask' && (
+          <label className="saved-context-toggle">
+            <input
+              type="checkbox"
+              checked={Boolean(device.useSavedContext && device.rememberHistory)}
+              disabled={!device.rememberHistory}
+              onChange={(e) => {
+                try {
+                  changeDeviceData((s) => ({ ...s, useSavedContext: e.target.checked }));
+                } catch {
+                  setError('Could not save context preference.');
+                }
+              }}
+            />
+            Use relevant saved conversations{' '}
+            <span>Up to 2 earlier turns are sent with this question. Private notes stay here.</span>
+          </label>
+        )}
         <form className="explore-composer" onSubmit={submit}>
           <label htmlFor="explore-input" className="sr-only">
             {mode === 'search'

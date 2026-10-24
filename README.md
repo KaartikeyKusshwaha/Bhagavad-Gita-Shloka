@@ -8,9 +8,13 @@ and business operations in the original PDF.
 
 ## Current working slice
 
+- 140 works across 13 traditions: actual imported text, religion shelves, text and
+  language filters, and paginated reading. See [edition coverage](docs/LIBRARY_COVERAGE.md)
+  for the exact books, language availability, source limitations and search coverage.
+
 - 700 Sanskrit Gita passages, Roman transliteration and two attributed English editions
   (Besant and Swarupananda), with optional side-by-side comparison and range labels.
-- 6,236 verbatim Tanzil Uthmani Quran verses (Arabic only), and 423 Dhammapada
+- 6,236 verbatim Tanzil Uthmani Quran verses with ClearQuran English, and 423 Dhammapada
   verses (Pali and Bhikkhu Sujato's English translation), with edition-specific references.
 - Next.js reader with database-derived chapter/verse counts, permalinked passages,
   surrounding context, exact/fuzzy search, wording and attribution checks.
@@ -20,7 +24,12 @@ and business operations in the original PDF.
 - No live scripture API calls when reading, no trackers, no generated scripture.
 - Three destinations: Explore, Read, Study; one Explore composer and optional history drawer.
 - Browser-local conversations with reopen/search/rename/delete/pause controls, real
-  learning-activity calendar, read marks, streaks and saved passages.
+  learning-activity calendar, read marks, streaks and saved passages. Bookmarks have
+  colours and private notes; explicit read marks provide a Continue reading link.
+- Optional, visible saved-conversation context for Ask. Groq uses retrieved source
+  evidence and bounded context; it is not fine-tuned on users' conversations.
+- Unreviewed study translations in supported languages, requested explicitly and
+  disabled for restricted sources; published human editions stay separate.
 - Browser speech input with consent/transcript review and local explanation voices.
   Hide/reveal recall, word-difference feedback, spaced reviews, daily reading plans,
   and classroom sets shared as reference-only URL fragments.

@@ -23,7 +23,7 @@ import { browseTheme } from '../../../packages/search/src/themes.ts';
 import { readingThemes } from '../../../packages/shared/src/themes.ts';
 import { createOfflinePack } from '../../../packages/db/src/offline.ts';
 import { askFromSources } from '../../../packages/llm/src/ask.ts';
-import { modelReady } from '../../../packages/llm/src/provider.ts';
+import { modelReady, generateStudyTranslation } from '../../../packages/llm/src/provider.ts';
 import { semanticCoverage } from '../../../packages/search/src/semantic.ts';
 import { verifyClaim } from '../../../packages/verify/src/index.ts';
 import { normalize } from '../../../packages/shared/src/index.ts';
@@ -188,10 +188,13 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
   app.get<{ Params: { slug: string; number: string } }>(
     '/v1/works/:slug/chapters/:number',
     async (req, reply) => {
-      const number = z.coerce.number().int().min(1).max(2000).parse(req.params.number);
-      const passages = await getChapter(db, req.params.slug, number);
+      const number = z.coerce.number().int().min(1).max(10000).parse(req.params.number);
+      const q = z
+        .object({ page: z.coerce.number().int().min(1).max(10000).default(1) })
+        .parse(req.query);
+      const passages = await getChapter(db, req.params.slug, number, 80, (q.page - 1) * 80);
       return passages.length
-        ? { passages }
+        ? { passages, page: q.page, page_size: 80 }
         : reply.code(404).send(error('NOT_FOUND', 'No published chapter at that address.'));
     },
   );
@@ -297,10 +300,11 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
           .array(
             z.object({
               question: z.string().max(1500),
+              answer: z.string().max(900).optional(),
               passage_ids: z.array(z.string().max(150)).max(8),
             }),
           )
-          .max(3)
+          .max(5)
           .optional(),
       })
       .parse(req.body);
@@ -313,6 +317,74 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
       tradition: q.traditions?.length === 1 ? q.traditions[0] : undefined,
       history: q.history,
     });
+  });
+  app.post('/v1/study-translation', async (req, reply) => {
+    const q = z
+      .object({
+        passage_id: z.string().max(150),
+        target_lang: z.enum([
+          'en',
+          'hi',
+          'bn',
+          'ta',
+          'te',
+          'mr',
+          'gu',
+          'kn',
+          'ml',
+          'pa',
+          'ur',
+          'or',
+          'as',
+          'ne',
+          'ar',
+          'he',
+          'fr',
+          'es',
+          'de',
+          'pt',
+          'ru',
+          'zh',
+          'ja',
+          'ko',
+        ]),
+      })
+      .parse(req.body);
+    if (!(await consumeDaily(req.ip)))
+      return reply.code(429).send(error('DAILY_LIMIT', 'Daily request limit reached.'));
+    const passage = await getPassageById(db, q.passage_id);
+    if (!passage) return reply.code(404).send(error('NOT_FOUND', 'Passage unavailable.'));
+    if (
+      passage.source.display_rules.machine_translation_allowed !== true ||
+      passage.source.display_rules.no_generative_ai === true ||
+      passage.source.display_rules.preserve_verbatim === true
+    )
+      return reply
+        .code(403)
+        .send(
+          error(
+            'SOURCE_RESTRICTED',
+            'This source is not enabled for machine-assisted translation.',
+          ),
+        );
+    try {
+      return {
+        text: await generateStudyTranslation(passage, q.target_lang),
+        target_lang: q.target_lang,
+        is_machine: true,
+        review_status: 'unreviewed',
+        source_id: passage.source.id,
+      };
+    } catch {
+      return reply
+        .code(503)
+        .send(
+          error(
+            'TRANSLATION_UNAVAILABLE',
+            'The free study translation service is busy or unavailable. Please try again later; the source edition is still available.',
+          ),
+        );
+    }
   });
   app.get('/v1/sources', async () => ({ sources: await getSourceList(db) }));
   app.post(

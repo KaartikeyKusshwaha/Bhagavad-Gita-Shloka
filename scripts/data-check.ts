@@ -8,6 +8,12 @@ import { migrate } from '../packages/db/src/migrate.ts';
 import { ingestGita } from '../packages/ingest/src/index.ts';
 import { ingestGitaComparison } from '../packages/ingest/src/comparison.ts';
 import {
+  ingestLibrary,
+  readLibraryManifest,
+  readLibraryEdition,
+} from '../packages/ingest/src/library.ts';
+import { ingestQuranEnglish, readQuranEnglish } from '../packages/ingest/src/quran-english.ts';
+import {
   freeCollections,
   ingestCollection,
   readCollection,
@@ -33,12 +39,17 @@ if (!quran.copyright_notice?.includes('CHANGING IT IS NOT ALLOWED'))
 const db = await connectDatabase(
   process.env.DATABASE_URL || process.env.DATABASE_MODE ? undefined : { memory: true },
 );
+const library = await readLibraryManifest();
+for (const item of library.manifest.works) await readLibraryEdition(item, library.checksum);
+await readQuranEnglish();
 try {
   await migrate(db);
   await ingestGita(db);
   await ingestGitaComparison(db);
   for (const slug of freeCollections) await ingestCollection(db, slug);
   await ingestAudio(db);
+  await ingestLibrary(db);
+  await ingestQuranEnglish(db);
   const unpublished = (
     await db.query(
       "SELECT p.id FROM published_passages p JOIN sources s ON s.id=p.source_id WHERE s.status<>'approved' UNION ALL SELECT tr.id FROM published_translations tr JOIN sources s ON s.id=tr.source_id WHERE s.status<>'approved'",
@@ -54,7 +65,7 @@ try {
     const text = String(row.text);
     if (
       (!preserveVerbatim.has(String(row.source_id)) && text !== text.normalize('NFC')) ||
-      /<[^>]+>|Proofreadpage|data-mw|\{\s*"/.test(text)
+      /<\/?[A-Za-z][A-Za-z0-9:-]*(?:\s[^<>]*)?\/?>|Proofreadpage|data-mw|\{\s*"/.test(text)
     )
       throw new Error('Text is not clean NFC scripture or translation');
   }

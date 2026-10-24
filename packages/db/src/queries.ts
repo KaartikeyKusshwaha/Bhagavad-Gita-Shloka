@@ -1,6 +1,6 @@
 import type { Database } from './index.ts';
 import type { Passage, Source, Translation, HumanAudio } from '../../shared/src/index.ts';
-const passageSelect = `SELECT p.*,w.slug AS work,w.title AS work_title,t.slug AS tradition,t.name AS tradition_name,d.number AS chapter,to_jsonb(s) AS source FROM published_passages p JOIN works w ON w.id=p.work_id JOIN traditions t ON t.id=w.tradition_id JOIN divisions d ON d.id=p.division_id JOIN sources s ON s.id=p.source_id`;
+const passageSelect = `SELECT p.*,w.slug AS work,w.title AS work_title,w.metadata AS work_metadata,t.slug AS tradition,t.name AS tradition_name,d.number AS chapter,to_jsonb(s) AS source FROM published_passages p JOIN works w ON w.id=p.work_id JOIN traditions t ON t.id=w.tradition_id JOIN divisions d ON d.id=p.division_id JOIN sources s ON s.id=p.source_id`;
 export async function hydrate(db: Database, rows: Record<string, unknown>[]): Promise<Passage[]> {
   if (!rows.length) return [];
   const translations = (
@@ -19,6 +19,7 @@ export async function hydrate(db: Database, rows: Record<string, unknown>[]): Pr
     (r) =>
       ({
         ...r,
+        metadata: r.metadata ?? {},
         source: r.source as Source,
         translations: translations.filter((t) => t.passage_id === r.id) as Translation[],
         audio: audio.filter((a) => a.passage_id === r.id) as unknown as HumanAudio[],
@@ -66,10 +67,13 @@ export async function getContext(db: Database, p: Passage, before = 5, after = 5
 export async function getWorks(db: Database, tradition?: string) {
   return (
     await db.query(
-      `SELECT w.*,t.slug AS tradition,t.name AS tradition_name,t.board_status,count(p.id)::int AS passage_count,
-       count(DISTINCT p.division_id)::int AS division_count,
-       (SELECT s.display_rules FROM published_passages p2 JOIN sources s ON s.id=p2.source_id WHERE p2.work_id=w.id ORDER BY p2.ordinal LIMIT 1) AS display_rules
-       FROM works w JOIN traditions t ON t.id=w.tradition_id JOIN published_passages p ON p.work_id=w.id WHERE ($1::text IS NULL OR t.slug=$1) GROUP BY w.id,t.slug,t.name,t.board_status ORDER BY t.name,w.canon_order,w.title`,
+      `WITH coverage AS (
+        SELECT p.work_id,count(*)::int AS passage_count,count(DISTINCT p.division_id)::int AS division_count,min(p.ref) FILTER(WHERE p.ordinal=1) AS first_ref,min(p.source_id) AS source_id FROM published_passages p GROUP BY p.work_id
+      ), languages AS (
+        SELECT p.work_id,array_agg(DISTINCT tr.lang) AS codes FROM published_translations tr JOIN published_passages p ON p.id=tr.passage_id GROUP BY p.work_id
+      ) SELECT w.*,t.slug AS tradition,t.name AS tradition_name,t.board_status,c.passage_count,c.division_count,c.first_ref,s.display_rules,
+      ARRAY(SELECT DISTINCT unnest(array_append(COALESCE(l.codes,ARRAY[]::text[]),w.original_lang))) AS languages
+      FROM works w JOIN coverage c ON c.work_id=w.id JOIN traditions t ON t.id=w.tradition_id JOIN sources s ON s.id=c.source_id LEFT JOIN languages l ON l.work_id=w.id WHERE ($1::text IS NULL OR t.slug=$1) ORDER BY t.name,w.canon_order,w.title`,
       [tradition ?? null],
     )
   ).rows;
@@ -82,14 +86,20 @@ export async function getDivisions(db: Database, work: string) {
     )
   ).rows;
 }
-export async function getChapter(db: Database, work: string, number: number) {
+export async function getChapter(
+  db: Database,
+  work: string,
+  number: number,
+  limit = 80,
+  offset = 0,
+) {
   return hydrate(
     db,
     (
-      await db.query(`${passageSelect} WHERE w.slug=$1 AND d.number=$2 ORDER BY p.ordinal`, [
-        work,
-        number,
-      ])
+      await db.query(
+        `${passageSelect} WHERE w.slug=$1 AND d.number=$2 ORDER BY p.ordinal LIMIT $3 OFFSET $4`,
+        [work, number, limit, offset],
+      )
     ).rows,
   );
 }

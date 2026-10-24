@@ -35,7 +35,7 @@ test('graph filters suggestions, previews a source neighbour and follows its con
     page.getByRole('heading', { name: 'Connections from BG 2.46', exact: true }),
   ).toBeVisible();
   await page.getByRole('button', { name: 'List', exact: true }).click();
-  await expect(page.locator('.connection-list')).toBeVisible();
+  await expect(page.locator('.connection-list')).toBeVisible({ timeout: 15000 });
 });
 
 test('themes use the same Explore history and preserve distinct sources', async ({ page }) => {

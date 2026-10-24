@@ -8,20 +8,26 @@ interface Division {
   number: number;
   verse_count: number;
   title: string;
+  metadata?: { part?: string };
 }
 export function Reader({
   divisions,
   passages,
   chapter,
   context,
+  page = 1,
 }: {
   divisions: Division[];
   passages: Passage[];
   chapter: number;
   context?: { before: Passage[]; after: Passage[] };
+  page?: number;
 }) {
   const first = passages[0],
     current = divisions.find((d) => d.number === chapter);
+  const sectionLabel = String(first.work_metadata?.section_label ?? 'Chapter'),
+    passageLabel = String(first.work_metadata?.passage_label ?? 'Verse');
+  const parts = [...new Set(divisions.map((d) => d.metadata?.part ?? ''))];
   return (
     <div className="page-shell">
       <div className="breadcrumbs">
@@ -29,29 +35,40 @@ export function Reader({
         <span>/</span>
         <Link href={`/read/${first.work}`}>{first.work_title}</Link>
         <span>/</span>
-        <span>Chapter {chapter}</span>
+        <span>{current?.title ?? `${sectionLabel} ${chapter}`}</span>
       </div>
       <div className="reader-layout">
         <aside className="chapter-sidebar">
           <span className="eyebrow">{first.tradition_name} · BETA</span>
           <h2>{first.work_title}</h2>
           <p>
-            {divisions.length} chapters · {divisions.reduce((n, d) => n + d.verse_count, 0)}{' '}
-            passages
+            {divisions.length} {sectionLabel.toLowerCase()}s ·{' '}
+            {divisions.reduce((n, d) => n + d.verse_count, 0)} passages
           </p>
           <nav className="chapter-nav" aria-label="Chapters">
-            {divisions.map((d) => (
-              <Link
-                key={d.number}
-                href={`/read/${first.work}/chapter/${d.number}`}
-                aria-current={d.number === chapter ? 'page' : undefined}
+            {parts.map((part) => (
+              <details
+                className="reader-part"
+                key={part}
+                open={parts.length === 1 || current?.metadata?.part === part}
               >
-                <span>
-                  <span className="chapter-number">{String(d.number).padStart(2, '0')}</span>
-                  {d.title}
-                </span>
-                <small>{d.verse_count}</small>
-              </Link>
+                <summary>{part || 'Contents'}</summary>
+                {divisions
+                  .filter((d) => (d.metadata?.part ?? '') === part)
+                  .map((d) => (
+                    <Link
+                      key={d.number}
+                      href={`/read/${first.work}/chapter/${d.number}`}
+                      aria-current={d.number === chapter ? 'page' : undefined}
+                    >
+                      <span>
+                        <span className="chapter-number">{String(d.number).padStart(2, '0')}</span>
+                        {d.title}
+                      </span>
+                      <small>{d.verse_count}</small>
+                    </Link>
+                  ))}
+              </details>
             ))}
           </nav>
           {first.work === 'bhagavad-gita' && (
@@ -65,12 +82,15 @@ export function Reader({
         <div className="reader-main">
           <div className="page-heading">
             <span className="eyebrow">
-              CHAPTER {String(chapter).padStart(2, '0')} · {current?.verse_count} VERSES
+              {current?.metadata?.part?.toUpperCase() ||
+                `${sectionLabel.toUpperCase()} ${String(chapter).padStart(2, '0')}`}{' '}
+              · {current?.verse_count} {passageLabel.toUpperCase()}S
             </span>
             <h1>{current?.title}</h1>
             <p>
               {String(
-                first.source.display_rules?.description ??
+                first.work_metadata?.description ??
+                  first.source.display_rules?.description ??
                   'Original Sanskrit, a human translation, and room to read around the words.',
               )}
             </p>
@@ -81,12 +101,35 @@ export function Reader({
             divisions={divisions}
             chapter={chapter}
             verse={passages.length === 1 ? first.verse_number : 0}
+            sectionLabel={sectionLabel}
+            passageLabel={passageLabel}
           />
           <div className="stack">
             {passages.map((p) => (
               <PassageCard key={p.id} passage={p} />
             ))}
           </div>
+          {!context && current && current.verse_count > 80 && (
+            <nav className="verse-navigation" aria-label="Section pages">
+              {page > 1 ? (
+                <Link href={`/read/${first.work}/chapter/${chapter}?page=${page - 1}`}>
+                  <ArrowLeft size={14} />
+                  Previous page
+                </Link>
+              ) : (
+                <span />
+              )}
+              <span>
+                Page {page} of {Math.ceil(current.verse_count / 80)}
+              </span>
+              {page * 80 < current.verse_count && (
+                <Link href={`/read/${first.work}/chapter/${chapter}?page=${page + 1}`}>
+                  Next page
+                  <ArrowRight size={14} />
+                </Link>
+              )}
+            </nav>
+          )}
           {context && (
             <>
               <nav className="verse-navigation" aria-label="Previous and next passage">

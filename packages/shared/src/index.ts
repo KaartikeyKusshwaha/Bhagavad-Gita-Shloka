@@ -54,6 +54,8 @@ export interface Passage extends Record<string, unknown> {
   source: Source;
   translations: Translation[];
   audio?: HumanAudio[];
+  metadata?: Record<string, unknown>;
+  work_metadata?: Record<string, unknown>;
 }
 export interface HumanAudio {
   id: string;

@@ -7,6 +7,7 @@ import { routeSafety } from './guardrails.ts';
 import { findPassageReference } from '../../shared/src/references.ts';
 export interface AskHistory {
   question: string;
+  answer?: string;
   passage_ids: string[];
 }
 let answering = false;
@@ -17,7 +18,7 @@ export async function askFromSources(
 ) {
   const history = (options.history ?? [])
     .filter((h) => routeSafety(h.question).kind === 'ordinary')
-    .slice(-3);
+    .slice(-5);
   const contextual =
     history.length && /\b(it|this|that|they|them|its|more|explain|why|how)\b/i.test(question)
       ? `${history.at(-1)!.question}\nFollow-up: ${question}`
@@ -38,7 +39,7 @@ export async function askFromSources(
         tradition: options.tradition,
         limit: 5,
       });
-  for (const id of (history.at(-1)?.passage_ids ?? []).slice(0, 3)) {
+  for (const id of (ref ? [] : (history.at(-1)?.passage_ids ?? [])).slice(0, 3)) {
     if (hits.some((h) => h.passage.id === id)) continue;
     const p = await getPassageById(db, id);
     if (
@@ -56,6 +57,7 @@ export async function askFromSources(
   if (!(await modelReady('chat'))) return retrieval;
   const focusWork =
     options.work ??
+    ref?.work ??
     (history.length
       ? hits.find((h) => history.at(-1)!.passage_ids.includes(h.passage.id))?.passage.work
       : undefined);
@@ -86,7 +88,11 @@ export async function askFromSources(
     const answer = await generateCitedAnswer(
       question,
       evidence,
-      history.map((h) => h.question),
+      history.map(
+        (h) =>
+          h.question +
+          (h.answer ? `\nPrevious answer (context only, not source evidence): ${h.answer}` : ''),
+      ),
     );
     if (!answer.paragraphs.length)
       return {

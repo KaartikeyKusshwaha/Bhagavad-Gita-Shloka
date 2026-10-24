@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export default async function Home() {
   const db = await getDatabase(),
     works = await getWorks(db),
-    coverage = await semanticCoverage(db);
+    coverage = (await modelReady('embedding')) ? await semanticCoverage(db) : { indexed: 0 };
   return (
     <Explore
       semanticAvailable={coverage.indexed > 0 && (await modelReady('embedding'))}

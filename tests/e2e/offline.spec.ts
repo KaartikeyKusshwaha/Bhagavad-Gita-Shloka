@@ -9,6 +9,7 @@ test('a downloaded edition stays readable and exactly searchable with the networ
   const gita = page
     .getByRole('article')
     .filter({ has: page.getByRole('heading', { name: 'Bhagavad Gita', exact: true }) });
+  await gita.getByText('Edition & offline reading', { exact: true }).click();
   await gita.getByRole('button', { name: 'Save for offline', exact: true }).click();
   await expect(gita.getByText(/Saved for offline reading and exact search/)).toBeVisible({
     timeout: 90000,

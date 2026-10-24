@@ -8,6 +8,8 @@ test-results/
 playwright-report/
 output/
 *.tsbuildinfo
+__pycache__/
+*.pyc
 .env
 logs/
 *.log

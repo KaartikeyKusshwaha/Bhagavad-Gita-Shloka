@@ -1,0 +1,21 @@
+{
+  "id": "kojiki-edition",
+  "name": "Basil Hall Chamberlain, 1919 · Kojiki",
+  "url": "https://archive.sacred-texts.com/shi/kj/index.htm",
+  "license": "Public-domain text; noncommercial archive republication permission",
+  "license_url": "https://sacred-texts.com/copyrights",
+  "commercial_ok": false,
+  "attribution": "Basil Hall Chamberlain, 1919; Internet Sacred Text Archive transcription. Source wording retained; navigation, page markers and separated footnotes omitted. Reading-block numbers are platform locators.",
+  "retrieved_at": "2026-10-25",
+  "status": "approved",
+  "display_rules": {
+    "bundle": "library-manifest.json",
+    "layer": "Human translation",
+    "language": "English",
+    "lang": "en",
+    "direction": "ltr",
+    "machine_translation_allowed": true,
+    "description": "Chamberlain’s historical English edition in three volumes. Source numbering and historical language are retained."
+  },
+  "checksum": "ec23bdf1fdd9a0df53b68d5e09ee2a4915613befc75fd07b1da67b76a4ceb351"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "book-of-mormon-gutenberg",
+  "name": "Book of Mormon · Project Gutenberg #17",
+  "url": "https://www.gutenberg.org/ebooks/17",
+  "license": "Public Domain",
+  "license_url": "https://www.gutenberg.org/policy/license.html",
+  "commercial_ok": true,
+  "attribution": "The Book of Mormon, historical English edition; Project Gutenberg #17, transcription by David Widger. Project Gutenberg terms retained in provenance. No endorsement by The Church of Jesus Christ of Latter-day Saints.",
+  "retrieved_at": "2026-10-25",
+  "status": "approved",
+  "display_rules": {
+    "bundle": "library-manifest.json",
+    "layer": "Human translation",
+    "language": "English",
+    "lang": "en",
+    "direction": "ltr",
+    "machine_translation_allowed": true
+  },
+  "checksum": "ec23bdf1fdd9a0df53b68d5e09ee2a4915613befc75fd07b1da67b76a4ceb351"
+}

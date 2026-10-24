@@ -8,6 +8,8 @@ import { useDeviceData, changeDeviceData } from '../lib/device-store';
 import { Practice } from './practice';
 import { HumanAudio } from './human-audio';
 import { SharePassage } from './share-passage';
+import { StudyTranslation } from './study-translation';
+import { languageName } from './library-browser';
 export function PassageCard({
   passage,
   featured = false,
@@ -25,6 +27,18 @@ export function PassageCard({
     saved = device.bookmarks.some((b) => b.id === passage.id),
     read = device.readPassages.includes(passage.id);
   const [selected, setSelected] = useState(passage.translations[0]?.id ?? '');
+  const bookmarkData = device.bookmarks.find((b) => b.id === passage.id);
+  function updateBookmark(update: { color?: 'gold' | 'sage' | 'rose' | 'blue'; note?: string }) {
+    try {
+      changeDeviceData((state) => ({
+        ...state,
+        bookmarks: state.bookmarks.map((b) => (b.id === passage.id ? { ...b, ...update } : b)),
+      }));
+      setNotice('Bookmark updated on this device.');
+    } catch {
+      setNotice('Device storage is unavailable.');
+    }
+  }
   const translation =
     passage.translations.find((t) => t.id === selected) ?? passage.translations[0];
   const rules = passage.source.display_rules ?? {},
@@ -87,6 +101,15 @@ export function PassageCard({
         addActivity(
           {
             ...state,
+            readingPlaces: [
+              {
+                work: passage.work,
+                ref: passage.ref,
+                title: passage.work_title,
+                at: new Date().toISOString(),
+              },
+              ...(state.readingPlaces ?? []).filter((p) => p.work !== passage.work),
+            ].slice(0, 100),
             readPassages: state.readPassages.includes(passage.id)
               ? state.readPassages
               : [...state.readPassages, passage.id],
@@ -102,7 +125,7 @@ export function PassageCard({
   }
   return (
     <article
-      className={`passage-card ${featured ? 'featured' : ''} ${compact ? 'compact-passage' : ''}`}
+      className={`passage-card ${featured ? 'featured' : ''} ${compact ? 'compact-passage' : ''} ${saved ? `marked-${bookmarkData?.color ?? 'gold'}` : ''}`}
       aria-label={passage.ref}
     >
       <div className="passage-top">
@@ -130,6 +153,19 @@ export function PassageCard({
           </button>
         </div>
       </div>
+      {String(passage.metadata?.locator ?? '').startsWith('Platform') && (
+        <p className="passage-locator">
+          {String(passage.metadata?.source_ref ?? '')} · Reading-block locator, not a canonical
+          verse number.{' '}
+          <a
+            href={String(passage.metadata?.source_url ?? passage.source.url)}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Check source numbering ↗
+          </a>
+        </p>
+      )}
       <section
         className="scripture-block"
         role={compact ? 'group' : undefined}
@@ -137,7 +173,9 @@ export function PassageCard({
         hidden={practiceHidden}
       >
         <div className="layer-row">
-          <span className="layer-label">Primary text · {language}</span>
+          <span className="layer-label">
+            {rules.layer === 'Human translation' ? 'Human edition' : 'Primary text'} · {language}
+          </span>
           {hasRoman && (
             <div className="script-toggle" role="group" aria-label="Script">
               <button aria-pressed={script === 'original'} onClick={() => setScript('original')}>
@@ -165,7 +203,11 @@ export function PassageCard({
           {script === 'original' ? passage.original_text : passage.transliteration}
         </p>
         <p className="source-inline">
-          <a href={passage.source.url} target="_blank" rel="noreferrer">
+          <a
+            href={String(passage.metadata?.source_url ?? passage.source.url)}
+            target="_blank"
+            rel="noreferrer"
+          >
             {passage.source.name}
           </a>
           <span> · {passage.source.license}</span>
@@ -177,52 +219,88 @@ export function PassageCard({
           <pre>{rules.copyright_notice}</pre>
         </details>
       )}
-      <section
-        className="translation-block"
-        role={compact ? 'group' : undefined}
-        aria-label={`${compact ? 'Preview human translation' : 'Human translation'} · ${passage.ref}`}
-        hidden={practiceHidden}
-      >
-        <div className="layer-row">
-          <span className="layer-label">Human translation · English</span>
-          {passage.translations.length > 1 && (
-            <label className="translation-picker">
-              <span className="sr-only">Translation</span>
-              <select
-                aria-label="Translation"
-                value={selected}
-                onChange={(e) => setSelected(e.target.value)}
-              >
-                {passage.translations.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    {t.translator}
-                  </option>
-                ))}
-              </select>
-            </label>
+      {(translation || lang !== 'en') && (
+        <section
+          className="translation-block"
+          role={compact ? 'group' : undefined}
+          aria-label={`${compact ? 'Preview human translation' : 'Human translation'} · ${passage.ref}`}
+          hidden={practiceHidden}
+        >
+          <div className="layer-row">
+            <span className="layer-label">
+              Human translation · {languageName(translation?.lang ?? 'en')}
+            </span>
+            {passage.translations.length > 1 && (
+              <label className="translation-picker">
+                <span className="sr-only">Translation</span>
+                <select
+                  aria-label="Translation"
+                  value={selected}
+                  onChange={(e) => setSelected(e.target.value)}
+                >
+                  {passage.translations.map((t) => (
+                    <option key={t.id} value={t.id}>
+                      {new Set(passage.translations.map((item) => item.lang)).size > 1
+                        ? `${languageName(t.lang)} · `
+                        : ''}
+                      {t.translator}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
+          </div>
+          {translation ? (
+            <>
+              <p className="translation-text" lang={translation.lang}>
+                {translation.text}
+              </p>
+              <p className="translation-credit">
+                {translation.translator}
+                <span> · {String(translation.source_ref ?? passage.ref)}</span>
+              </p>
+              {translation.is_machine && <p>Machine translation, may contain errors</p>}
+              <p className="source-inline">
+                <a href={translation.source.url} target="_blank" rel="noreferrer">
+                  View translation source
+                </a>{' '}
+                · {translation.source.license}
+              </p>
+            </>
+          ) : (
+            <p>No approved human translation is available for this passage.</p>
           )}
-        </div>
-        {translation ? (
-          <>
-            <p className="translation-text" lang={translation.lang}>
-              {translation.text}
-            </p>
-            <p className="translation-credit">
-              {translation.translator}
-              <span> · {String(translation.source_ref ?? passage.ref)}</span>
-            </p>
-            {translation.is_machine && <p>Machine translation, may contain errors</p>}
-            <p className="source-inline">
-              <a href={translation.source.url} target="_blank" rel="noreferrer">
-                View translation source
-              </a>{' '}
-              · {translation.source.license}
-            </p>
-          </>
-        ) : (
-          <p>No approved human translation is available for this passage.</p>
-        )}
-      </section>
+        </section>
+      )}
+      {!compact && <StudyTranslation passage={passage} />}
+      {!compact && saved && (
+        <details className="bookmark-notes">
+          <summary>Bookmark colour & private note</summary>
+          <div className="marker-colors" role="group" aria-label="Bookmark colour">
+            {(['gold', 'sage', 'rose', 'blue'] as const).map((color) => (
+              <button
+                key={color}
+                className={`marker-${color}`}
+                aria-label={`${color} bookmark`}
+                aria-pressed={(bookmarkData?.color ?? 'gold') === color}
+                onClick={() => updateBookmark({ color })}
+              >
+                {(bookmarkData?.color ?? 'gold') === color ? <Check size={15} /> : null}
+              </button>
+            ))}
+          </div>
+          <label htmlFor={`${passage.id}-note`}>My note</label>
+          <textarea
+            id={`${passage.id}-note`}
+            key={`${passage.id}-${bookmarkData?.savedAt}`}
+            defaultValue={bookmarkData?.note ?? ''}
+            maxLength={3000}
+            placeholder="A thought to return to…"
+            onChange={(e) => updateBookmark({ note: e.target.value })}
+          />
+          <small>Saved automatically on this device. Never sent to the AI.</small>
+        </details>
+      )}
       {!compact && passage.translations.length > 1 && (
         <details className="translation-comparison" hidden={practiceHidden}>
           <summary>Compare human translations</summary>

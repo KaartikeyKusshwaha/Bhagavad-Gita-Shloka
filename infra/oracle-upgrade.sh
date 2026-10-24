@@ -19,7 +19,7 @@ systemctl stop open-scripture
 mv /opt/open-scripture "$previous"
 mv /opt/open-scripture-next /opt/open-scripture
 systemctl start open-scripture
-for attempt in $(seq 1 45); do
+for attempt in $(seq 1 180); do
     if curl --max-time 5 --fail --silent http://127.0.0.1:3101/v1/health >/dev/null; then
         echo "Upgrade healthy. Previous code: $previous"
         exit 0

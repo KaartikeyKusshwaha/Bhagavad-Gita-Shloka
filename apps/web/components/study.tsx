@@ -272,7 +272,7 @@ export function Study({ works }: { works: StudyWork[] }) {
         <section className="saved-passages" aria-label="Saved passages">
           {data.bookmarks.length ? (
             data.bookmarks.map((bookmark) => (
-              <article key={bookmark.id}>
+              <article key={bookmark.id} className={`marked-${bookmark.color ?? 'gold'}`}>
                 <Link
                   href={`/read/${encodeURIComponent(bookmark.work)}/${encodeURIComponent(bookmark.ref.replace(' ', '-'))}`}
                 >
@@ -280,6 +280,7 @@ export function Study({ works }: { works: StudyWork[] }) {
                     {bookmark.title} · {bookmark.ref}
                   </span>
                   <p>{bookmark.preview}</p>
+                  {bookmark.note && <p className="saved-note">My note · {bookmark.note}</p>}
                   <small>
                     Continue reading <ChevronRight size={13} />
                   </small>

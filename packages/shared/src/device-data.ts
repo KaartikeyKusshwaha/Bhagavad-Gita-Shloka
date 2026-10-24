@@ -36,6 +36,8 @@ export interface StudyBookmark {
   title: string;
   preview: string;
   savedAt: string;
+  color?: 'gold' | 'sage' | 'rose' | 'blue';
+  note?: string;
 }
 export interface LearningActivity {
   day: string;
@@ -45,6 +47,8 @@ export interface LearningActivity {
 export interface DeviceData {
   version: 1;
   rememberHistory: boolean;
+  useSavedContext?: boolean;
+  readingPlaces?: { work: string; ref: string; title: string; at: string }[];
   conversations: ExploreConversation[];
   bookmarks: StudyBookmark[];
   readPassages: string[];
@@ -53,6 +57,8 @@ export interface DeviceData {
 export const emptyDeviceData: DeviceData = {
   version: 1,
   rememberHistory: true,
+  useSavedContext: false,
+  readingPlaces: [],
   conversations: [],
   bookmarks: [],
   readPassages: [],
@@ -161,6 +167,18 @@ const turnSchema = z.object({
 const deviceSchema = z.object({
   version: z.literal(1),
   rememberHistory: z.boolean(),
+  useSavedContext: z.boolean().optional(),
+  readingPlaces: z
+    .array(
+      z.object({
+        work: z.string().max(150),
+        ref: z.string().max(150),
+        title: z.string().max(200),
+        at: timestamp,
+      }),
+    )
+    .max(100)
+    .optional(),
   conversations: z
     .array(
       z.object({
@@ -181,6 +199,8 @@ const deviceSchema = z.object({
         title: z.string().max(200),
         preview: z.string().max(500),
         savedAt: timestamp,
+        color: z.enum(['gold', 'sage', 'rose', 'blue']).optional(),
+        note: z.string().max(3000).optional(),
       }),
     )
     .max(2000),

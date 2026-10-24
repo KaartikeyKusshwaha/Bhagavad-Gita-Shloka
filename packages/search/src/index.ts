@@ -49,6 +49,23 @@ export async function searchPassages(
       match_type: 'exact' as const,
     }));
   if (options.mode === 'exact') return [];
+  // Stemming uses the index before the more expensive typo comparison on the library.
+  const fulltext = (
+    await db.query(
+      `WITH matches AS (
+    SELECT id,ts_rank_cd(to_tsvector('english',text_norm),websearch_to_tsquery('english',$1)) AS score FROM published_passages WHERE original_script='Latin' AND to_tsvector('english',text_norm) @@ websearch_to_tsquery('english',$1)
+    UNION ALL SELECT passage_id,ts_rank_cd(to_tsvector('english',text_norm),websearch_to_tsquery('english',$1)) FROM published_translations WHERE lang='en' AND to_tsvector('english',text_norm) @@ websearch_to_tsquery('english',$1)
+  ), ranked AS (SELECT p.id,max(m.score) AS score FROM matches m JOIN published_passages p ON p.id=m.id JOIN works w ON w.id=p.work_id WHERE ($2::text IS NULL OR w.slug=$2) AND ($3::text IS NULL OR w.tradition_id=$3) GROUP BY p.id)
+  SELECT p.*,w.slug AS work,w.title AS work_title,w.metadata AS work_metadata,t.slug AS tradition,t.name AS tradition_name,d.number AS chapter,to_jsonb(s) AS source,r.score FROM ranked r JOIN published_passages p ON p.id=r.id JOIN works w ON w.id=p.work_id JOIN traditions t ON t.id=w.tradition_id JOIN divisions d ON d.id=p.division_id JOIN sources s ON s.id=p.source_id ORDER BY r.score DESC,p.ordinal LIMIT $4`,
+      [q, work, tradition, limit],
+    )
+  ).rows;
+  if (fulltext.length)
+    return (await hydrate(db, fulltext)).map((p, i) => ({
+      passage: p,
+      score: Number(fulltext[i].score),
+      match_type: 'fuzzy' as const,
+    }));
   const scripts = [
     [/\p{Script=Latin}/u, 'Latin'],
     [/\p{Script=Devanagari}/u, 'Devanagari'],
@@ -59,9 +76,9 @@ export async function searchPassages(
   const rows = (
     await db.query(
       `WITH scores AS MATERIALIZED (
-    SELECT id,GREATEST(similarity(text_norm,$1),word_similarity($1,text_norm)) AS score FROM published_passages WHERE ($6::text IS NULL OR original_script=$6)
-    UNION ALL SELECT id,GREATEST(similarity(transliteration_norm,$1),word_similarity($1,transliteration_norm)) FROM published_passages WHERE transliteration_norm<>'' AND ($6::text IS NULL OR $6='Latin')
-    UNION ALL SELECT passage_id,GREATEST(similarity(text_norm,$1),word_similarity($1,text_norm)) FROM published_translations WHERE ($4::text IS NULL OR lang=$4)
+    SELECT id,GREATEST(similarity(text_norm,$1),word_similarity($1,text_norm)) AS score FROM published_passages WHERE ($6::text IS NULL OR original_script=$6) AND (text_norm % $1 OR $1 <% text_norm)
+    UNION ALL SELECT id,GREATEST(similarity(transliteration_norm,$1),word_similarity($1,transliteration_norm)) FROM published_passages WHERE transliteration_norm<>'' AND ($6::text IS NULL OR $6='Latin') AND (transliteration_norm % $1 OR $1 <% transliteration_norm)
+    UNION ALL SELECT passage_id,GREATEST(similarity(text_norm,$1),word_similarity($1,text_norm)) FROM published_translations WHERE ($4::text IS NULL OR lang=$4) AND (text_norm % $1 OR $1 <% text_norm)
   ), ranked AS (
     SELECT p.id,max(scores.score) AS score FROM scores JOIN published_passages p ON p.id=scores.id JOIN works w ON w.id=p.work_id JOIN traditions t ON t.id=w.tradition_id
     WHERE ($2::text IS NULL OR w.slug=$2) AND ($3::text IS NULL OR t.slug=$3) GROUP BY p.id HAVING max(scores.score)>=0.35

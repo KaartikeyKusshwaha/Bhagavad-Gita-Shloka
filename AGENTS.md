@@ -11,8 +11,11 @@ precedence. This is an overhaul of the existing college project, not a new busin
   WhatsApp, a separate extension or a separate Android application.
 - Integrate free scripture sources where reuse is permitted. A source catalogue
   or external link is not a completed searchable corpus. State actual coverage.
-- Preserve original text and edition attribution. Never generate scripture or
-  silently machine-translate it. Show evidence before AI interpretation.
+- Preserve original text and edition attribution. Never generate missing scripture
+  or silently machine-translate it. The maintainer now explicitly permits optional
+  machine-assisted study translations: label them unreviewed, keep them separate
+  from human editions, and honor each source's model/derivative restrictions.
+  Show evidence before AI interpretation.
 - Distinguish exact wording, suggested similarity and sourced cross-references.
   Do not claim automatic scholarly certainty or rank religious traditions.
 - Use available models and services; no paid subscription or hosting upgrade

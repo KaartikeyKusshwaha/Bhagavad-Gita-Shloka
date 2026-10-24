@@ -43,6 +43,8 @@ const passage = z.object({
   chapter: z.number().int(),
   division_id: z.string(),
   translations: z.array(translation),
+  metadata: z.record(z.string(), z.unknown()).optional(),
+  work_metadata: z.record(z.string(), z.unknown()).optional(),
 });
 export const offlinePackSchema = z.object({
   version: z.literal(1),
@@ -55,7 +57,7 @@ export const offlinePackSchema = z.object({
   sources: z.array(source).max(1000),
   divisions: z
     .array(z.object({ number: z.number().int(), title: z.string(), verse_count: z.number().int() }))
-    .max(2000),
+    .max(10000),
   passages: z.array(passage).min(1).max(100000),
 });
 export type OfflinePack = z.infer<typeof offlinePackSchema>;

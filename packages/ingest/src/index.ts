@@ -63,7 +63,7 @@ async function ingestGitaTransaction(db: Database) {
     );
   }
   await db.query(
-    "INSERT INTO works VALUES('bhagavad-gita','hinduism','bhagavad-gita','Bhagavad Gita','sa',1) ON CONFLICT(id) DO NOTHING",
+    "INSERT INTO works(id,tradition_id,slug,title,original_lang,canon_order) VALUES('bhagavad-gita','hinduism','bhagavad-gita','Bhagavad Gita','sa',1) ON CONFLICT(id) DO NOTHING",
   );
   const chapters = JSON.parse(
     await readFile(
