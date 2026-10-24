@@ -220,7 +220,7 @@ export function LibraryBrowser({ works }: { works: LibraryWork[] }) {
                       aria-label={`Begin reading ${w.title}`}
                       className="book-open"
                     >
-                      Read
+                      Begin reading
                       <ArrowRight size={16} />
                     </Link>
                   </div>
