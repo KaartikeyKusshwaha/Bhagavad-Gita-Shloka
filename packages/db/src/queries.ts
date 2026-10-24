@@ -125,7 +125,13 @@ export async function getRelated(db: Database, p: Passage) {
 export async function getSourceList(db: Database) {
   return (
     await db.query(
-      `SELECT s.*,count(DISTINCT p.id)::int AS passage_count,(SELECT count(*)::int FROM published_audio a WHERE a.source_id=s.id) AS recording_count FROM sources s LEFT JOIN published_passages p ON p.source_id=s.id OR EXISTS(SELECT 1 FROM published_translations tr WHERE tr.passage_id=p.id AND tr.source_id=s.id) GROUP BY s.id ORDER BY s.name`,
+      `WITH source_passages AS (
+        SELECT source_id,id AS passage_id FROM published_passages
+        UNION SELECT source_id,passage_id FROM published_translations
+      )
+      SELECT s.*,count(sp.passage_id)::int AS passage_count,
+      (SELECT count(*)::int FROM published_audio a WHERE a.source_id=s.id) AS recording_count
+      FROM sources s LEFT JOIN source_passages sp ON sp.source_id=s.id GROUP BY s.id ORDER BY s.name`,
     )
   ).rows;
 }

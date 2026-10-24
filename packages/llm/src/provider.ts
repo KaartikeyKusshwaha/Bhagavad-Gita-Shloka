@@ -104,7 +104,7 @@ export async function embedTexts(texts: string[], query = false): Promise<number
         'embedding',
         'embeddings',
         { model: modelName('embedding'), input, encoding_format: 'float' },
-        query ? 20000 : 120000,
+        query ? 30000 : 120000,
       ),
     );
   const rows = response.data.sort((a, b) => a.index - b.index);

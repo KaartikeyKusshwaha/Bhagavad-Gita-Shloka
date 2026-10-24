@@ -62,11 +62,15 @@ export async function passageConnections(db: Database, p: Passage): Promise<Conn
   if (words.length) {
     const related = (
       await db.query(
-        `WITH scored AS MATERIALIZED (SELECT p.id,p.ordinal,ARRAY(SELECT token FROM unnest($2::text[]) token WHERE
-      (' '||p.text_norm||' ') LIKE ('% '||token||' %') OR (' '||p.transliteration_norm||' ') LIKE ('% '||token||' %') OR
-      EXISTS(SELECT 1 FROM published_translations tr WHERE tr.passage_id=p.id AND (' '||tr.text_norm||' ') LIKE ('% '||token||' %'))) AS shared
-      FROM published_passages p WHERE NOT(p.id=ANY($1::text[])))
-      SELECT * FROM scored WHERE cardinality(shared)>0 ORDER BY cardinality(shared) DESC,ordinal LIMIT 2`,
+        `WITH documents AS MATERIALIZED (
+          SELECT p.id,p.ordinal,p.text_norm||' '||p.transliteration_norm AS text FROM published_passages p
+          UNION ALL
+          SELECT p.id,p.ordinal,tr.text_norm FROM published_translations tr JOIN published_passages p ON p.id=tr.passage_id
+        )
+        SELECT id,ordinal,array_agg(DISTINCT token ORDER BY token) AS shared
+        FROM documents CROSS JOIN unnest($2::text[]) words(token)
+        WHERE NOT(id=ANY($1::text[])) AND (' '||text||' ') LIKE ('% '||token||' %')
+        GROUP BY id,ordinal ORDER BY count(DISTINCT token) DESC,ordinal LIMIT 2`,
         [nodes.map((n) => n.id), words],
       )
     ).rows;

@@ -1,0 +1,36 @@
+# Final owner test
+
+Open https://scripture.129-225-126-21.sslip.io/ on your computer and phone.
+The site has three main destinations: Explore, Read and Study.
+
+1. **Explore:** search `BG 2.47`, try a phrase from its translation, and verify a
+   copied quotation. Switch to Ask: “What does BG 2.47 say about the results of
+   action?” Follow with “How does that differ from avoiding work?” Check the
+   displayed evidence and citations. Reopen the conversation after reloading;
+   try renaming, deleting and pausing history.
+2. **Read:** use the chapter/verse picker. Open Compare human translations on a
+   Gita passage; BG 2.43 demonstrates an explicitly combined source range.
+   Switch editions, copy the passage and download its attributed PNG. Open
+   context and the connection graph/list; follow a neighbouring passage.
+3. **More texts:** read Quran 2:255 in Arabic and Dhammapada chapter 2, beginning
+   at verse 21. Check the source notices. Quran 1:1 offers one human recording
+   covering the complete Al-Fatiha. Other traditions' hosted links are external;
+   their text is not part of local search.
+4. **Study:** bookmark a passage, mark it read, create a daily reading plan,
+   practice recall, try the word-order quiz and schedule a revision. Reload and
+   inspect the activity grid. Share a classroom set link in another browser.
+5. **Offline and voice:** download a work, open its offline reader, disconnect
+   the network and read/search it. Restore the network. Test microphone input
+   with your browser's consent control; review or edit the transcript before
+   sending. Try explanation playback if an installed local voice is available.
+
+Check light/dark appearance, text size, keyboard navigation and mobile scrolling.
+Use a passage's Report an error link for a text/attribution problem. Describe a
+functional issue with the URL, browser, action and expected result.
+
+Saved history, bookmarks, plans and activity belong to the browser profile; there
+is no account or cross-device synchronization. Clear controls are available.
+Ask sends selected context to Groq; free quotas can temporarily stop answers.
+Meaning search, speech matching and AI interpretations are experimental. No
+scholarly approval, pronunciation assessment or complete all-religion corpus is
+claimed. Actual microphone and voice quality are part of this owner test.

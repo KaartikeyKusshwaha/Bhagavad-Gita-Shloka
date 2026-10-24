@@ -10,7 +10,7 @@ import {
 } from '../packages/ingest/src/collections.ts';
 import { createApp } from '../apps/api/src/app.ts';
 import { searchPassages } from '../packages/search/src/index.ts';
-import { getPassage, getDivisions } from '../packages/db/src/queries.ts';
+import { getPassage, getDivisions, getSourceList } from '../packages/db/src/queries.ts';
 import { passageConnections } from '../packages/search/src/connections.ts';
 import { browseTheme } from '../packages/search/src/themes.ts';
 import { ingestAudio } from '../packages/ingest/src/audio.ts';
@@ -66,6 +66,7 @@ describe('imported text and actual API', () => {
       'bg.2.48',
     ]);
     expect(graph.edges.some((e) => e.kind === 'cross_reference')).toBe(false);
+    expect(graph.edges.some((e) => e.kind === 'suggested')).toBe(true);
     expect(
       graph.edges
         .filter((e) => e.kind === 'suggested')
@@ -108,6 +109,9 @@ describe('imported text and actual API', () => {
     const combined = (await getPassage(db, 'bhagavad-gita', 'BG 2.43'))!;
     expect(combined.translations[1].source_ref).toContain('2.42–44 (combined verses)');
     expect(combined.translations[1].text).toContain('set determination');
+    const sources = await getSourceList(db);
+    for (const id of ['gita-sanskrit', 'besant-1922', 'swarupananda-1909'])
+      expect(sources.find((s) => s.id === id)?.passage_count).toBe(700);
     const rows = (await db.query('SELECT text FROM published_translations')).rows;
     expect(
       rows.filter((row) => /<[^>]+>|Proofreadpage|data-mw|\{\s*"/.test(String(row.text))),

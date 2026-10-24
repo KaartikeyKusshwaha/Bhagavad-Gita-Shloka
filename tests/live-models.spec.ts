@@ -9,11 +9,12 @@ test('real model retrieval, cited follow-up and persisted Explore answer', async
   const health = await (await request.get('/v1/health')).json();
   expect(health.capabilities.semantic).toBe(true);
   expect(health.capabilities.ai_explanations).toBe(true);
-  const semantic = await (
-    await request.get('/v1/search', {
-      params: { q: 'What causes anger to grow from desire?', mode: 'semantic', limit: 5 },
-    })
-  ).json();
+  const semanticResponse = await request.get('/v1/search', {
+    params: { q: 'What causes anger to grow from desire?', mode: 'semantic', limit: 5 },
+    timeout: 45000,
+  });
+  expect(semanticResponse.ok(), await semanticResponse.text()).toBe(true);
+  const semantic = await semanticResponse.json();
   expect(semantic.hits.map((h: { passage: { ref: string } }) => h.passage.ref)).toContain(
     'BG 2.62',
   );
