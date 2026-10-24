@@ -70,9 +70,14 @@ export async function ingestLibrary(db: Database, onlyMissing = false) {
     await ingestEdition(db, edition.data, edition.sources, checksum);
   }
   if (!onlyMissing || manifest.works.some((item) => !existing.has(item.id)))
-    await db.exec(
-      'ANALYZE passages; ANALYZE translations; ANALYZE works; ANALYZE sources; ANALYZE divisions',
-    );
+    await db.transaction(async (tx) => {
+      // Initial statistics on the small free VM can exceed the public-query timeout.
+      // Keep the longer limit scoped to this maintenance transaction.
+      await tx.exec("SET LOCAL statement_timeout='120s'");
+      await tx.exec(
+        'ANALYZE passages; ANALYZE translations; ANALYZE works; ANALYZE sources; ANALYZE divisions',
+      );
+    });
   return {
     works: manifest.works.length,
     passages: manifest.works.reduce((n, w) => n + w.passages, 0),
