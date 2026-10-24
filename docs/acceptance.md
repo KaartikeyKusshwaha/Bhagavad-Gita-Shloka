@@ -17,9 +17,13 @@ The later user-approved scope in [FEATURE_SCOPE.md](FEATURE_SCOPE.md) controls d
 | Classroom/sharing | Reference-only share links, recipient reconstruction, print view, attributed PNG | No class-management system or accounts |
 | History/tracker | Reopen/search/rename/delete/pause; real-action heatmap/streaks; keyboard/mobile checks | No cloud sync; storage eviction possible |
 | Offline | Downloaded edition/source pack; actual network-disabled reload, exact/reference search and navigation fallback | Audio, Ask, reports and external hosts need internet |
-| Deployment | Oracle HTTPS, separate Node/PostgreSQL service, full 14-flow deployed browser run, live model browser run, persistence through restart, successful isolated backup restore | Latest comparison/privacy UI upgrade validation in progress; final owner test |
+| Deployment | Oracle HTTPS, separate Node/PostgreSQL service, all 15 deployed browser flows, actual-model browser run, persistence through upgrades, successful isolated core-backup restore and off-host copies | Final owner test |
 
-Checkpoint baseline: 28 backend/unit tests, 14 previously passing deployed browser flows, one new comparison browser flow under validation, and a separate passing deployed actual-model Ask/semantic browser test. CI tests PostgreSQL 16, repeated migrations, imports, data integrity and the production build. Inspect the latest run output before claiming a fresh pass.
+Final technical checkpoint: functional commit `236b3baf2667a19ce884b40b89b1a2f9d941dfc8`, CI run `40128816043` passed TypeScript, ESLint, 28 backend/unit tests, repeated PostgreSQL 16 migrations, imports, data integrity, production build and 15 browser flows. The final public deployment passed all 15 browser flows in 1.9 minutes and its separate actual-model Ask/semantic flow in 55.7 seconds. These two public runs overlapped. Live database: 7,359 passages, 1,823 translation records, 6,936 vectors and three explicitly labelled test reports. Both services remained active with zero automatic restarts; the two pre-existing application hosts still returned 200.
+
+Live simultaneous backend checks returned graph connections in 3.1 seconds, cross-tradition theme results in 1.8 seconds and meaning results in 11.1 seconds, all HTTP 200. The small free VM is suitable for the college demo; these measurements are not throughput or latency guarantees. The selected-edition PNG was also downloaded from the public site and visually checked for text, translator and source credits.
+
+The restored off-host core backup contains all passages/translations and the two test reports present before the last browser run. Rebuildable vectors are excluded from that core backup and retained in a separate checksum-verified off-host bundle. No private environment credentials are in the repository. Owner steps are in [OWNER_TEST.md](OWNER_TEST.md).
 
 The optional human benchmark remains unprovided. pnpm eval reports pending and exits 2 without real reviewed files; CI uses --allow-pending and claims no score. Do not fabricate scripture samples or human reviews. Final real-time acceptance belongs to the owner.
 

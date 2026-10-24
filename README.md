@@ -2,7 +2,7 @@
 
 A free, open-source college website for scripture reading and quotation checking.
 The former Gita lookup is preserved in `legacy/` for reference.
-This is an implementation in progress. The [finalized website scope](docs/FEATURE_SCOPE.md)
+This is a college-project beta. The [finalized website scope](docs/FEATURE_SCOPE.md)
 records the maintainer's later decisions and takes precedence over extra channels
 and business operations in the original PDF.
 
@@ -81,3 +81,5 @@ The ancient Sanskrit text and a particular modern transcription are distinct rig
 [Open Scripture is hosted on Oracle](https://scripture.129-225-126-21.sslip.io/).
 Verified state and operating notes are tracked in [infra/README.md](infra/README.md).
 Never commit environment secrets.
+
+The technical implementation is ready for [final owner testing](docs/OWNER_TEST.md).

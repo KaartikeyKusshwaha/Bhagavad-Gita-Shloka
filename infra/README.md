@@ -59,22 +59,34 @@ but bulk inference should use a separate capable machine rather than this shared
 
 ## Verified checks
 
-The initial live release passed 14 public-site browser flows, including mobile
-accessibility, offline network-disabled reading, history, Study and error reports.
-The separate deployed model test passed semantic retrieval of BG 2.62, cited Ask,
-follow-up, history reload, accessibility and source-use exclusion (48.2 seconds).
-A direct embedding query returned a normalized 1024-dimensional vector in six
-seconds; a direct cited Groq answer completed in 1.2 seconds. These are observations,
-not latency or model-quality guarantees.
+Functional release: commit `236b3baf2667a19ce884b40b89b1a2f9d941dfc8`, CI run
+`40128816043`. Runtime tar SHA-256:
+`362535408649d419ed644879bbc5301b4ce8101364d6d18bdbd09989fe05937d`.
+The final public build passed all 15 browser flows (1.9 minutes), including mobile
+accessibility, comparison, graph/themes, offline network-disabled reading, history,
+Study and error reports. The separate deployed model test passed semantic retrieval
+of BG 2.62, cited Ask, follow-up, history reload, accessibility and source-use
+exclusion (55.7 seconds). These runs overlapped.
 
-PostgreSQL report persistence survived a website-service restart. A custom-format
-backup restored to an isolated test database with 7,359 passages, 1,123 original
-translation records and the labelled test report; the temporary database was
-removed afterward. A new backup is taken before each runtime upgrade. Keep a
-verified copy off the host; owner-managed periodic retention is recommended.
+Graph, source-count and theme queries now scan published text in batches instead
+of repeatedly scanning translations for each passage. Simultaneous live backend
+checks returned graph connections in 3.1 seconds, themes in 1.8 seconds and meaning
+search in 11.1 seconds, all HTTP 200. Both services had zero automatic restarts.
+These are observations, not latency, throughput or model-quality guarantees.
 
-Latest translation-comparison/privacy UI upgrade checks are recorded in
-`docs/acceptance.md`. Final real-time acceptance belongs to the owner.
+PostgreSQL reports survived service restarts and runtime upgrades. A core backup
+restored to an isolated database with 7,359 passages, 1,823 translation records
+and the two labelled test reports present before the final browser run. The
+temporary database was removed afterward. Core backup SHA-256:
+`10ed1bbc60265911df0194f32179028f04b544981b37bf946854e73366b8818c`.
+It excludes rebuildable embedding data, retained in a separate verified off-host
+bundle. Both core and vector copies are outside the VM and ignored by Git.
+After recovery, reimport that matching vector bundle or rebuild the index.
+A full database backup is also taken before each runtime upgrade; owner-managed
+periodic retention is recommended.
+
+The complete evidence ledger is in `docs/acceptance.md`. Final real-time acceptance
+belongs to the owner; steps are in `docs/OWNER_TEST.md`.
 
 ## Operations
 
