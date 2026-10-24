@@ -1,5 +1,13 @@
 # Oracle deployment and operating notes
 
+Expanded library release: commit `32a0b11d7463e4f1f59373305e93baed4f9303d2`,
+CI `40140307298`, runtime SHA-256
+`2ee2421cb7600e948f8b855537e12e1ce87ffc72580a2400e398f414c2fb774a`.
+This supersedes the earlier three-work coverage below: the database now contains
+140 works, 120,858 passages/reading blocks and 39,154 human translation records.
+The original 6,936 meaning vectors remain; the new works use word/reference
+retrieval. See `docs/LIBRARY_COVERAGE.md` and the latest acceptance entry.
+
 Public site: https://scripture.129-225-126-21.sslip.io/
 
 The existing Ubuntu 24.04 x86_64 E2 micro at 129.225.126.21 hosts this college
