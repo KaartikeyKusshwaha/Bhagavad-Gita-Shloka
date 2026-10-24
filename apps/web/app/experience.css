@@ -1828,3 +1828,93 @@ button.activity-cell:focus-visible {
 .offline-data-controls summary {
   cursor: pointer;
 }
+.answer-citations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 16px;
+  font-size: 12px;
+}
+.answer-citations a {
+  color: var(--green);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 5px 9px;
+}
+.explore-search-options {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.explore-search-options summary {
+  cursor: pointer;
+}
+.explore-search-options > div {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin-top: 8px;
+  background: var(--card);
+}
+.explore-search-options label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 8px 0 12px;
+}
+.explore-search-options select {
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: var(--paper);
+  max-width: 100%;
+}
+.passage-share {
+  position: relative;
+}
+.passage-share > summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 32px;
+  list-style: none;
+}
+.passage-share > summary::-webkit-details-marker {
+  display: none;
+}
+.share-menu {
+  position: absolute;
+  right: 0;
+  top: 36px;
+  z-index: 8;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--ui-shadow);
+  width: 230px;
+  padding: 10px;
+}
+.share-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-size: 12px;
+  padding: 10px;
+}
+.share-menu p {
+  font-size: 11px;
+  line-height: 1.6;
+  padding: 0 10px;
+}
+.recall-quiz [role='group'] {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.recall-quiz p {
+  font-size: 13px;
+  line-height: 1.8;
+}

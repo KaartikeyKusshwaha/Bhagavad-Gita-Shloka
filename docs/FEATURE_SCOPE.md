@@ -51,8 +51,12 @@ daily reading plan, revision queue and reference-based classroom share links.
 Explore dictation requires transcript review. Explanation playback uses installed
 local voices; actual microphone recognition and voice availability vary by browser.
 
-An Ask mode exists but currently returns retrieved texts and a visible explanation
-that conversational AI is not enabled. It is not a finished AI assistant.
+Ask now supports an existing Qwen model through a configured server: cited study
+paragraphs, previous-question/passage context and source-first display. The local
+Qwen3-1.7B runtime and Qwen3-Embedding-0.6B index have been exercised with actual
+requests. The 6,936 eligible Gita/Quran passages are indexed locally. SuttaCentral
+editions remain excluded from model use. Model availability is checked; a failure
+keeps retrieved evidence visible and states why an answer is unavailable.
 The reader now includes an interactive connection graph/list and Explore provides
 keyword-guided cross-tradition themes. Graph source-order links are distinct from
 automatic shared-word suggestions. No scholarly cross-reference dataset has yet
@@ -61,6 +65,7 @@ Downloadable editions now have a cached offline reader with exact/reference
 search, chapter selection and device-local progress. Human audio currently includes
 one complete Al-Fatiha recording by Adeel Shaikh (CC BY-SA 4.0), streamed only on
 request and explicitly labelled as a whole surah rather than verse-aligned audio.
-The remaining semantic search, AI provider, broader imported corpus,
+Word-order quizzes and attributed PNG cards are implemented inside the reader.
+The remaining production model hosting, additional reusable editions/translations,
 production deployment and owner acceptance remain pending. Source research or
 an empty workspace package does not count as a functioning feature.

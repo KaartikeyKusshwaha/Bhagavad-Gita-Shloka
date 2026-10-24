@@ -42,3 +42,19 @@ export function nextReview(level: number, rating: 'again' | 'good' | 'easy', now
     due: new Date(now.getTime() + (days ? days * 86400000 : 10 * 60000)).toISOString(),
   };
 }
+export function recallQuiz(text: string) {
+  const words = text.split(/\s+/).filter(Boolean);
+  if (words.length < 6) return null;
+  for (let i = Math.floor(words.length / 2); i < words.length - 1; i++) {
+    const cue = words[i - 1],
+      answer = words[i];
+    if (words.filter((w) => w === cue).length !== 1) continue;
+    const distractors = Array.from(new Set(words.filter((w) => w !== answer && w !== cue))).slice(
+      0,
+      2,
+    );
+    if (distractors.length < 2) continue;
+    return { cue, answer, choices: [...distractors, answer].sort((a, b) => a.localeCompare(b)) };
+  }
+  return null;
+}

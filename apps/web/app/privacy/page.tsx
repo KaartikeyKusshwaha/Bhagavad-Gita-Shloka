@@ -36,6 +36,14 @@ export default function Privacy() {
         </p>
         <h2>Search and quotation checks</h2>
         <p>
+          When model services are configured, meaning-search text is sent to the configured
+          embedding runtime. Ask sends your question, up to three preceding questions, and
+          attributed source evidence to the configured answer runtime. Saved conversations remain in
+          this browser; only the selected context is used for that request. The local demo uses
+          existing Qwen models running on this computer. Provider availability is shown through
+          actual capabilities; no answer is generated when the runtime is unavailable.
+        </p>
+        <p>
           Search text is used for the request. Server verification logs contain a SHA-256 hash of
           the claim, verdict, and language; raw claims are not stored there. Logs may still reveal
           whether a known claim was checked. Application request logging is disabled.
@@ -64,10 +72,12 @@ export default function Privacy() {
           when you request playback; that host receives the network request.
         </p>
         <h2>Clear device data</h2>
-        <p>Downloaded editions stay in this browser for offline reading and exact search.
-          Remove an individual copy in the offline library or clear site storage to remove all
-          downloads. Only the public offline reader and its interface files are cached; Ask
-          responses, reports and Explore conversations are not cached by the offline service.</p>
+        <p>
+          Downloaded editions stay in this browser for offline reading and exact search. Remove an
+          individual copy in the offline library or clear site storage to remove all downloads. Only
+          the public offline reader and its interface files are cached; Ask responses, reports and
+          Explore conversations are not cached by the offline service.
+        </p>
         <p>
           Use the History and Study controls to remove those records, or clear this site's browser
           storage to remove all saved history, activity, preferences, bookmarks, and progress.

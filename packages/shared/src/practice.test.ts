@@ -1,5 +1,5 @@
 import { it, expect } from 'vitest';
-import { compareRecall, nextReview } from './practice.ts';
+import { compareRecall, nextReview, recallQuiz } from './practice.ts';
 import { encodeLesson, decodeLesson } from './lessons.ts';
 it('aligns an omitted word and a replacement without cascading text differences', () => {
   expect(compareRecall('alpha beta gamma delta', 'alpha gamma theta')).toEqual([
@@ -14,6 +14,14 @@ it('resets a missed review and spaces later successful reviews', () => {
   const now = new Date('2026-10-24T12:00:00Z');
   expect(nextReview(5, 'again', now)).toEqual({ level: 0, due: '2026-10-24T12:10:00.000Z' });
   expect(nextReview(1, 'good', now)).toEqual({ level: 2, due: '2026-10-27T12:00:00.000Z' });
+});
+it('builds a quiz only from recorded words and a unique neighbouring word', () => {
+  const text = 'one two three four five six seven eight',
+    quiz = recallQuiz(text)!;
+  expect(text.split(' ').indexOf(quiz.answer)).toBe(text.split(' ').indexOf(quiz.cue) + 1);
+  expect(quiz.choices).toContain(quiz.answer);
+  expect(quiz.choices.every((word) => text.split(' ').includes(word))).toBe(true);
+  expect(recallQuiz('too short')).toBeNull();
 });
 it('shares a multilingual reference-only lesson and rejects unbounded or malformed payloads', () => {
   const lesson = {

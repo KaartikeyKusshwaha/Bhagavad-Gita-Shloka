@@ -4,6 +4,8 @@ import { getWorks } from '@core/db/src/queries';
 import { searchPassages } from '@core/search/src/index';
 import { routeSafety } from '@core/llm/src/guardrails';
 import { PassageCard } from '../../components/passage';
+import { semanticCoverage } from '@core/search/src/semantic';
+import { modelReady } from '@core/llm/src/provider';
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Search the collection' };
 export default async function SearchPage({
@@ -13,11 +15,14 @@ export default async function SearchPage({
 }) {
   const params = await searchParams,
     q = (params.q ?? '').slice(0, 500),
-    mode = params.mode === 'exact' ? 'exact' : 'all';
+    mode = params.mode === 'exact' ? 'exact' : params.mode === 'semantic' ? 'semantic' : 'all';
   const safety = routeSafety(q),
     db = await getDatabase();
   const works = await getWorks(db),
     searchedWorks = works.filter((w) => !params.work || w.slug === params.work);
+  const coverage = await semanticCoverage(db, params.work),
+    semanticReady = coverage.indexed > 0 && (await modelReady('embedding'));
+  let unavailable = '';
   const hits =
     q.length >= 2 && safety.kind === 'ordinary'
       ? await searchPassages(db, q, {
@@ -25,6 +30,9 @@ export default async function SearchPage({
           work: params.work || undefined,
           lang: params.lang || undefined,
           limit: 10,
+        }).catch(() => {
+          unavailable = 'This search service is unavailable. Try exact or similar wording.';
+          return [];
         })
       : [];
   return (
@@ -79,6 +87,7 @@ export default async function SearchPage({
             <select name="mode" defaultValue={mode}>
               <option value="all">Exact + fuzzy</option>
               <option value="exact">Exact phrase</option>
+              {semanticReady && <option value="semantic">Meaning · experimental</option>}
             </select>
           </label>
           <button className="button outline" type="submit">
@@ -86,6 +95,7 @@ export default async function SearchPage({
           </button>
         </div>
       </form>
+      {unavailable && <p role="alert">{unavailable}</p>}
       {safety.kind !== 'ordinary' ? (
         <div className="notice" role="alert">
           <strong>
@@ -134,8 +144,11 @@ export default async function SearchPage({
         </div>
       )}
       <div className="notice">
-        Exact and fuzzy text search are available. Semantic meaning search and Hindi translations
-        await their model, source, and review gates. Roman Sanskrit search is experimental.
+        Exact and fuzzy text search are available.{' '}
+        {semanticReady
+          ? `Meaning search covers ${coverage.indexed} of ${coverage.eligible} model-eligible passages in the selected collection. Similarity does not confirm a quotation.`
+          : 'Meaning search is currently unavailable.'}{' '}
+        Language and translation coverage depend on each edition.
       </div>
     </div>
   );

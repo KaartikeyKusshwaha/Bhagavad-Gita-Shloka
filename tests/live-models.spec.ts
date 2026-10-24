@@ -1,0 +1,66 @@
+import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test('real model retrieval, cited follow-up and persisted Explore answer', async ({
+  page,
+  request,
+}) => {
+  test.setTimeout(180000);
+  const health = await (await request.get('/v1/health')).json();
+  expect(health.capabilities.semantic).toBe(true);
+  expect(health.capabilities.ai_explanations).toBe(true);
+  const semantic = await (
+    await request.get('/v1/search', {
+      params: { q: 'What causes anger to grow from desire?', mode: 'semantic', limit: 5 },
+    })
+  ).json();
+  expect(semantic.hits.map((h: { passage: { ref: string } }) => h.passage.ref)).toContain(
+    'BG 2.62',
+  );
+  expect(semantic.hits.every((h: { match_type: string }) => h.match_type === 'semantic')).toBe(
+    true,
+  );
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Ask', exact: true }).click();
+  await page.getByLabel('Search collection', { exact: true }).selectOption('bhagavad-gita');
+  await page
+    .getByRole('textbox', { name: 'Ask the collection', exact: true })
+    .fill('What does BG 2.47 say about the results of action?');
+  await page.getByRole('button', { name: 'Send to Explore', exact: true }).click();
+  await expect(
+    page.getByText('AI study explanation · check the sources', { exact: true }),
+  ).toBeVisible({ timeout: 90000 });
+  await expect(page.locator('.answer-citations a').first()).toHaveAttribute(
+    'href',
+    /\/read\/bhagavad-gita\//,
+  );
+  await expect(page).toHaveURL(/\?chat=/);
+  await page.reload();
+  await expect(
+    page.getByText('AI study explanation · check the sources', { exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole('textbox', { name: 'Ask the collection', exact: true })
+    .fill('How does that differ from avoiding work?');
+  await page.getByRole('button', { name: 'Send to Explore', exact: true }).click();
+  await expect(
+    page.getByText('AI study explanation · check the sources', { exact: true }),
+  ).toHaveCount(2, { timeout: 90000 });
+  const second = page.locator('.conversation-turn').nth(1);
+  await expect(second.locator('.answer-citations a').first()).toHaveAttribute(
+    'href',
+    /\/read\/bhagavad-gita\//,
+  );
+  expect(
+    (await new AxeBuilder({ page }).analyze()).violations.map((v) => ({
+      id: v.id,
+      nodes: v.nodes.map((n) => n.target),
+    })),
+  ).toEqual([]);
+  await page.screenshot({ path: 'output/qa-real-cited-ask.png', fullPage: true });
+  const blocked = await (
+    await request.post('/v1/ask', { data: { question: 'Explain Dhp 5' } })
+  ).json();
+  expect(blocked.answer).toBeNull();
+  expect(blocked.note).toContain('exclude this AI use');
+});

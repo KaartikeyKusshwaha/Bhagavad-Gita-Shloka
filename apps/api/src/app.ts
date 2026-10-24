@@ -22,6 +22,9 @@ import { passageConnections } from '../../../packages/search/src/connections.ts'
 import { browseTheme } from '../../../packages/search/src/themes.ts';
 import { readingThemes } from '../../../packages/shared/src/themes.ts';
 import { createOfflinePack } from '../../../packages/db/src/offline.ts';
+import { askFromSources } from '../../../packages/llm/src/ask.ts';
+import { modelReady } from '../../../packages/llm/src/provider.ts';
+import { semanticCoverage } from '../../../packages/search/src/semantic.ts';
 import { verifyClaim } from '../../../packages/verify/src/index.ts';
 import { normalize } from '../../../packages/shared/src/index.ts';
 import { routeSafety } from '../../../packages/llm/src/guardrails.ts';
@@ -48,7 +51,12 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
   const app = Fastify({
     logger: false,
     bodyLimit: 64 * 1024,
-    trustProxy: process.env.RENDER ? (_address: string, hop: number) => hop < 1 : false,
+    trustProxy: process.env.RENDER
+      ? (_address: string, hop: number) => hop < 1
+      : process.env.TRUST_LOCAL_PROXY === 'true'
+        ? (address: string, hop: number) =>
+            hop === 0 && ['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(address)
+        : false,
   });
   await app.register(helmet, {
     contentSecurityPolicy: {
@@ -114,6 +122,7 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
   app.get('/v1/health', async () => {
     await db.query('SELECT 1');
     const works = await getWorks(db);
+    const semantic = await semanticCoverage(db);
     return {
       version: '0.1.0',
       data_version: '2026-10-24',
@@ -122,12 +131,13 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
       capabilities: {
         exact: true,
         fuzzy: true,
-        semantic: false,
+        semantic: semantic.configured && semantic.indexed > 0 && (await modelReady('embedding')),
+        semantic_coverage: semantic,
         voice: 'browser-dependent',
         human_recordings: Number(
           (await db.query('SELECT count(*) AS n FROM published_audio')).rows[0].n,
         ),
-        ai_explanations: false,
+        ai_explanations: await modelReady('chat'),
       },
     };
   });
@@ -223,11 +233,16 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
     async (req) => {
       const q = searchQuery.parse(req.query);
       const safety = routeSafety(q.q);
+      const coverage = await semanticCoverage(db, q.work, q.tradition);
       return safety.kind === 'ordinary'
         ? {
             hits: await searchPassages(db, q.q, q),
-            modes: ['exact', 'fuzzy'],
-            semantic_enabled: false,
+            modes:
+              coverage.configured && coverage.indexed
+                ? ['exact', 'fuzzy', 'semantic']
+                : ['exact', 'fuzzy'],
+            semantic_enabled: coverage.configured && coverage.indexed > 0,
+            semantic_coverage: coverage,
           }
         : { hits: [], safety };
     },
@@ -277,20 +292,27 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
         question: z.string().trim().min(3).max(3000),
         traditions: z.array(z.string()).max(14).optional(),
         lang: z.string().default('en'),
+        work: z.string().max(100).optional(),
+        history: z
+          .array(
+            z.object({
+              question: z.string().max(1500),
+              passage_ids: z.array(z.string().max(150)).max(8),
+            }),
+          )
+          .max(3)
+          .optional(),
       })
       .parse(req.body);
     if (!(await consumeDaily(req.ip)))
       return reply.code(429).send(error('DAILY_LIMIT', 'Daily request limit reached.'));
     const safety = routeSafety(q.question);
     if (safety.kind !== 'ordinary') return { safety, passages: [] };
-    return {
-      passages: await searchPassages(db, q.question, {
-        limit: 5,
-        tradition: q.traditions?.length === 1 ? q.traditions[0] : undefined,
-      }),
-      answer: null,
-      note: 'Relevant passages for study. A generative answer is not enabled; a text match is not a religious ruling.',
-    };
+    return askFromSources(db, q.question, {
+      work: q.work,
+      tradition: q.traditions?.length === 1 ? q.traditions[0] : undefined,
+      history: q.history,
+    });
   });
   app.get('/v1/sources', async () => ({ sources: await getSourceList(db) }));
   app.post(

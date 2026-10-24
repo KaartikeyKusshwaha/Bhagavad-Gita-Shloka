@@ -1,0 +1,28 @@
+[Unit]
+Description=Open Scripture college website
+After=network.target postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User=scripture
+Group=scripture
+WorkingDirectory=/opt/open-scripture
+EnvironmentFile=/etc/open-scripture/environment
+Environment=PATH=/opt/open-scripture-runtime/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/opt/open-scripture-runtime/bin/node node_modules/tsx/dist/cli.mjs apps/api/src/server.ts --production
+Restart=on-failure
+RestartSec=8
+MemoryHigh=256M
+MemoryMax=384M
+CPUQuota=50%
+Nice=10
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/open-scripture /opt/open-scripture/apps/web/.next/cache
+UMask=0027
+
+[Install]
+WantedBy=multi-user.target

@@ -29,9 +29,9 @@ and business operations in the original PDF.
   One attributed human recording of the complete Al-Fatiha is available online.
 
 The original [implementation plan](docs/build-plan.md) remains a reference. See
-[acceptance status](docs/acceptance.md). Semantic retrieval, meaning-based verdicts,
-additional imported editions, generated cited answers, semantic retrieval and live
-deployment remain unfinished.
+[acceptance status](docs/acceptance.md). Existing Qwen models provide optional
+meaning search and cited Ask/follow-up answers locally; production model hosting,
+additional imported translations and live deployment remain in progress.
 MCP, WhatsApp and separate client apps are excluded by the maintainer's later scope.
 Human evaluations, printed-edition samples and named reviewers are not fabricated.
 
@@ -63,6 +63,8 @@ Start the app, then `pnpm test:e2e` for Chromium regression tests.
 Offline tests require the built shell: stop dev, run `pnpm build`, then
 `pnpm preview` with local PGlite configured. Preview binds to loopback only;
 deployment uses `pnpm start` and requires PostgreSQL.
+For the optional model setup, see [the model decision](docs/decisions/008-existing-local-models.md).
+`pnpm test:models` exercises actual models and is separate from provider-free CI.
 `pnpm check:all` additionally requires the real human evaluation sets; while those
 are missing, `pnpm eval` returns exit 2. A technical CI pass does not pass those gates.
 

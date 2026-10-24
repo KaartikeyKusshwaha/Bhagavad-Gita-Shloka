@@ -11,3 +11,9 @@ export function parsePassageReference(input: string, selectedWork?: string) {
     return { work: 'quran', ref: `Quran ${Number(gita[1])}:${Number(gita[2])}` };
   return { work: 'bhagavad-gita', ref: `BG ${Number(gita[1])}.${Number(gita[2])}` };
 }
+export function findPassageReference(input: string, selectedWork?: string) {
+  const match = input.match(
+    /(?:\b(?:BG|Gita|Quran|Koran)\s*)?\d{1,3}[.:]\d{1,3}|\b(?:Dhp|Dhammapada)\s+\d{1,3}/i,
+  );
+  return match ? parsePassageReference(match[0], selectedWork) : null;
+}

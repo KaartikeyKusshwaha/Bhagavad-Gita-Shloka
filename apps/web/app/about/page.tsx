@@ -12,7 +12,7 @@ const rows = [
   ],
   [
     'M3 · Search',
-    'Exact + fuzzy implemented; multilingual semantic worker and human recall evaluation pending',
+    'Exact, fuzzy and optional model-based meaning search implemented; independent recall evaluation pending',
   ],
   [
     'M4 · Verify',
@@ -24,13 +24,16 @@ const rows = [
   ],
   [
     'M6 · Context & comparison',
-    'Surrounding passages available; additional translations, commentary, themes, and cross-references pending',
+    'Context, graph/list and keyword theme trails implemented; additional translations and scholarly cross-reference data pending',
   ],
   [
     'M7 · Website speech',
-    'Browser dictation with transcript review and local explanation voices implemented; human audio and language quality review pending',
+    'Browser dictation, explanation playback and one licensed human Al-Fatiha recording implemented; voice quality depends on device/language',
   ],
-  ['M8 · Offline reading', 'Downloadable reading packs pending'],
+  [
+    'M8 · Offline reading',
+    'Downloaded editions, offline exact search and network-disabled browser checks implemented',
+  ],
   [
     'M9 · Community',
     'Reports and gated correction API implemented; named reviewers and remaining community tools pending',

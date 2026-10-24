@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import type { Passage, SearchHit } from './index.ts';
+import type { CitedAnswer } from '../../llm/src/provider.ts';
 
 export type ExploreMode = 'search' | 'verify' | 'ask';
 export interface ExploreReply {
@@ -11,6 +12,7 @@ export interface ExploreReply {
   note?: string;
   coverage_note?: string;
   safety?: { kind: string; message?: string };
+  answer?: (CitedAnswer & { model: string }) | null;
 }
 export interface ExploreTurn {
   id: string;
@@ -132,6 +134,17 @@ const reply = z.object({
   explanation: z.string().optional(),
   note: z.string().optional(),
   coverage_note: z.string().optional(),
+  answer: z
+    .object({
+      paragraphs: z
+        .array(
+          z.object({ text: z.string().max(1400), citations: z.array(z.string().max(150)).max(5) }),
+        )
+        .max(3),
+      model: z.string().max(150),
+    })
+    .nullable()
+    .optional(),
   safety: z.object({ kind: z.string(), message: z.string().optional() }).optional(),
 });
 export function parseExploreReply(input: unknown): ExploreReply {

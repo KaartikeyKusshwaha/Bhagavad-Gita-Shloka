@@ -7,6 +7,7 @@ import { addActivity } from '@core/shared/src/device-data';
 import { useDeviceData, changeDeviceData } from '../lib/device-store';
 import { Practice } from './practice';
 import { HumanAudio } from './human-audio';
+import { SharePassage } from './share-passage';
 export function PassageCard({
   passage,
   featured = false,
@@ -101,6 +102,7 @@ export function PassageCard({
           </Link>
         </div>
         <div className="passage-tools">
+          <SharePassage passage={passage} />
           <button
             onClick={bookmark}
             aria-label={saved ? 'Remove bookmark' : 'Bookmark on this device'}
@@ -115,6 +117,7 @@ export function PassageCard({
       </div>
       <section
         className="scripture-block"
+        role={compact ? 'group' : undefined}
         aria-label={`${compact ? 'Preview primary text' : 'Primary text'} · ${passage.ref}`}
         hidden={practiceHidden}
       >
@@ -161,6 +164,7 @@ export function PassageCard({
       )}
       <section
         className="translation-block"
+        role={compact ? 'group' : undefined}
         aria-label={`${compact ? 'Preview human translation' : 'Human translation'} · ${passage.ref}`}
         hidden={practiceHidden}
       >

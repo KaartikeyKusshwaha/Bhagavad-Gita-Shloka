@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { compareRecall, nextReview, type WordChange } from '@core/shared/src/practice';
+import { compareRecall, nextReview, recallQuiz, type WordChange } from '@core/shared/src/practice';
 import { addActivity } from '@core/shared/src/device-data';
 import type { Passage } from '@core/shared/src/index';
 import { changeDeviceData } from '../lib/device-store';
@@ -22,12 +22,15 @@ export function Practice({
     [attempt, setAttempt] = useState(''),
     [changes, setChanges] = useState<WordChange[] | null>(null),
     [notice, setNotice] = useState('');
+  const [quizOpen, setQuizOpen] = useState(false),
+    [choice, setChoice] = useState('');
   const target =
     layer === 'original'
       ? passage.original_text
       : layer === 'roman'
         ? passage.transliteration
         : (passage.translations.find((t) => t.id === layer)?.text ?? passage.original_text);
+  const quiz = recallQuiz(target);
   function schedule(rating: 'again' | 'good' | 'easy') {
     try {
       changeLearningData((data) => ({
@@ -75,6 +78,8 @@ export function Practice({
               setChanges(null);
               setHidden(false);
               onHide(false);
+              setChoice('');
+              setQuizOpen(false);
             }}
           >
             <option value="original">Primary text</option>
@@ -171,6 +176,51 @@ export function Practice({
             Easy
           </button>
         </div>
+        {quiz && (
+          <div className="recall-quiz">
+            <button
+              className="quiet-button"
+              aria-expanded={quizOpen}
+              onClick={() => {
+                setQuizOpen(!quizOpen);
+                setChoice('');
+                if (!quizOpen) {
+                  setHidden(true);
+                  onHide(true);
+                }
+              }}
+            >
+              Try a word-order quiz
+            </button>
+            {quizOpen && (
+              <>
+                <p>
+                  Which word follows <strong>{quiz.cue}</strong> in this practice text?
+                </p>
+                <div role="group" aria-label="Quiz choices">
+                  {quiz.choices.map((word) => (
+                    <button
+                      className="button secondary"
+                      key={word}
+                      disabled={Boolean(choice)}
+                      onClick={() => setChoice(word)}
+                    >
+                      {word}
+                    </button>
+                  ))}
+                </div>
+                {choice && (
+                  <p role="status">
+                    {choice === quiz.answer
+                      ? 'Correct.'
+                      : `The recorded next word is ${quiz.answer}.`}{' '}
+                    Reveal the passage to check the surrounding words.
+                  </p>
+                )}
+              </>
+            )}
+          </div>
+        )}
         <p className="source-inline">
           Rate your own recall to schedule another review. <Link href="/study">Open Study</Link>
         </p>

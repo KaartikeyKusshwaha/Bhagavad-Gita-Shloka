@@ -37,6 +37,14 @@ jobs:
       - run: pnpm data:check
       - run: pnpm eval --allow-pending
       - run: pnpm build
+      - name: Package Linux runtime
+        run: |
+          tar -czf /tmp/open-scripture-runtime.tgz --exclude='apps/web/.next/cache' --exclude='apps/web/.next/diagnostics' --exclude='apps/web/next-env.d.ts' node_modules apps packages scripts data/imports data/sources package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json tsconfig.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: runtime-linux-x64
+          path: /tmp/open-scripture-runtime.tgz
+          retention-days: 7
       - run: pnpm exec playwright install --with-deps chromium
       - name: Browser regression
         run: |

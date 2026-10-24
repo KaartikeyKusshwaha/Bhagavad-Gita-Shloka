@@ -2,6 +2,8 @@ import type { Database } from '../../db/src/index.ts';
 import { hydrate, getPassage } from '../../db/src/queries.ts';
 import { normalize, type SearchHit } from '../../shared/src/index.ts';
 import { parsePassageReference } from '../../shared/src/references.ts';
+import { semanticSearch } from './semantic.ts';
+import { modelConfigured } from '../../llm/src/provider.ts';
 export interface SearchOptions {
   work?: string;
   tradition?: string;
@@ -24,7 +26,7 @@ export async function searchPassages(
       ? [{ passage: p, score: 1, match_type: 'reference' }]
       : [];
   }
-  if (options.mode === 'semantic') throw new Error('SEMANTIC_UNAVAILABLE');
+  if (options.mode === 'semantic') return semanticSearch(db, query, options);
   const work = options.work ?? null,
     tradition = options.tradition ?? null;
   const escaped = q.replace(/[\\%_]/g, '\\$&');
@@ -56,38 +58,37 @@ export async function searchPassages(
   const script = present.length === 1 ? present[0][1] : null;
   const rows = (
     await db.query(
-      `WITH candidates AS (
- SELECT p.id,CASE WHEN p.text_norm LIKE $1 ESCAPE '\\' OR p.transliteration_norm LIKE $1 ESCAPE '\\' THEN 1.0 ELSE 0.0 END AS exact_score,
- GREATEST(CASE WHEN $8::text IS NULL OR p.original_script=$8 THEN GREATEST(similarity(p.text_norm,$2),word_similarity($2,p.text_norm)) ELSE 0 END,
- CASE WHEN $8::text IS NULL OR $8='Latin' THEN GREATEST(similarity(p.transliteration_norm,$2),word_similarity($2,p.transliteration_norm)) ELSE 0 END,
- COALESCE((SELECT MAX(GREATEST(similarity(tr.text_norm,$2),word_similarity($2,tr.text_norm))) FROM published_translations tr WHERE tr.passage_id=p.id AND ($5::text IS NULL OR tr.lang=$5)),0)) AS fuzzy_score,
- EXISTS(SELECT 1 FROM published_translations tr WHERE tr.passage_id=p.id AND tr.text_norm LIKE $1 ESCAPE '\\' AND ($5::text IS NULL OR tr.lang=$5)) AS translated_exact
- FROM published_passages p JOIN works w ON w.id=p.work_id JOIN traditions t ON t.id=w.tradition_id WHERE ($3::text IS NULL OR w.slug=$3) AND ($4::text IS NULL OR t.slug=$4)
- ) SELECT p.*,w.slug AS work,w.title AS work_title,t.slug AS tradition,t.name AS tradition_name,d.number AS chapter,to_jsonb(s) AS source,c.exact_score,c.fuzzy_score,c.translated_exact
- FROM candidates c JOIN published_passages p ON p.id=c.id JOIN works w ON w.id=p.work_id JOIN traditions t ON t.id=w.tradition_id JOIN divisions d ON d.id=p.division_id JOIN sources s ON s.id=p.source_id
- WHERE (c.exact_score=1 OR c.translated_exact OR ($6<>'exact' AND c.fuzzy_score>=0.35))
- ORDER BY (c.exact_score=1 OR c.translated_exact) DESC,c.fuzzy_score DESC,p.ordinal LIMIT $7`,
-      [
-        `%${escaped}%`,
-        q,
-        work,
-        tradition,
-        options.lang ?? null,
-        options.mode ?? 'all',
-        limit,
-        script,
-      ],
+      `WITH scores AS MATERIALIZED (
+    SELECT id,GREATEST(similarity(text_norm,$1),word_similarity($1,text_norm)) AS score FROM published_passages WHERE ($6::text IS NULL OR original_script=$6)
+    UNION ALL SELECT id,GREATEST(similarity(transliteration_norm,$1),word_similarity($1,transliteration_norm)) FROM published_passages WHERE transliteration_norm<>'' AND ($6::text IS NULL OR $6='Latin')
+    UNION ALL SELECT passage_id,GREATEST(similarity(text_norm,$1),word_similarity($1,text_norm)) FROM published_translations WHERE ($4::text IS NULL OR lang=$4)
+  ), ranked AS (
+    SELECT p.id,max(scores.score) AS score FROM scores JOIN published_passages p ON p.id=scores.id JOIN works w ON w.id=p.work_id JOIN traditions t ON t.id=w.tradition_id
+    WHERE ($2::text IS NULL OR w.slug=$2) AND ($3::text IS NULL OR t.slug=$3) GROUP BY p.id HAVING max(scores.score)>=0.35
+  ) SELECT p.*,w.slug AS work,w.title AS work_title,t.slug AS tradition,t.name AS tradition_name,d.number AS chapter,to_jsonb(s) AS source,r.score
+    FROM ranked r JOIN published_passages p ON p.id=r.id JOIN works w ON w.id=p.work_id JOIN traditions t ON t.id=w.tradition_id JOIN divisions d ON d.id=p.division_id JOIN sources s ON s.id=p.source_id
+    ORDER BY r.score DESC,p.ordinal LIMIT $5`,
+      [q, work, tradition, options.lang ?? null, limit, script],
     )
   ).rows;
-  const passages = await hydrate(db, rows);
-  return passages.map((p, i) => ({
+  const lexical: SearchHit[] = (await hydrate(db, rows)).map((p, i) => ({
     passage: p,
-    score:
-      Number(rows[i].exact_score) === 1 || rows[i].translated_exact
-        ? 1
-        : Number(rows[i].fuzzy_score),
-    match_type: Number(rows[i].exact_score) === 1 || rows[i].translated_exact ? 'exact' : 'fuzzy',
+    score: Number(rows[i].score),
+    match_type: 'fuzzy',
   }));
+  if ((options.mode ?? 'all') !== 'all' || !modelConfigured('embedding')) return lexical;
+  try {
+    const semantic = await semanticSearch(db, query, options),
+      byId = new Map([...semantic, ...lexical].map((h) => [h.passage.id, h]));
+    return reciprocalRankFusion([
+      lexical.map((h) => ({ id: h.passage.id })),
+      semantic.map((h) => ({ id: h.passage.id })),
+    ])
+      .slice(0, limit)
+      .map(({ id }) => byId.get(id)!);
+  } catch {
+    return lexical;
+  }
 }
 export function reciprocalRankFusion(lists: { id: string }[][], k = 60) {
   const scores = new Map<string, number>();

@@ -119,24 +119,58 @@ function Reply({ turn }: { turn: ExploreTurn }) {
           specific reference.
         </p>
       )}
+      {turn.reply.answer && (
+        <div className="response-explanation">
+          <span>AI study explanation · check the sources</span>
+          {turn.reply.answer.paragraphs.map((paragraph, i) => (
+            <div key={i}>
+              <p>{paragraph.text}</p>
+              <div className="answer-citations">
+                {paragraph.citations.map((id) => {
+                  const p = passages.find((p) => p.id === id);
+                  return p ? (
+                    <Link
+                      key={id}
+                      href={`/read/${p.work}/${encodeURIComponent(p.ref.replace(' ', '-'))}`}
+                    >
+                      {p.ref} ↗
+                    </Link>
+                  ) : null;
+                })}
+              </div>
+            </div>
+          ))}
+          <SpeakExplanation text={turn.reply.answer.paragraphs.map((p) => p.text).join('\n')} />
+        </div>
+      )}
       {(turn.reply.explanation || turn.reply.note) && (
         <div className="response-explanation">
           <span>{turn.mode === 'verify' ? 'About this text check' : 'About this answer'}</span>
           <p>{turn.reply.explanation ?? turn.reply.note}</p>
-          <SpeakExplanation text={turn.reply.explanation ?? turn.reply.note ?? ''} />
+          {!turn.reply.answer && (
+            <SpeakExplanation text={turn.reply.explanation ?? turn.reply.note ?? ''} />
+          )}
         </div>
       )}
       {turn.reply.coverage_note && <p className="response-coverage">{turn.reply.coverage_note}</p>}
     </div>
   );
 }
-export function Explore({ works }: { works: WorkOption[] }) {
+export function Explore({
+  works,
+  semanticAvailable = false,
+}: {
+  works: WorkOption[];
+  semanticAvailable?: boolean;
+}) {
   const device = useDeviceData(),
     router = useRouter(),
     params = useSearchParams();
   const [mode, setMode] = useState<ExploreMode>('search'),
     [query, setQuery] = useState(''),
     [work, setWork] = useState(''),
+    [matching, setMatching] = useState('all'),
+    [language, setLanguage] = useState(''),
     [drawer, setDrawer] = useState(false),
     [pending, setPending] = useState(false),
     [error, setError] = useState(''),
@@ -164,6 +198,13 @@ export function Explore({ works }: { works: WorkOption[] }) {
         .toLowerCase()
         .includes(historySearch.toLowerCase()),
   );
+  useEffect(() => {
+    const latest = active?.turns.at(-1);
+    if (latest) {
+      setMode(latest.mode);
+      setWork(latest.work ?? '');
+    }
+  }, [active?.id]);
   useEffect(() => {
     if (drawer) {
       drawerClose.current?.focus();
@@ -268,7 +309,10 @@ export function Explore({ works }: { works: WorkOption[] }) {
     setPendingQuery(text);
     setQuery('');
     const controller = new AbortController();
-    const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(45000)]);
+    const signal = AbortSignal.any([
+      controller.signal,
+      AbortSignal.timeout(requestMode === 'ask' ? 90000 : 45000),
+    ]);
     request.current = controller;
     const threadId = active?.id ?? crypto.randomUUID(),
       turnId = crypto.randomUUID();
@@ -283,7 +327,7 @@ export function Explore({ works }: { works: WorkOption[] }) {
             })
           : mode === 'search'
             ? await fetch(
-                `/v1/search?${new URLSearchParams({ q: text, limit: '5', ...(work ? { work } : {}) })}`,
+                `/v1/search?${new URLSearchParams({ q: text, limit: '5', mode: matching, ...(language ? { lang: language } : {}), ...(work ? { work } : {}) })}`,
                 { signal },
               )
             : await fetch(mode === 'verify' ? '/v1/verify' : '/v1/ask', {
@@ -292,7 +336,20 @@ export function Explore({ works }: { works: WorkOption[] }) {
                 body: JSON.stringify(
                   mode === 'verify'
                     ? { claim: text, claimed_source: work || undefined, lang: 'en' }
-                    : { question: text, lang: 'en' },
+                    : {
+                        question: text,
+                        work: work || undefined,
+                        lang: 'en',
+                        history: active?.turns
+                          .filter((t) => !t.reply.safety)
+                          .slice(-3)
+                          .map((t) => ({
+                            question: t.query.slice(0, 1500),
+                            passage_ids: turnPassages(t.reply)
+                              .slice(0, 8)
+                              .map((p) => p.id),
+                          })),
+                      },
                 ),
                 signal,
               });
@@ -404,6 +461,7 @@ export function Explore({ works }: { works: WorkOption[] }) {
       )}
       {active && (
         <div className="conversation" aria-label="Explore conversation">
+          <h1 className="sr-only">{active.title}</h1>
           {active.turns.map((turn) => (
             <div className="conversation-turn" key={turn.id}>
               <div className="user-message">
@@ -482,9 +540,10 @@ export function Explore({ works }: { works: WorkOption[] }) {
             <label className="work-control">
               <span className="sr-only">Search collection</span>
               <select
+                aria-label="Search collection"
                 value={work}
                 onChange={(e) => setWork(e.target.value)}
-                disabled={pending || mode === 'ask'}
+                disabled={pending}
               >
                 <option value="">All available texts</option>
                 {works.map((w) => (
@@ -504,6 +563,45 @@ export function Explore({ works }: { works: WorkOption[] }) {
             </button>
           </div>
         </form>
+        {mode === 'search' && (
+          <details className="explore-search-options">
+            <summary>Search options</summary>
+            <div>
+              <label>
+                Matching
+                <select
+                  aria-label="Search matching"
+                  value={matching}
+                  disabled={pending}
+                  onChange={(e) => setMatching(e.target.value)}
+                >
+                  <option value="all">Words + available meaning search</option>
+                  <option value="exact">Exact wording</option>
+                  <option value="fuzzy">Similar wording</option>
+                  {semanticAvailable && (
+                    <option value="semantic">Meaning search · experimental</option>
+                  )}
+                </select>
+              </label>
+              <label>
+                Translation language
+                <select
+                  aria-label="Translation search language"
+                  value={language}
+                  disabled={pending}
+                  onChange={(e) => setLanguage(e.target.value)}
+                >
+                  <option value="">All available</option>
+                  <option value="en">English</option>
+                </select>
+              </label>
+              <p>
+                Meaning results suggest relevance. They do not confirm a quotation. Edition coverage
+                varies.
+              </p>
+            </div>
+          </details>
+        )}
         <SpeechInput
           disabled={pending}
           onTranscript={(text) => {
@@ -533,7 +631,7 @@ export function Explore({ works }: { works: WorkOption[] }) {
         )}
         <p className="composer-caption">
           {mode === 'ask'
-            ? 'Cited text retrieval is available. Conversational AI is not enabled yet.'
+            ? 'Answers use cited passages. AI availability and edition permissions vary.'
             : mode === 'verify'
               ? 'A wording match confirms text, not a theological interpretation.'
               : 'Search the published collection. Source and language availability vary.'}{' '}
