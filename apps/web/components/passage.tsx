@@ -112,7 +112,11 @@ export function PassageCard({
           </button>
         </div>
       </div>
-      <section className="scripture-block" aria-label="Primary text" hidden={practiceHidden}>
+      <section
+        className="scripture-block"
+        aria-label={`${compact ? 'Preview primary text' : 'Primary text'} · ${passage.ref}`}
+        hidden={practiceHidden}
+      >
         <div className="layer-row">
           <span className="layer-label">Primary text · {language}</span>
           {hasRoman && (
@@ -154,7 +158,11 @@ export function PassageCard({
           <pre>{rules.copyright_notice}</pre>
         </details>
       )}
-      <section className="translation-block" aria-label="Human translation" hidden={practiceHidden}>
+      <section
+        className="translation-block"
+        aria-label={`${compact ? 'Preview human translation' : 'Human translation'} · ${passage.ref}`}
+        hidden={practiceHidden}
+      >
         <div className="layer-row">
           <span className="layer-label">Human translation · English</span>
           {passage.translations.length > 1 && (

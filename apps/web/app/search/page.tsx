@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getDatabase } from '@core/db/src/index';
+import { getWorks } from '@core/db/src/queries';
 import { searchPassages } from '@core/search/src/index';
 import { routeSafety } from '@core/llm/src/guardrails';
 import { PassageCard } from '../../components/passage';
@@ -8,16 +9,23 @@ export const metadata = { title: 'Search the collection' };
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; mode?: string; work?: string }>;
+  searchParams: Promise<{ q?: string; mode?: string; work?: string; lang?: string }>;
 }) {
   const params = await searchParams,
     q = (params.q ?? '').slice(0, 500),
     mode = params.mode === 'exact' ? 'exact' : 'all';
   const safety = routeSafety(q),
     db = await getDatabase();
+  const works = await getWorks(db),
+    searchedWorks = works.filter((w) => !params.work || w.slug === params.work);
   const hits =
     q.length >= 2 && safety.kind === 'ordinary'
-      ? await searchPassages(db, q, { mode, work: params.work || undefined, limit: 10 })
+      ? await searchPassages(db, q, {
+          mode,
+          work: params.work || undefined,
+          lang: params.lang || undefined,
+          limit: 10,
+        })
       : [];
   return (
     <div className="page-shell">
@@ -25,8 +33,8 @@ export default async function SearchPage({
         <span className="eyebrow">THE WORDS YOU’RE LOOKING FOR</span>
         <h1>Find your way back to the text.</h1>
         <p>
-          A reference, a Sanskrit phrase, a Roman spelling, or words from the English translation.
-          Every result leads back to an attributed passage.
+          A reference, an original-language phrase, a Roman spelling, or words from a human
+          translation. Every result leads back to an attributed passage.
         </p>
       </div>
       <form action="/search">
@@ -52,7 +60,18 @@ export default async function SearchPage({
             Collection
             <select name="work" defaultValue={params.work ?? ''}>
               <option value="">All published works</option>
-              <option value="bhagavad-gita">Bhagavad Gita</option>
+              {works.map((w) => (
+                <option key={String(w.slug)} value={String(w.slug)}>
+                  {String(w.title)}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Translation language
+            <select name="lang" defaultValue={params.lang ?? ''}>
+              <option value="">All available</option>
+              <option value="en">English</option>
             </select>
           </label>
           <label>
@@ -80,7 +99,9 @@ export default async function SearchPage({
             {hits.length
               ? `${hits.length} result${hits.length === 1 ? '' : 's'} for “${q}”`
               : `No results for “${q}”`}{' '}
-            · 1 tradition, 1 work, 700 passages searched
+            · {new Set(searchedWorks.map((w) => w.tradition)).size} traditions,{' '}
+            {searchedWorks.length} works,{' '}
+            {searchedWorks.reduce((n, w) => n + Number(w.passage_count), 0)} passages searched
           </p>
           {hits.length ? (
             <div className="results-grid">

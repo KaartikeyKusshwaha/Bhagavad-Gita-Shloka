@@ -10,6 +10,8 @@ import {
 import { createApp } from '../apps/api/src/app.ts';
 import { searchPassages } from '../packages/search/src/index.ts';
 import { getPassage, getDivisions } from '../packages/db/src/queries.ts';
+import { passageConnections } from '../packages/search/src/connections.ts';
+import { browseTheme } from '../packages/search/src/themes.ts';
 import type { FastifyInstance } from 'fastify';
 let db: Database, app: FastifyInstance;
 beforeAll(async () => {
@@ -26,6 +28,29 @@ afterAll(async () => {
   await db?.close();
 });
 describe('imported text and actual API', () => {
+  it('distinguishes source sequence from suggestions and shows themed wording across traditions', async () => {
+    const p = (await getPassage(db, 'bhagavad-gita', 'BG 2.47'))!;
+    const graph = await passageConnections(db, p);
+    expect(graph.nodes[0].id).toBe(p.id);
+    expect(graph.edges.filter((e) => e.kind === 'source_sequence').map((e) => e.to)).toEqual([
+      'bg.2.46',
+      'bg.2.48',
+    ]);
+    expect(graph.edges.some((e) => e.kind === 'cross_reference')).toBe(false);
+    expect(
+      graph.edges
+        .filter((e) => e.kind === 'suggested')
+        .every((e) => e.basis.name === 'Automatic wording comparison'),
+    ).toBe(true);
+    const theme = (await browseTheme(db, 'compassion'))!;
+    expect(new Set(theme.hits.map((h) => h.passage.tradition))).toEqual(
+      new Set(['buddhism', 'hinduism', 'islam']),
+    );
+    expect(theme.note).toContain('not a claim');
+    expect(await browseTheme(db, 'unlisted')).toBeNull();
+    const selected = (await browseTheme(db, 'compassion', 'quran'))!;
+    expect(selected.hits.every((h) => h.passage.work === 'quran')).toBe(true);
+  });
   it('loads 700 verses, 700 translations and correct chapter counts', async () => {
     expect(
       Number(

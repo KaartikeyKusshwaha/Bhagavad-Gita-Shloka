@@ -53,7 +53,11 @@ local voices; actual microphone recognition and voice availability vary by brows
 
 An Ask mode exists but currently returns retrieved texts and a visible explanation
 that conversational AI is not enabled. It is not a finished AI assistant.
-The remaining graph/themes, semantic search, AI provider, human audio, offline
+The reader now includes an interactive connection graph/list and Explore provides
+keyword-guided cross-tradition themes. Graph source-order links are distinct from
+automatic shared-word suggestions. No scholarly cross-reference dataset has yet
+been imported; that absence is stated in the graph.
+The remaining semantic search, AI provider, human audio, offline
 packs, broader imported corpus,
 production deployment and owner acceptance remain pending. Source research or
 an empty workspace package does not count as a functioning feature.

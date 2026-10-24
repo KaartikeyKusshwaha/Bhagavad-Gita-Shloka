@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { ReaderPicker } from './reader-picker';
 import { PassageCard } from './passage';
+import { Connections } from './connections';
 import type { Passage } from '@core/shared/src/index';
 interface Division {
   number: number;
@@ -128,6 +129,7 @@ export function Reader({
               </details>
             </>
           )}
+          {passages.length === 1 && <Connections key={first.id} passage={first} />}
           <Link className="text-link" href="/sources">
             See the full source and license records <ArrowRight size={15} />
           </Link>

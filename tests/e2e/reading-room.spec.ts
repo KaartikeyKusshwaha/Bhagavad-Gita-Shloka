@@ -82,8 +82,12 @@ test('mobile layout, primary text labels, keyboard access and no external script
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/read/bhagavad-gita/BG-2.47');
-  await expect(page.getByRole('region', { name: 'Primary text', exact: true })).toBeVisible();
-  await expect(page.getByRole('region', { name: 'Human translation', exact: true })).toBeVisible();
+  await expect(
+    page.getByRole('region', { name: 'Primary text · BG 2.47', exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('region', { name: 'Human translation · BG 2.47', exact: true }),
+  ).toBeVisible();
   await expect
     .poll(() => page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth))
     .toBe(true);

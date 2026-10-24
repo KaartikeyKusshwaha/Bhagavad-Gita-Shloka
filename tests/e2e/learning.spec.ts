@@ -7,11 +7,15 @@ test('practice hides the source, compares a recall and persists a spaced review'
   await page.goto('/read/bhagavad-gita/BG-2.47');
   await page.getByText('Practice this passage', { exact: true }).click();
   await page.getByRole('button', { name: 'Hide practice text', exact: true }).click();
-  await expect(page.getByRole('region', { name: 'Primary text', exact: true })).toBeHidden();
+  await expect(
+    page.getByRole('region', { name: 'Primary text · BG 2.47', exact: true }),
+  ).toBeHidden();
   await page.getByLabel('Your recall', { exact: true }).fill('a synthetic recall attempt');
   await page.getByRole('button', { name: 'Compare wording', exact: true }).click();
   await expect(page.getByText('Review these text differences.', { exact: true })).toBeVisible();
-  await expect(page.getByRole('region', { name: 'Primary text', exact: true })).toBeVisible();
+  await expect(
+    page.getByRole('region', { name: 'Primary text · BG 2.47', exact: true }),
+  ).toBeVisible();
   await page.getByRole('button', { name: 'Remembered', exact: true }).click();
   await page.goto('/study');
   await page.getByRole('button', { name: 'Study tools', exact: true }).click();

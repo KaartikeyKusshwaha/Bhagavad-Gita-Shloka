@@ -18,6 +18,9 @@ import {
   getReadingSlice,
 } from '../../../packages/db/src/queries.ts';
 import { searchPassages } from '../../../packages/search/src/index.ts';
+import { passageConnections } from '../../../packages/search/src/connections.ts';
+import { browseTheme } from '../../../packages/search/src/themes.ts';
+import { readingThemes } from '../../../packages/shared/src/themes.ts';
 import { verifyClaim } from '../../../packages/verify/src/index.ts';
 import { normalize } from '../../../packages/shared/src/index.ts';
 import { routeSafety } from '../../../packages/llm/src/guardrails.ts';
@@ -128,6 +131,23 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
     const q = z.object({ tradition: z.string().optional() }).parse(req.query);
     return { works: await getWorks(db, q.tradition) };
   });
+  app.get('/v1/themes', async () => ({
+    themes: readingThemes.map(({ slug, name }) => ({ slug, name })),
+  }));
+  app.get<{ Params: { slug: string } }>('/v1/themes/:slug', async (req, reply) => {
+    const q = z.object({ work: z.string().max(100).optional() }).parse(req.query);
+    const result = await browseTheme(db, req.params.slug, q.work);
+    return result ?? reply.code(404).send(error('NOT_FOUND', 'No reading theme at that address.'));
+  });
+  app.get<{ Params: { work: string; ref: string } }>(
+    '/v1/passages/:work/:ref/connections',
+    async (req, reply) => {
+      const p = await getPassage(db, req.params.work, req.params.ref);
+      return p
+        ? passageConnections(db, p)
+        : reply.code(404).send(error('NOT_FOUND', 'No published passage at that address.'));
+    },
+  );
   app.get<{ Params: { slug: string } }>('/v1/works/:slug/reading', async (req, reply) => {
     const q = z
       .object({

@@ -32,6 +32,7 @@ import { routeSafety } from '@core/llm/src/guardrails';
 import { useDeviceData, changeDeviceData } from '../lib/device-store';
 import { PassageCard } from './passage';
 import { SpeechInput, SpeakExplanation } from './speech';
+import { readingThemes } from '@core/shared/src/themes';
 interface WorkOption {
   slug: string;
   title: string;
@@ -257,9 +258,10 @@ export function Explore({ works }: { works: WorkOption[] }) {
       setError('Could not clear device history.');
     }
   }
-  async function submit(event?: React.FormEvent, example?: string) {
+  async function submit(event?: React.FormEvent, example?: string, theme?: string) {
     event?.preventDefault();
     const text = (example ?? query).trim();
+    const requestMode = theme ? 'search' : mode;
     if (!text || pending) return;
     setError('');
     setPending(true);
@@ -275,8 +277,11 @@ export function Explore({ works }: { works: WorkOption[] }) {
       const safety = routeSafety(text);
       if (safety.kind !== 'ordinary') reply = { safety };
       else {
-        const response =
-          mode === 'search'
+        const response = theme
+          ? await fetch(`/v1/themes/${theme}${work ? `?work=${encodeURIComponent(work)}` : ''}`, {
+              signal,
+            })
+          : mode === 'search'
             ? await fetch(
                 `/v1/search?${new URLSearchParams({ q: text, limit: '5', ...(work ? { work } : {}) })}`,
                 { signal },
@@ -300,7 +305,14 @@ export function Explore({ works }: { works: WorkOption[] }) {
       }
       if (controller.signal.aborted) return;
       const at = new Date().toISOString(),
-        turn: ExploreTurn = { id: turnId, query: text, mode, work: work || undefined, at, reply };
+        turn: ExploreTurn = {
+          id: turnId,
+          query: text,
+          mode: requestMode,
+          work: work || undefined,
+          at,
+          reply,
+        };
       const next: ExploreConversation = active
         ? { ...active, updatedAt: at, turns: [...active.turns, turn].slice(-40) }
         : { id: threadId, title: text.slice(0, 80), createdAt: at, updatedAt: at, turns: [turn] };
@@ -309,7 +321,7 @@ export function Explore({ works }: { works: WorkOption[] }) {
       try {
         changeDeviceData((state) => {
           const saved = saveExploreTurn(state, threadId, turn);
-          return reply.safety ? saved : addActivity(saved, mode, turnId);
+          return reply.safety ? saved : addActivity(saved, requestMode, turnId);
         });
       } catch {
         setError(
@@ -499,6 +511,26 @@ export function Explore({ works }: { works: WorkOption[] }) {
             composer.current?.focus();
           }}
         />
+        {!active && (
+          <details className="explore-themes">
+            <summary>Explore a theme across texts</summary>
+            <div>
+              {readingThemes.map((theme) => (
+                <button
+                  className="quiet-button"
+                  key={theme.slug}
+                  disabled={pending}
+                  onClick={() => {
+                    setMode('search');
+                    void submit(undefined, `Theme: ${theme.name}`, theme.slug);
+                  }}
+                >
+                  {theme.name}
+                </button>
+              ))}
+            </div>
+          </details>
+        )}
         <p className="composer-caption">
           {mode === 'ask'
             ? 'Cited text retrieval is available. Conversational AI is not enabled yet.'
