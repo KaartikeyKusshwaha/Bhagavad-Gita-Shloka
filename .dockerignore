@@ -1,0 +1,9 @@
+node_modules
+.git
+.env*
+.local
+**/.next
+legacy
+data/cache
+output
+test-results

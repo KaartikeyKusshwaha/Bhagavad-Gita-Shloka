@@ -1,0 +1,51 @@
+# Finalized college-website scope
+
+Latest maintainer direction: one free multi-faith website, professional and simple,
+with three destinations (Explore, Read, Study). The source PDF is reference material;
+the conversation's explicit scope changes override its extra channels and business
+operations. No MCP server, WhatsApp bot, browser extension or separate Android app.
+
+## Agreed functionality
+
+1. Multi-faith source/work selection, using free APIs, reusable downloads or clearly
+   labelled external reading hosts. Expose exact collection/language coverage.
+2. Original text, human translations, available transliteration, correct section
+   counts, direct passage links, surrounding context and translation comparison.
+3. Reference, exact, fuzzy and semantic search, with source/language filters.
+4. Quotation matching and attribution checks, cited context and cautious explanation.
+5. Cited text questions and follow-up questions through an existing model provider.
+6. Push-to-talk input with transcript confirmation; TTS for explanations; licensed
+   human sacred recitations where available.
+7. Related-passages graph/list, with sourced links separate from suggested similarity.
+8. Cross-tradition theme browsing, with clear sources and no equivalence claims.
+9. Daily reading plans, progress and device-local bookmarks.
+10. Shareable classroom passage/question sets, without student accounts.
+11. Hide/reveal memorization practice, prompts, quizzes and spaced revision.
+12. Experimental spoken verse identification and omission/substitution feedback;
+    no claim of expert pronunciation/chanting assessment.
+13. Share links/cards, appearance/text-size controls, mobile and keyboard access.
+14. Offline reading and exact search for downloaded works.
+15. Attribution/license visibility, error reports, neutral content handling, privacy,
+    technical tests, deployment on Render or Oracle, and final owner testing.
+16. User-requested GitHub/LeetCode-style learning activity grid and ChatGPT-style
+    Explore conversations/search history. Keep browser-local by default, with
+    reopening, search, rename/delete, pause and clear controls.
+
+Universal coverage of every edition/language and 22 fully reviewed languages is
+not promised. Continuous interruptible voice, expert theological judgments,
+scholar/community organizations, business/legal setup, OCR and sermon/video
+checking are outside the initial agreed delivery or later enhancements.
+
+## Implemented versus pending
+
+The local implementation currently has the 700-passage Gita import, 700 attributed
+English translations, exact/fuzzy/reference retrieval, conservative quotation
+checking, reader/context, source records and report API. Explore has a single
+composer and persistent device history. Study has real activity/streak counts,
+calendar keyboard navigation, bookmarks, and deliberate read marks.
+
+An Ask mode exists but currently returns retrieved texts and a visible explanation
+that conversational AI is not enabled. It is not a finished AI assistant.
+The other agreed features, broader imported corpus, free provider integrations,
+production deployment and owner acceptance remain pending. Source research or
+an empty workspace package does not count as a functioning feature.

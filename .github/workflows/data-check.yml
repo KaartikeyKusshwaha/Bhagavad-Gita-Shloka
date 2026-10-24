@@ -1,0 +1,17 @@
+name: Data license gate
+on:
+  pull_request:
+    paths: ['data/**','packages/ingest/**','scripts/data-check.ts']
+  push:
+    paths: ['data/**','packages/ingest/**','scripts/data-check.ts']
+permissions: {contents: read}
+jobs:
+  sources:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: corepack enable
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm data:check

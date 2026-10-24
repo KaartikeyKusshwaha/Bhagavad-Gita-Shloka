@@ -1,0 +1,17 @@
+{
+  "id": "gita-sanskrit",
+  "name": "Sanskrit Wikisource · Bhagavad Gita",
+  "url": "https://sa.wikisource.org/wiki/भगवद्गीता",
+  "license": "CC-BY-SA-4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "commercial_ok": true,
+  "attribution": "Sanskrit Wikisource contributors; structured transcription and IAST via Sanatan / 432 Labs (CC BY-SA 4.0). Ancient primary text is public domain.",
+  "retrieved_at": "2026-10-24",
+  "checksum": "b258e6b57075274cf89471f3c9c3da22191508979d87568e3598a92b73be138c",
+  "status": "approved",
+  "display_rules": {
+    "layer": "Primary text",
+    "edition": "700-verse recension",
+    "upstream": "https://sanatan.digital/api/v1/works/bhagavad-gita.json"
+  }
+}

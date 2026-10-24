@@ -1,4 +1,13 @@
 node_modules/
+.next/
+.local/
+.env*
+!.env.example
+data/cache/
+test-results/
+playwright-report/
+output/
+*.tsbuildinfo
 .env
 logs/
 *.log

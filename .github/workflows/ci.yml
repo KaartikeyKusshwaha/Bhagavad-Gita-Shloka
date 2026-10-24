@@ -1,0 +1,51 @@
+name: Technical checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  platform:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: scripture
+          POSTGRES_PASSWORD: ci-local-only
+          POSTGRES_DB: scripture
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U scripture"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://scripture:ci-local-only@localhost:5432/scripture
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: corepack enable
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm db:migrate
+      - run: pnpm db:migrate
+      - run: pnpm ingest gita
+      - run: pnpm data:check
+      - run: pnpm eval --allow-pending
+      - run: pnpm build
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Browser regression
+        run: |
+          pnpm dev > /tmp/scripture-server.log 2>&1 &
+          for i in $(seq 1 60); do curl --fail http://127.0.0.1:3100/v1/health && break; sleep 2; done
+          pnpm test:e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-and-data-evidence
+          path: |
+            output/
+            test-results/
+            playwright-report/
