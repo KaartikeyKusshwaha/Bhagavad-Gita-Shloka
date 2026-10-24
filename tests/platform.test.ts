@@ -76,6 +76,7 @@ describe('imported text and actual API', () => {
     expect(new Set(theme.hits.map((h) => h.passage.tradition))).toEqual(
       new Set(['buddhism', 'hinduism', 'islam']),
     );
+    expect(new Set(theme.hits.slice(0, 3).map((h) => h.passage.tradition)).size).toBe(3);
     expect(theme.note).toContain('not a claim');
     expect(await browseTheme(db, 'unlisted')).toBeNull();
     const selected = (await browseTheme(db, 'compassion', 'quran'))!;
