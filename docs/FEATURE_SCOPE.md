@@ -121,3 +121,13 @@ identity tokens, and is exposed only when the Google OAuth client is configured.
 Password accounts require explicit authenticated linking, not email-only matching.
 Google-only accounts require fresh Google authentication for permanent deletion.
 Provider setup and current limits are documented in decision 013.
+
+## Visible account entry and profiles
+
+Guests now see a prominent welcome card on first opening a reading page in a browser
+session, with separate Sign up and Sign in links and an explicit Continue as guest
+choice. Dismissing it keeps guest reading uninterrupted for that session; account
+links remain in the header. It does not appear on account or offline pages.
+Signed-in users have a labelled Profile dropdown showing their name, email/username,
+sync status, dashboard, account details and sign-out. A profile details card appears
+in Study and on the account page. No fourth main navigation destination was added.

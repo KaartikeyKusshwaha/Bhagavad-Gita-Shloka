@@ -1,6 +1,8 @@
 'use client';
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { UserRound, ChevronDown, LogOut } from 'lucide-react';
 import { accountStorage, personalGet } from '../lib/personal-storage';
 import { emptyLearning, parseAccountData } from '@core/shared/src/account-data';
 import { parseDeviceData } from '@core/shared/src/device-data';
@@ -175,11 +177,64 @@ export function AccountProvider({ children }: { children: React.ReactNode }) {
   );
 }
 export function AccountLink() {
-  const { user } = useAccount();
+  const { user, status, flush } = useAccount();
+  const path = usePathname();
+  const menu = useRef<HTMLDetailsElement>(null);
+  const [error, setError] = useState(''),
+    [busy, setBusy] = useState(false);
+  useEffect(() => {
+    if (menu.current) menu.current.open = false;
+  }, [path]);
+  async function signout() {
+    setBusy(true);
+    setError('');
+    try {
+      await flush();
+      await accountRequest('/signout', 'POST');
+      try {
+        localStorage.setItem('scripture-account-change', String(Date.now()));
+      } catch {
+        /* Navigation clears the active private state. */
+      }
+      location.href = '/account/signin';
+    } catch (e) {
+      setError((e as Error).message);
+      setBusy(false);
+    }
+  }
   return user ? (
-    <Link className="quiet-button account-link" href="/account">
-      {user.name}
-    </Link>
+    <details
+      className="profile-menu"
+      ref={menu}
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && menu.current) {
+          menu.current.open = false;
+          menu.current.querySelector('summary')?.focus();
+        }
+      }}
+    >
+      <summary aria-label="Open profile">
+        <span className="profile-avatar" aria-hidden="true">
+          {user.name.slice(0, 1).toUpperCase()}
+        </span>
+        <span>Profile</span>
+        <ChevronDown size={13} />
+      </summary>
+      <section className="profile-popover" aria-label="Account profile">
+        <div>
+          <strong>{user.name}</strong>
+          <p>{user.email ?? `@${user.username}`}</p>
+          <small>{status}</small>
+        </div>
+        <Link href="/study">My dashboard</Link>
+        <Link href="/account">Profile &amp; account details</Link>
+        <button onClick={signout} disabled={busy}>
+          <LogOut size={14} />
+          {busy ? 'Signing out…' : 'Sign out'}
+        </button>
+        {error && <p role="alert">{error}</p>}
+      </section>
+    </details>
   ) : (
     <div className="account-entry-links">
       <Link href="/account/signin">Sign in</Link>
@@ -187,6 +242,74 @@ export function AccountLink() {
         Sign up
       </Link>
     </div>
+  );
+}
+export function AccountWelcome() {
+  const { user } = useAccount(),
+    path = usePathname();
+  const [dismissed, setDismissed] = useState(true);
+  useEffect(() => {
+    try {
+      setDismissed(sessionStorage.getItem('scripture-guest-welcome') === 'dismissed');
+    } catch {
+      setDismissed(false);
+    }
+  }, []);
+  if (user || dismissed || path.startsWith('/account') || path === '/offline') return null;
+  return (
+    <section className="account-welcome" aria-labelledby="account-welcome-title">
+      <div className="welcome-copy">
+        <UserRound size={22} aria-hidden="true" />
+        <div>
+          <h2 id="account-welcome-title">Your own reading room.</h2>
+          <p>
+            Sign in or create a free account to keep your bookmarks, reading plans and Explore
+            history across devices.
+          </p>
+        </div>
+      </div>
+      <div className="welcome-actions">
+        <Link className="button primary" href="/account/signup">
+          Sign up
+        </Link>
+        <Link className="button" href="/account/signin">
+          Sign in
+        </Link>
+        <button
+          className="quiet-button"
+          onClick={() => {
+            setDismissed(true);
+            try {
+              sessionStorage.setItem('scripture-guest-welcome', 'dismissed');
+            } catch {
+              /* Continue without session storage. */
+            }
+          }}
+        >
+          Continue as guest
+        </button>
+      </div>
+    </section>
+  );
+}
+export function ProfileDetails() {
+  const { user, status } = useAccount();
+  if (!user) return null;
+  return (
+    <section className="profile-card" aria-label="Your profile details">
+      <span className="profile-avatar profile-avatar-large" aria-hidden="true">
+        {user.name.slice(0, 1).toUpperCase()}
+      </span>
+      <div>
+        <span className="eyebrow">YOUR PROFILE</span>
+        <h2>{user.name}</h2>
+        <p>{user.email ?? `@${user.username}`}</p>
+        <small>
+          {user.google_login ? 'Google account' : 'Email or username · website password'}
+        </small>
+        <p className="profile-save-state">{status}</p>
+      </div>
+    </section>
   );
 }
 export function DashboardAccount() {
@@ -234,6 +357,7 @@ export function DashboardAccount() {
     <div className="account-summary">
       {user ? (
         <>
+          <ProfileDetails />
           <p>Welcome, {user.name}. Your dashboard syncs across devices.</p>
           <small role="status">{status}</small>
           <details>

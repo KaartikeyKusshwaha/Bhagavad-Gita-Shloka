@@ -1,4 +1,4 @@
-import { AccountProvider, AccountLink } from '../components/account-provider';
+import { AccountProvider, AccountLink, AccountWelcome } from '../components/account-provider';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { BookOpen, ArrowUpRight } from 'lucide-react';
@@ -36,7 +36,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Preferences />
             </div>
           </header>
-          <main id="main">{children}</main>
+          <main id="main">
+            <AccountWelcome />
+            {children}
+          </main>
           <footer className="site-footer">
             <div>
               <Link className="footer-brand" href="/">

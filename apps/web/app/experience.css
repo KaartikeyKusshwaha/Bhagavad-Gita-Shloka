@@ -2145,3 +2145,181 @@ button.activity-cell:focus-visible {
     padding: 9px 22px;
   }
 }
+.account-welcome {
+  max-width: 1120px;
+  margin: 28px auto 0;
+  padding: 24px 28px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--card);
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  justify-content: space-between;
+}
+.welcome-copy {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  max-width: 580px;
+}
+.welcome-copy > svg {
+  flex-shrink: 0;
+  margin-top: 5px;
+  color: var(--green);
+}
+.welcome-copy h2 {
+  font: 26px/1.2 var(--serif);
+  margin-bottom: 6px;
+}
+.welcome-copy p {
+  color: var(--muted);
+  font-size: 13px;
+}
+.welcome-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+.welcome-actions .button {
+  padding: 10px 18px;
+}
+.welcome-actions .quiet-button {
+  font-size: 12px;
+}
+.profile-menu {
+  position: relative;
+}
+.profile-menu > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+  padding: 5px 8px;
+  font-size: 13px;
+}
+.profile-menu > summary::-webkit-details-marker {
+  display: none;
+}
+.profile-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--tint);
+  color: var(--green);
+  font-weight: 600;
+}
+.profile-popover {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 12px);
+  z-index: 60;
+  width: 290px;
+  max-width: 90vw;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+  box-shadow: 0 12px 38px #0002;
+}
+.profile-popover > div {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+.profile-popover strong,
+.profile-popover p {
+  overflow-wrap: anywhere;
+}
+.profile-popover p,
+.profile-popover small {
+  font-size: 12px;
+  color: var(--muted);
+}
+.profile-popover > a,
+.profile-popover > button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  padding: 10px 8px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+.profile-popover > a:hover,
+.profile-popover > button:hover {
+  background: var(--tint);
+}
+.profile-card {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 18px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+}
+.profile-avatar-large {
+  width: 54px;
+  height: 54px;
+  font-size: 24px;
+}
+.profile-card h2 {
+  font: 26px/1.2 var(--serif);
+  margin: 6px 0;
+}
+.profile-card p {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.profile-card small,
+.profile-save-state {
+  color: var(--muted);
+  font-size: 12px !important;
+}
+@media (max-width: 1000px) {
+  .account-welcome {
+    margin: 20px 5% 0;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+@media (max-width: 600px) {
+  .account-welcome {
+    padding: 20px;
+  }
+  .welcome-copy h2 {
+    font-size: 24px;
+  }
+  .welcome-actions {
+    gap: 8px;
+  }
+  .welcome-actions .button {
+    padding: 9px 15px;
+  }
+  .profile-menu > summary {
+    gap: 5px;
+    padding: 4px;
+    font-size: 12px;
+  }
+  .profile-menu > summary > svg {
+    display: none;
+  }
+  .profile-card {
+    padding: 16px;
+    gap: 12px;
+  }
+  .profile-card h2 {
+    font-size: 23px;
+  }
+}

@@ -36,6 +36,14 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
   await expect(
     page.getByText('Welcome, Reading tester. Your dashboard syncs across devices.'),
   ).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Your profile details' })).toContainText(
+    'Reading tester',
+  );
+  await page.getByText('Profile', { exact: true }).click();
+  await expect(page.getByRole('region', { name: 'Account profile' })).toContainText(username);
+  await page.getByRole('link', { name: 'Profile & account details' }).click();
+  await expect(page.getByRole('region', { name: 'Your profile details' })).toContainText(username);
+  await page.getByRole('link', { name: 'Open my dashboard', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Saved passages 0' })).toBeVisible();
   await page.getByText('Bring your guest reading with you', { exact: true }).click();
   await page.getByRole('button', { name: 'Import browser data', exact: true }).click();
@@ -156,4 +164,31 @@ test('email-first access opens signup for a new address and signs existing reade
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: 'output/qa-email-signup-mobile.png', fullPage: true });
+});
+
+test('startup welcomes guests with working signup and signin, and guest choice lasts for the session', async ({
+  page,
+}) => {
+  await page.goto('/study');
+  const welcome = page.getByRole('region', { name: 'Your own reading room.' });
+  await expect(welcome).toBeVisible();
+  await welcome.getByRole('link', { name: 'Sign up', exact: true }).click();
+  await expect(page).toHaveURL(/\/account\/signup$/);
+  await expect(page.getByLabel('Email address', { exact: true })).toBeVisible();
+  await page.goto('/');
+  await welcome.getByRole('link', { name: 'Sign in', exact: true }).click();
+  await expect(page).toHaveURL(/\/account\/signin$/);
+  await expect(page.getByLabel('Email or username', { exact: true })).toBeVisible();
+  await page.goto('/study');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(welcome).toBeVisible();
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: 'output/qa-account-welcome-mobile.png', fullPage: true });
+  await welcome.getByRole('button', { name: 'Continue as guest', exact: true }).click();
+  await page.reload();
+  await expect(welcome).toHaveCount(0);
+  await expect(
+    page.locator('.account-entry-links').getByRole('link', { name: 'Sign up', exact: true }),
+  ).toBeVisible();
 });

@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { accountRequest, useAccount } from './account-provider';
+import { accountRequest, useAccount, ProfileDetails } from './account-provider';
 type Mode = 'signin' | 'signup' | 'recover';
 const googleErrors: Record<string, string> = {
   state: 'That Google sign-in expired. Please try again.',
@@ -190,6 +190,7 @@ export function AccountPage({ initialMode = 'signin' }: { initialMode?: Mode }) 
         </>
       ) : user ? (
         <>
+          <ProfileDetails />
           <p>
             Signed in as {user.email ?? `@${user.username}`}. {status}
           </p>
