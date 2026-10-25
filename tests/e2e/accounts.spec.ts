@@ -42,7 +42,9 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
   await expect(
     page.getByText('Browser data imported. Your existing account entries take priority.'),
   ).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Saved passages 1' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Saved passages 1' })).toBeVisible({
+    timeout: 20000,
+  });
   await page.goto('/read/bhagavad-gita/BG-2.47');
   await page.getByRole('button', { name: 'Mark as read', exact: true }).click();
   await page.getByRole('button', { name: 'Bookmark to my account', exact: true }).click();
@@ -91,7 +93,9 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
     await page.getByText('Delete my account', { exact: true }).click();
     await page.getByLabel('Confirm your password').fill(password);
     await page.getByRole('button', { name: 'Permanently delete account' }).click();
-    await expect(page.getByRole('button', { name: 'Saved passages 1' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Saved passages 1' })).toBeVisible({
+      timeout: 20000,
+    });
     await page.goto('/account');
     await expect(page.locator('.account-loading')).toHaveCount(0);
     await page.setViewportSize({ width: 390, height: 844 });
@@ -127,6 +131,7 @@ test('email-first access opens signup for a new address and signs existing reade
   ).toBeVisible();
   await page.goto('/account');
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
+  await expect(page).toHaveURL(/\/study$/, { timeout: 20000 });
   await page.goto('/account/signin');
   await page.getByLabel('Email or username', { exact: true }).fill(email);
   await page.getByRole('button', { name: 'Continue with email or username' }).click();

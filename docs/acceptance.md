@@ -77,3 +77,24 @@ search assertion allows 20 seconds for a cold Oracle request; this is a test dea
 not a response-time guarantee. The service had zero automatic restarts and a measured
 memory peak of 268,955,648 bytes after the first live account exercise. Final owner
 acceptance remains pending.
+
+## Email access deployed, 2026-10-25
+
+Release `7dce1f1a294ce4f765d87a199593a889403a795d` adds independent Sign in / Sign up
+links and routes, email/password registration, and email-first routing to signup
+for unused addresses. Username accounts remain compatible. CI 40204480488 passed
+41 code/API tests, source checks, build and 20 browser tests (49.3 seconds); the
+local full browser suite also passed 20 tests. Two public-site account tests passed
+in 1.1 minutes, covering signup, email routing, existing-email signin, wrong-password
+handling, cross-browser saved data, guest import, signout and deletion.
+
+Oracle runtime SHA-256:
+`8afe421705354705cb6a6c6eece1dbd69355205b54dd308c0cb47e7aa45d2b89`.
+CI ZIP artifact 12603246980 SHA-256:
+`41e9102d29cf63589c50cf864ac9cc47932be59b62eaca291a8bbdad64a67c5b`.
+The upgrade took a database backup; previous code is retained at
+`/opt/open-scripture-previous-20261025T150249Z`. Health passed with zero automatic
+restarts at verification. Google OAuth code and protocol tests are included but
+Google is not enabled in production: project `open-scripture` was created without
+billing, then browser access was disabled before the consent form and OAuth client
+could be completed. No Google login success is claimed.

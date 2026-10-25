@@ -121,3 +121,10 @@ private synchronization, guest import, sign-out and deletion passed. Account sta
 and sync requests have separate limits from the public reader allowance; password
 operations retain stricter limits and one concurrent scrypt operation on the VM.
 No new hosting or authentication subscription was added.
+
+Email access release 2026-10-25: Oracle runs `7dce1f1`, with migration 008, separate
+signin/signup routes and email-or-username website passwords. Runtime digest is
+`8afe421705354705cb6a6c6eece1dbd69355205b54dd308c0cb47e7aa45d2b89`;
+CI 40204480488 and both live account tests passed. Google credentials are still
+unconfigured; follow decision 013 after browser access is restored. No billing or
+paid trial was enabled in the newly created `open-scripture` Google project.
