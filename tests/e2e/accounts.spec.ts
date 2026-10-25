@@ -6,6 +6,8 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
 }) => {
   const username = `qa_${Date.now()}`,
     password = 'only-testing-a-long-password';
+  await page.goto('/read/bhagavad-gita/BG-4.7');
+  await page.getByRole('button', { name: 'Bookmark on this device', exact: true }).click();
   await page.goto('/account');
   await page.getByRole('button', { name: 'Create an account', exact: true }).click();
   await page.getByLabel('Your name', { exact: true }).fill('Reading tester');
@@ -18,6 +20,13 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
   await expect(
     page.getByText('Welcome, Reading tester. Your dashboard syncs across devices.'),
   ).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Saved passages 0' })).toBeVisible();
+  await page.getByText('Bring your guest reading with you', { exact: true }).click();
+  await page.getByRole('button', { name: 'Import browser data', exact: true }).click();
+  await expect(
+    page.getByText('Browser data imported. Your existing account entries take priority.'),
+  ).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Saved passages 1' })).toBeVisible();
   await page.goto('/read/bhagavad-gita/BG-2.47');
   await page.getByRole('button', { name: 'Mark as read', exact: true }).click();
   await page.getByRole('button', { name: 'Bookmark to my account', exact: true }).click();
@@ -51,7 +60,7 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
         .filter({ hasText: 'passage marked read' })
         .locator('strong'),
     ).toHaveText('1');
-    await second.getByRole('button', { name: 'Saved passages 1' }).click();
+    await second.getByRole('button', { name: 'Saved passages 2' }).click();
     await expect(second.getByRole('link', { name: /Bhagavad Gita · BG 2.47/ })).toBeVisible();
     await second.getByRole('button', { name: 'Study tools', exact: true }).click();
     await expect(second.getByRole('progressbar', { name: 'Reading plan progress' })).toBeVisible();
@@ -60,17 +69,12 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
     await expect(second.getByRole('button', { name: 'BG 2.47 1 exchange' })).toBeVisible();
     await second.goto('/account');
     await second.getByRole('button', { name: 'Sign out', exact: true }).click();
-    await expect(
-      second.getByText('Your first day starts with a passage or a question.'),
-    ).toBeVisible();
     await expect(second.getByRole('button', { name: 'Saved passages 0' })).toBeVisible();
     await page.goto('/account');
     await page.getByText('Delete my account', { exact: true }).click();
     await page.getByLabel('Confirm your password').fill(password);
     await page.getByRole('button', { name: 'Permanently delete account' }).click();
-    await expect(
-      page.getByText('Your first day starts with a passage or a question.'),
-    ).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Saved passages 1' })).toBeVisible();
     await page.goto('/account');
     await expect(page.locator('.account-loading')).toHaveCount(0);
     await page.setViewportSize({ width: 390, height: 844 });

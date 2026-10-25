@@ -1957,11 +1957,19 @@ button.activity-cell:focus-visible {
   align-items: center;
   gap: 8px;
 }
+.account-link {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .account-page {
   max-width: 620px;
   min-height: 60vh;
 }
 .account-page h1 {
+  font: clamp(32px, 4vw, 48px)/1.12 var(--serif);
+  letter-spacing: -0.03em;
   margin: 16px 0;
 }
 .account-page form {
@@ -2001,7 +2009,7 @@ button.activity-cell:focus-visible {
   overflow-wrap: anywhere;
   padding: 24px;
   margin: 24px 0;
-  background: var(--soft, #efefe9);
+  background: var(--tint);
   border-radius: 12px;
   user-select: all;
 }
