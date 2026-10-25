@@ -1,9 +1,16 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+test.afterEach(async ({ page }) => {
+  await page.request.delete('/v1/account', {
+    headers: { 'x-scripture-client': '1' },
+    data: { password: 'only-testing-a-long-password' },
+  });
+});
 test('accounts carry reading, bookmarks, lessons and history to a new browser; signout isolates guest data', async ({
   page,
   browser,
 }) => {
+  test.setTimeout(90000);
   const username = `qa_${Date.now()}`,
     password = 'only-testing-a-long-password';
   await page.goto('/read/bhagavad-gita/BG-4.7');
@@ -41,7 +48,7 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
   await expect(page.locator('.explore-page')).toHaveAttribute('data-ready', 'true');
   await page.getByRole('textbox', { name: 'Search the texts', exact: true }).fill('BG 2.47');
   await page.getByRole('button', { name: 'Send to Explore' }).click();
-  await expect(page.getByRole('article', { name: 'BG 2.47' })).toBeVisible();
+  await expect(page.getByRole('article', { name: 'BG 2.47' })).toBeVisible({ timeout: 20000 });
   await page.getByRole('link', { name: 'Study', exact: true }).first().click();
   await expect(page.getByRole('status').filter({ hasText: 'Saved to your account' })).toBeVisible();
   const context = await browser.newContext({

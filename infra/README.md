@@ -109,3 +109,15 @@ Restore to a different database first and verify counts, sources and a known
 report before any disaster recovery. Guest history and learning progress stay on the device. Signed-in reader accounts,
 session hashes and private dashboard payloads are part of the server database backup.
 Keep backups private and manage retention, including copies containing deleted accounts.
+
+## Account release, 2026-10-25
+
+Oracle now runs the private reader-account release from commit `b115a8e`.
+CI 40197918356 passed 37 code/API tests and 19 browser checks. The verified runtime
+SHA-256 is `5984ffb4556e81a3d7a89be9cf5440ebf83bc27bb5d069de8f60cd361d8da12f`.
+A database backup was taken before migration 007 and the previous code is retained
+at `/opt/open-scripture-previous-20261025T133646Z`. Live isolated-browser sign-up,
+private synchronization, guest import, sign-out and deletion passed. Account status
+and sync requests have separate limits from the public reader allowance; password
+operations retain stricter limits and one concurrent scrypt operation on the VM.
+No new hosting or authentication subscription was added.

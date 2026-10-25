@@ -51,3 +51,29 @@ The restored off-host core backup contains all passages/translations and the two
 The optional human benchmark remains unprovided. pnpm eval reports pending and exits 2 without real reviewed files; CI uses --allow-pending and claims no score. Do not fabricate scripture samples or human reviews. Final real-time acceptance belongs to the owner.
 
 Gita edition decisions: Besant 1922 chapter 13 verses 2–35 map to platform BG 13.1–34. Printed marker errors are parsed from adjacent source numbering without generating words. Quran display strings preserve downloaded Unicode order; normalization is a separate search column. Full provenance and decisions are under docs/decisions.
+
+## Reader accounts deployed, 2026-10-25
+
+Functional release `b115a8ec4756201f3cc90e1661724067413ed150` adds free private
+username/password accounts at `/account`, with personal Study dashboards and
+synchronized bookmarks/notes, deliberate reading progress and places, reading plans,
+revision cards, activity and saved Explore conversations. Guest import is explicit.
+Recovery uses a one-time code rather than email. Live account deletion cascades to
+sessions and private saved data; historical database backups require retention care.
+
+CI run 40197918356 passed lint, strict types, 37 code/API tests, migrations, source/data
+checks, production build and all 19 browser tests. Runtime artifact 12600219871 was
+verified before extraction: ZIP SHA-256
+`4646a738545e78cde30fac1918ff7e716b5a794a9ef98588b921733bfbb73b09`;
+runtime tar SHA-256
+`5984ffb4556e81a3d7a89be9cf5440ebf83bc27bb5d069de8f60cd361d8da12f`.
+The upgrade took a database backup and retained previous code at
+`/opt/open-scripture-previous-20261025T133646Z` before starting the healthy release.
+
+A live isolated-browser account test passed (30.5 seconds), including explicit guest
+import, second-browser access to bookmarks, reading progress, plans and history,
+sign-out isolation and permanent deletion. Its test account was removed. The live
+search assertion allows 20 seconds for a cold Oracle request; this is a test deadline,
+not a response-time guarantee. The service had zero automatic restarts and a measured
+memory peak of 268,955,648 bytes after the first live account exercise. Final owner
+acceptance remains pending.
