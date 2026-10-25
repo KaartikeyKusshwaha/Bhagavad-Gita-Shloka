@@ -24,7 +24,7 @@ and business operations in the original PDF.
 - No live scripture API calls when reading, no trackers, no generated scripture.
 - Three destinations: Explore, Read, Study; one Explore composer and optional history drawer.
 - Free email-or-username/password accounts with private synchronized Study dashboards, recovery
-  codes and account deletion. Separate Sign in / Sign up pages route new email addresses to signup. Optional Google sign-in requires a configured OAuth client; it never silently links an existing password account. Guests keep their data locally; importing guest data is optional.
+  codes and account deletion. Separate Sign in / Sign up pages route new email addresses to signup. Optional Google sign-in requires a configured OAuth client; it never silently links an existing password account. Explore, Read and Study require sign-in; a signup/signin popup protects their direct links. The default appearance is dark maroon with rose accents.
 - Conversations with reopen/search/rename/delete/pause controls, real
   learning-activity calendar, read marks, streaks and saved passages. Bookmarks have
   colours and private notes; explicit read marks provide a Continue reading link.

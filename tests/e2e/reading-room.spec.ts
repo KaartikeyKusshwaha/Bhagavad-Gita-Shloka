@@ -134,6 +134,8 @@ test('mobile layout, primary text labels, keyboard access and no external script
       () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
     );
   await page.goto('/');
+  await expect(page.getByRole('link', { name: 'Skip to content' })).toBeAttached();
+  await page.waitForFunction(() => document.body.dataset.accountSync === 'ready');
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
 });

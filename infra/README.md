@@ -128,3 +128,10 @@ signin/signup routes and email-or-username website passwords. Runtime digest is
 CI 40204480488 and both live account tests passed. Google credentials are still
 unconfigured; follow decision 013 after browser access is restored. No billing or
 paid trial was enabled in the newly created `open-scripture` Google project.
+
+Member access/maroon release 2026-10-25: commit `30356a0`, CI 40209465987,
+42 code/API tests, 21 browser checks and three live account tests passed. Runtime
+SHA-256 `7f5c4b3cc1aa95e02d5f157b46abafe96c97b796a71a07d1690cf5b70221bdc7`.
+The application health endpoint stays public. Reader routes/APIs require a real
+session; don't change health probes to a protected page. Previous runtime:
+`/opt/open-scripture-previous-20261025T160442Z`.

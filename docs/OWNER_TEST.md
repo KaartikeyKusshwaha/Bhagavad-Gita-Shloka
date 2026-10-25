@@ -62,3 +62,11 @@ second account. Gmail addresses also work as normal email logins. One-click Cont
 with Google appears only after OAuth setup. When enabled, verify Google's account
 chooser opens in a full browser and the completed login returns to your own Study
 dashboard. Existing password accounts must explicitly link Google from settings.
+
+## Latest: signed-in access and maroon appearance
+
+In a signed-out browser open Explore, Read and Study, including a direct passage
+link. Each should show the Sign up / Sign in popup without opening reader content.
+Create an account or sign in to access all three destinations. After signout, access
+is blocked again. The default palette is dark maroon/red; Reading settings offers
+a light rose appearance. Previously downloaded public copies remain local files.

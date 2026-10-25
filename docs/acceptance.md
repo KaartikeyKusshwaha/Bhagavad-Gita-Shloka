@@ -117,3 +117,26 @@ Artifact 12603829386 ZIP SHA-256:
 The upgrade took a database backup and retained previous code at
 `/opt/open-scripture-previous-20261025T153208Z`. Google sign-in remains disabled
 per the owner's instruction to finish email access only.
+
+## Member access and maroon palette deployed, 2026-10-25
+
+Functional release `30356a0836d204fd037f763d81ffc61b80bafbef` requires sign-in for
+Explore, Read and Study and their reader API endpoints in website mode. Guests
+are redirected to the native signup/signin dialog; protected page content is not
+served behind it. Reader responses are no-store. Deep maroon/red is the default
+appearance; a light rose alternative remains in Reading settings.
+
+CI 40209465987 passed 42 code/API tests, source checks, production build and all
+21 browser checks (50.4 seconds). The local browser run passed 20 checks and its
+remaining keyboard timing check passed after explicitly waiting for account load.
+All three public-site account/access tests passed in 48.7 seconds, including direct
+URL/API denial, signup/signin, cross-browser private data, signout, maroon palette
+and mobile accessibility. Test accounts were cleaned up.
+
+Runtime SHA-256: `7f5c4b3cc1aa95e02d5f157b46abafe96c97b796a71a07d1690cf5b70221bdc7`.
+Artifact 12604318811 ZIP SHA-256:
+`503ae43232059a45c8c0357149b412667991130a57f09ab6b2486aa7df599837`.
+A database backup preceded the upgrade. Previous code is retained at
+`/opt/open-scripture-previous-20261025T160442Z`. Public health returned 200; the
+service had zero automatic restarts at verification. Already downloaded public
+copies cannot be revoked through website authentication; see decision 014.
