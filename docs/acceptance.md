@@ -98,3 +98,22 @@ restarts at verification. Google OAuth code and protocol tests are included but
 Google is not enabled in production: project `open-scripture` was created without
 billing, then browser access was disabled before the consent form and OAuth client
 could be completed. No Google login success is claimed.
+
+## Visible startup access and reader profiles deployed, 2026-10-25
+
+Functional commit `419a43b62607bcc5378e19f9f7ba3bdb1dd497b1` adds the startup guest
+welcome card with distinct Sign up, Sign in and Continue as guest controls. The
+choice to continue as a guest lasts for the browser session; header account links
+remain available. Signed-in users have an explicit Profile menu, identity details,
+dashboard/account links and signout. Study and account pages show a profile card.
+
+CI 40206913723 passed 41 code/API tests and all 21 browser tests (49.8 seconds),
+including startup access, profile details, private synchronization and mobile axe
+checks. Six focused local tests passed. All three live account tests passed in
+1.4 minutes after deployment. Runtime SHA-256:
+`2e8ea2a5d28e26d79b6e7ea90e57a0f454a1033b560111e13792675f1bc270c0`.
+Artifact 12603829386 ZIP SHA-256:
+`8df82c24785517f4272d7417df7bf420e8c96673fcdba45c4ac6581293afac1e`.
+The upgrade took a database backup and retained previous code at
+`/opt/open-scripture-previous-20261025T153208Z`. Google sign-in remains disabled
+per the owner's instruction to finish email access only.
