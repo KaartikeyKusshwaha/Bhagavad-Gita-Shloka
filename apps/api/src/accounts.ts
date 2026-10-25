@@ -78,7 +78,8 @@ export async function registerAccounts(app: FastifyInstance, db: Database) {
       }
     }
   });
-  app.get('/v1/account', async (req) => ({ user: await identity(req) }));
+  const readerLimit = { rateLimit: { max: 120, timeWindow: '1 minute' } };
+  app.get('/v1/account', { config: readerLimit }, async (req) => ({ user: await identity(req) }));
   const limit = { rateLimit: { max: 5, timeWindow: '15 minutes' } };
   app.post('/v1/account/signup', { config: limit }, async (req, reply) => {
     const body = credentials.extend({ name: z.string().trim().min(1).max(80) }).parse(req.body);
@@ -137,7 +138,7 @@ export async function registerAccounts(app: FastifyInstance, db: Database) {
     reply.header('Set-Cookie', cookie('', 0));
     return { recoveryCode };
   });
-  app.post('/v1/account/signout', async (req, reply) => {
+  app.post('/v1/account/signout', { config: readerLimit }, async (req, reply) => {
     const user = await identity(req);
     if (user) {
       const token = req.headers.cookie
@@ -150,7 +151,7 @@ export async function registerAccounts(app: FastifyInstance, db: Database) {
     reply.header('Set-Cookie', cookie('', 0));
     return { ok: true };
   });
-  app.get('/v1/account/data', async (req, reply) => {
+  app.get('/v1/account/data', { config: readerLimit }, async (req, reply) => {
     const user = await identity(req);
     if (!user) return fail(reply, 401, 'Sign in to access your dashboard.');
     const { rows } = await db.query<{ revision: number; payload: Record<string, unknown> }>(
@@ -164,31 +165,35 @@ export async function registerAccounts(app: FastifyInstance, db: Database) {
         : { device: emptyDeviceData, learning: emptyLearning },
     };
   });
-  app.put('/v1/account/data', { bodyLimit: 4 * 1024 * 1024 }, async (req, reply) => {
-    const user = await identity(req);
-    if (!user) return fail(reply, 401, 'Your session expired. Sign in again.');
-    const body = z
-        .object({
-          accountId: z.string().uuid(),
-          revision: z.number().int().nonnegative(),
-          data: z.unknown(),
-        })
-        .parse(req.body),
-      data = parseAccountData(body.data);
-    if (body.accountId !== user.id)
-      return fail(reply, 401, 'Your active account changed. Reload before saving.');
-    const { rows } = await db.query<{ revision: number }>(
-      'UPDATE reader_data SET payload=$1::jsonb,revision=revision+1 WHERE account_id=$2 AND revision=$3 RETURNING revision',
-      [JSON.stringify(data), user.id, body.revision],
-    );
-    if (!rows.length)
-      return fail(
-        reply,
-        409,
-        'Your dashboard changed on another device. Reload to use the latest saved version.',
+  app.put(
+    '/v1/account/data',
+    { bodyLimit: 4 * 1024 * 1024, config: readerLimit },
+    async (req, reply) => {
+      const user = await identity(req);
+      if (!user) return fail(reply, 401, 'Your session expired. Sign in again.');
+      const body = z
+          .object({
+            accountId: z.string().uuid(),
+            revision: z.number().int().nonnegative(),
+            data: z.unknown(),
+          })
+          .parse(req.body),
+        data = parseAccountData(body.data);
+      if (body.accountId !== user.id)
+        return fail(reply, 401, 'Your active account changed. Reload before saving.');
+      const { rows } = await db.query<{ revision: number }>(
+        'UPDATE reader_data SET payload=$1::jsonb,revision=revision+1 WHERE account_id=$2 AND revision=$3 RETURNING revision',
+        [JSON.stringify(data), user.id, body.revision],
       );
-    return { revision: rows[0].revision };
-  });
+      if (!rows.length)
+        return fail(
+          reply,
+          409,
+          'Your dashboard changed on another device. Reload to use the latest saved version.',
+        );
+      return { revision: rows[0].revision };
+    },
+  );
   app.delete('/v1/account', { config: limit }, async (req, reply) => {
     const user = await identity(req);
     if (!user) return fail(reply, 401, 'Sign in first.');

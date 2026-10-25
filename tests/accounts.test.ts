@@ -163,3 +163,17 @@ it('limits authentication attempts and rejects malformed or oversized account da
       .statusCode,
   ).toBe(400);
 }, 20000);
+it('keeps lightweight account checks separate from the public reading budget', async () => {
+  for (let i = 0; i < 120; i++)
+    expect(
+      (await app.inject({ method: 'GET', url: '/v1/account', remoteAddress: '10.9.1.2' }))
+        .statusCode,
+    ).toBe(200);
+  expect(
+    (await app.inject({ method: 'GET', url: '/v1/account', remoteAddress: '10.9.1.2' })).statusCode,
+  ).toBe(429);
+  expect(
+    (await app.inject({ method: 'GET', url: '/v1/traditions', remoteAddress: '10.9.1.2' }))
+      .statusCode,
+  ).toBe(200);
+});
