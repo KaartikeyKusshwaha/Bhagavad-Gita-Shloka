@@ -1,5 +1,32 @@
 # College website acceptance ledger
 
+## Required Groq assessments and reading sessions · 26 October 2026
+
+Deployed functional commit `05675a52b99797272210fef73f487306bbf7c056`.
+Technical checks run `40236872973` passed lint, TypeScript, 48 code/API tests,
+source integrity, production build and all 23 browser flows (1.1 minutes).
+Source checks retain 120,858 passages and 39,154 human translation records;
+independent editorial signoff remains pending.
+
+Live Groq `openai/gpt-oss-20b` returned 200 with validated evidence IDs for
+Gita claim verification, Genesis creation verification, an Ask question and a
+follow-up about avoiding work. Measured requests took 19.8, 1.6, 1.7 and 1.9
+seconds respectively during deployment warmup; these are observations, not SLAs.
+The final public browser checks passed both real Verify/history and account-saved
+reading minutes, pause/hidden-tab exclusion, bookmarks and reader preferences
+(20.4 seconds). An earlier smoke test ran during the restart and could not read
+health capabilities; it was rerun successfully after the upgrade reported healthy.
+The temporary smoke account that could not delete during restart was subsequently
+identified by its exact QA username and name and deleted using its own password.
+
+Artifact `12615541909`, ZIP SHA-256
+`6e1af70b1f552e3a67a2dfcd783b94cba3b2b08affbaa05f41714c42097c4c07`.
+Runtime SHA-256
+`b6cdaa4ee04ef1801d3505c29bd396ec6632e5ab89f5fbb4f37d53fb6c6d4c8c`.
+A database backup preceded the upgrade. Previous code retained at
+`/opt/open-scripture-previous-20261025T215919Z`. Post-upgrade health returned 200
+with actual AI readiness and indexed coverage. Final owner acceptance remains pending.
+
 ## Expanded library release · 25 October 2026
 
 Commit `32a0b11d7463e4f1f59373305e93baed4f9303d2` passed Technical checks
