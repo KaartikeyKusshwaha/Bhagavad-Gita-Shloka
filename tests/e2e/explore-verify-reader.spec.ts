@@ -13,7 +13,9 @@ test('Explore Verify requires a real assessment and reports a service failure ho
     .fill('Does BG 2.47 teach that we should avoid all work?');
   await page.getByRole('button', { name: 'Send to Explore', exact: true }).click();
   if (!health.capabilities.ai_explanations && process.env.REQUIRE_LIVE_AI !== '1') {
-    await expect(page.getByRole('alert')).toContainText('No AI assessment was produced');
+    await expect(page.locator('.explore-error[role="alert"]')).toContainText(
+      'No AI assessment was produced',
+    );
     await expect(page.locator('.assistant-response')).toHaveCount(0);
     return;
   }

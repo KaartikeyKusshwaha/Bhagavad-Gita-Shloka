@@ -95,7 +95,9 @@ test('home, chapter picker, exact/fuzzy search, quotation check, report flow', a
         .evaluate((el) => el.getBoundingClientRect().top),
     );
   } else {
-    await expect(page.getByRole('alert')).toContainText('No AI assessment was produced');
+    await expect(page.locator('.error[role="alert"]')).toContainText(
+      'No AI assessment was produced',
+    );
     await expect(page.locator('.verify-result')).toHaveCount(0);
     await page.goto('/read/bhagavad-gita/BG-2.47');
   }
