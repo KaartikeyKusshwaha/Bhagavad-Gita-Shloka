@@ -41,7 +41,7 @@ export interface StudyBookmark {
 }
 export interface LearningActivity {
   day: string;
-  kind: 'read' | 'search' | 'verify' | 'ask' | 'practice';
+  kind: 'read' | 'search' | 'verify' | 'ask' | 'practice' | 'reading';
   resource: string;
 }
 export interface DeviceData {
@@ -209,7 +209,7 @@ const deviceSchema = z.object({
     .array(
       z.object({
         day: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-        kind: z.enum(['read', 'search', 'verify', 'ask', 'practice']),
+        kind: z.enum(['read', 'search', 'verify', 'ask', 'practice', 'reading']),
         resource: z.string().max(150),
       }),
     )

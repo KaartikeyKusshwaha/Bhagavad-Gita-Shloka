@@ -30,6 +30,7 @@ import { semanticCoverage } from '../../../packages/search/src/semantic.ts';
 import { verifyClaim } from '../../../packages/verify/src/index.ts';
 import { normalize } from '../../../packages/shared/src/index.ts';
 import { routeSafety } from '../../../packages/llm/src/guardrails.ts';
+import { AiServiceError } from '../../../packages/llm/src/errors.ts';
 const error = (code: string, message: string) => ({ error: { code, message } });
 const claimBody = z.object({
   claim: z.string().trim().min(2).max(5000),
@@ -97,6 +98,8 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
     },
   });
   app.setErrorHandler<Error & { validation?: unknown; statusCode?: number }>((err, _req, reply) => {
+    if (err instanceof AiServiceError)
+      return reply.code(err.statusCode).send(error(err.code, err.message));
     if (err instanceof z.ZodError || err.validation)
       return reply.code(400).send(error('INVALID_INPUT', 'Check the request fields and limits.'));
     if (err.message === 'SEMANTIC_UNAVAILABLE')

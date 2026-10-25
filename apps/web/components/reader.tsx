@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { ReaderPicker } from './reader-picker';
 import { PassageCard } from './passage';
 import { Connections } from './connections';
+import { ReadingExperience } from './reading-experience';
 import type { Passage } from '@core/shared/src/index';
 interface Division {
   number: number;
@@ -80,102 +81,104 @@ export function Reader({
           )}
         </aside>
         <div className="reader-main">
-          <div className="page-heading">
-            <span className="eyebrow">
-              {current?.metadata?.part?.toUpperCase() ||
-                `${sectionLabel.toUpperCase()} ${String(chapter).padStart(2, '0')}`}{' '}
-              · {current?.verse_count} {passageLabel.toUpperCase()}S
-            </span>
-            <h1>{current?.title}</h1>
-            <p>
-              {String(
-                first.work_metadata?.description ??
-                  first.source.display_rules?.description ??
-                  'Original Sanskrit, a human translation, and room to read around the words.',
-              )}
-            </p>
-          </div>
-          <ReaderPicker
-            key={first.id}
-            work={first.work}
-            divisions={divisions}
-            chapter={chapter}
-            verse={passages.length === 1 ? first.verse_number : 0}
-            sectionLabel={sectionLabel}
-            passageLabel={passageLabel}
-          />
-          <div className="stack">
-            {passages.map((p) => (
-              <PassageCard key={p.id} passage={p} />
-            ))}
-          </div>
-          {!context && current && current.verse_count > 80 && (
-            <nav className="verse-navigation" aria-label="Section pages">
-              {page > 1 ? (
-                <Link href={`/read/${first.work}/chapter/${chapter}?page=${page - 1}`}>
-                  <ArrowLeft size={14} />
-                  Previous page
-                </Link>
-              ) : (
-                <span />
-              )}
-              <span>
-                Page {page} of {Math.ceil(current.verse_count / 80)}
+          <ReadingExperience work={first.work}>
+            <div className="page-heading">
+              <span className="eyebrow">
+                {current?.metadata?.part?.toUpperCase() ||
+                  `${sectionLabel.toUpperCase()} ${String(chapter).padStart(2, '0')}`}{' '}
+                · {current?.verse_count} {passageLabel.toUpperCase()}S
               </span>
-              {page * 80 < current.verse_count && (
-                <Link href={`/read/${first.work}/chapter/${chapter}?page=${page + 1}`}>
-                  Next page
-                  <ArrowRight size={14} />
-                </Link>
-              )}
-            </nav>
-          )}
-          {context && (
-            <>
-              <nav className="verse-navigation" aria-label="Previous and next passage">
-                {context.before.at(-1) ? (
-                  <Link
-                    href={`/read/${first.work}/${context.before.at(-1)!.ref.replace(' ', '-')}`}
-                  >
-                    <ArrowLeft size={14} /> {context.before.at(-1)!.ref}
+              <h1>{current?.title}</h1>
+              <p>
+                {String(
+                  first.work_metadata?.description ??
+                    first.source.display_rules?.description ??
+                    'Original Sanskrit, a human translation, and room to read around the words.',
+                )}
+              </p>
+            </div>
+            <ReaderPicker
+              key={first.id}
+              work={first.work}
+              divisions={divisions}
+              chapter={chapter}
+              verse={passages.length === 1 ? first.verse_number : 0}
+              sectionLabel={sectionLabel}
+              passageLabel={passageLabel}
+            />
+            <div className="stack">
+              {passages.map((p) => (
+                <PassageCard key={p.id} passage={p} />
+              ))}
+            </div>
+            {!context && current && current.verse_count > 80 && (
+              <nav className="verse-navigation" aria-label="Section pages">
+                {page > 1 ? (
+                  <Link href={`/read/${first.work}/chapter/${chapter}?page=${page - 1}`}>
+                    <ArrowLeft size={14} />
+                    Previous page
                   </Link>
                 ) : (
                   <span />
                 )}
-                {context.after[0] && (
-                  <Link href={`/read/${first.work}/${context.after[0].ref.replace(' ', '-')}`}>
-                    {context.after[0].ref} <ArrowRight size={14} />
+                <span>
+                  Page {page} of {Math.ceil(current.verse_count / 80)}
+                </span>
+                {page * 80 < current.verse_count && (
+                  <Link href={`/read/${first.work}/chapter/${chapter}?page=${page + 1}`}>
+                    Next page
+                    <ArrowRight size={14} />
                   </Link>
                 )}
               </nav>
-              <details className="context-section">
-                <summary>Read the surrounding passages</summary>
-                <p className="results-count">
-                  Five passages on either side, where available. Read the full chapter for the wider
-                  setting.
-                </p>
-                <div className="context-grid">
-                  {[...context.before, first, ...context.after].map((p) => (
+            )}
+            {context && (
+              <>
+                <nav className="verse-navigation" aria-label="Previous and next passage">
+                  {context.before.at(-1) ? (
                     <Link
-                      className="context-item"
-                      key={p.id}
-                      href={`/read/${p.work}/${p.ref.replace(' ', '-')}`}
+                      href={`/read/${first.work}/${context.before.at(-1)!.ref.replace(' ', '-')}`}
                     >
-                      <strong>
-                        {p.ref}
-                        {p.id === first.id ? ' · Current passage' : ''}
-                      </strong>
-                      <p>{p.translations[0]?.text ?? p.original_text}</p>
+                      <ArrowLeft size={14} /> {context.before.at(-1)!.ref}
                     </Link>
-                  ))}
-                </div>
-              </details>
-            </>
-          )}
-          {passages.length === 1 && <Connections key={first.id} passage={first} />}
-          <Link className="text-link" href="/sources">
-            See the full source and license records <ArrowRight size={15} />
-          </Link>
+                  ) : (
+                    <span />
+                  )}
+                  {context.after[0] && (
+                    <Link href={`/read/${first.work}/${context.after[0].ref.replace(' ', '-')}`}>
+                      {context.after[0].ref} <ArrowRight size={14} />
+                    </Link>
+                  )}
+                </nav>
+                <details className="context-section">
+                  <summary>Read the surrounding passages</summary>
+                  <p className="results-count">
+                    Five passages on either side, where available. Read the full chapter for the
+                    wider setting.
+                  </p>
+                  <div className="context-grid">
+                    {[...context.before, first, ...context.after].map((p) => (
+                      <Link
+                        className="context-item"
+                        key={p.id}
+                        href={`/read/${p.work}/${p.ref.replace(' ', '-')}`}
+                      >
+                        <strong>
+                          {p.ref}
+                          {p.id === first.id ? ' · Current passage' : ''}
+                        </strong>
+                        <p>{p.translations[0]?.text ?? p.original_text}</p>
+                      </Link>
+                    ))}
+                  </div>
+                </details>
+              </>
+            )}
+            {passages.length === 1 && <Connections key={first.id} passage={first} />}
+            <Link className="text-link" href="/sources">
+              See the full source and license records <ArrowRight size={15} />
+            </Link>
+          </ReadingExperience>
         </div>
       </div>
     </div>

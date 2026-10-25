@@ -84,14 +84,22 @@ test('home, chapter picker, exact/fuzzy search, quotation check, report flow', a
       'Thy business is with the action only, never with its fruits; so let not the fruit of action be thy motive, nor be thou to inaction attached.',
     );
   await page.getByRole('button', { name: 'Check the quotation' }).click();
-  await expect(page.getByText('Wording found', { exact: true })).toBeVisible();
+  const health = await (await page.request.get('/v1/health')).json();
+  if (health.capabilities.ai_explanations) {
+    await expect(page.getByText('Wording found', { exact: true })).toBeVisible();
+    const article = page.getByRole('article', { name: 'BG 2.47' });
+    await expect(article).toBeVisible();
+    expect(await article.evaluate((el) => el.getBoundingClientRect().top)).toBeLessThan(
+      await page
+        .getByRole('heading', { name: 'What this result tells you' })
+        .evaluate((el) => el.getBoundingClientRect().top),
+    );
+  } else {
+    await expect(page.getByRole('alert')).toContainText('No AI assessment was produced');
+    await expect(page.locator('.verify-result')).toHaveCount(0);
+    await page.goto('/read/bhagavad-gita/BG-2.47');
+  }
   const article = page.getByRole('article', { name: 'BG 2.47' });
-  await expect(article).toBeVisible();
-  expect(await article.evaluate((el) => el.getBoundingClientRect().top)).toBeLessThan(
-    await page
-      .getByRole('heading', { name: 'What this result tells you' })
-      .evaluate((el) => el.getBoundingClientRect().top),
-  );
   await article.getByRole('link', { name: 'Report an error' }).click();
   await page
     .getByLabel('Describe the issue')

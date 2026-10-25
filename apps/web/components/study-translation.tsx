@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import type { Passage } from '@core/shared/src/index';
+import { SpeakExplanation } from './speech';
 export const studyLanguages = {
   en: 'English',
   hi: 'Hindi',
@@ -74,6 +75,7 @@ export function StudyTranslation({ passage }: { passage: Passage }) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ passage_id: passage.id, target_lang: language }),
+                signal: AbortSignal.timeout(90000),
               });
               const d = await r.json();
               if (!r.ok) throw new Error(d.error?.message ?? 'Translation unavailable.');
@@ -97,6 +99,12 @@ export function StudyTranslation({ passage }: { passage: Passage }) {
           <small>
             Generated from {passage.source.name}. This is not a published scripture edition.
           </small>
+          <SpeakExplanation
+            key={language + result}
+            text={result}
+            lang={language}
+            label="Listen to study translation"
+          />
         </section>
       )}
       {error && (

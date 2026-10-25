@@ -1,4 +1,5 @@
-import { afterAll, beforeAll, describe, it, expect } from 'vitest';
+import { afterAll, beforeAll, describe, it, expect, vi } from 'vitest';
+import * as models from '../packages/llm/src/provider.ts';
 import { connectDatabase, type Database } from '../packages/db/src/index.ts';
 import { migrate } from '../packages/db/src/migrate.ts';
 import { ingestGita } from '../packages/ingest/src/index.ts';
@@ -168,18 +169,31 @@ describe('imported text and actual API', () => {
     expect((await app.inject('/v1/search?q=karma&mode=semantic')).statusCode).toBe(503);
   });
   it('returns scripture before explanation, verifies exact words and stores no raw claim', async () => {
-    const p = await getPassage(db, 'bhagavad-gita', 'BG 2.47');
-    const response = await app.inject({
-      method: 'POST',
-      url: '/v1/verify',
-      payload: { claim: p!.translations[0].text },
-    });
-    expect(response.statusCode).toBe(200);
-    expect(response.json().verdict).toBe('accurate');
-    expect(response.json().quote_check).toBe('pass');
-    const row = (await db.query('SELECT * FROM verify_logs LIMIT 1')).rows[0];
-    expect(Object.keys(row)).not.toContain('claim');
-    expect(String(row.claim_hash)).toHaveLength(64);
+    vi.spyOn(models, 'modelConfigured').mockImplementation((kind) => kind === 'chat');
+    vi.spyOn(models, 'generateCitedAnswer').mockImplementation(async (_q, passages) => ({
+      paragraphs: [
+        {
+          text: 'Synthetic provider assessment for an integration test.',
+          citations: [passages[0].id],
+        },
+      ],
+    }));
+    try {
+      const p = await getPassage(db, 'bhagavad-gita', 'BG 2.47');
+      const response = await app.inject({
+        method: 'POST',
+        url: '/v1/verify',
+        payload: { claim: p!.translations[0].text },
+      });
+      expect(response.statusCode).toBe(200);
+      expect(response.json().verdict).toBe('accurate');
+      expect(response.json().quote_check).toBe('pass');
+      const row = (await db.query('SELECT * FROM verify_logs LIMIT 1')).rows[0];
+      expect(Object.keys(row)).not.toContain('claim');
+      expect(String(row.claim_hash)).toHaveLength(64);
+    } finally {
+      vi.restoreAllMocks();
+    }
   });
   it('keeps reports durable, rejects unauthorized admin writes and gates named reviewers', async () => {
     const response = await app.inject({
@@ -214,22 +228,51 @@ describe('imported text and actual API', () => {
     await web.close();
   });
   it('keeps follow-up questions attached to their cited passage instead of searching the whole conversation', async () => {
-    const r = await app.inject({
-      method: 'POST',
-      url: '/v1/ask',
-      payload: {
-        question: 'How does that differ from avoiding work?',
-        work: 'bhagavad-gita',
-        history: [
-          {
-            question: 'What does BG 2.47 say about results?',
-            answer: 'Earlier answer context.',
-            passage_ids: ['bg.2.47'],
-          },
-        ],
-      },
-    });
-    expect(r.statusCode).toBe(200);
-    expect(r.json().passages[0].passage.id).toBe('bg.2.47');
+    vi.spyOn(models, 'modelConfigured').mockImplementation((kind) => kind === 'chat');
+    vi.spyOn(models, 'generateCitedAnswer').mockImplementation(async (_q, passages) => ({
+      paragraphs: [
+        {
+          text: 'Synthetic follow-up explanation for an integration test.',
+          citations: [passages.find((p) => p.id === 'bg.2.47')!.id],
+        },
+      ],
+    }));
+    try {
+      const r = await app.inject({
+        method: 'POST',
+        url: '/v1/ask',
+        payload: {
+          question: 'How does that differ from avoiding work?',
+          work: 'bhagavad-gita',
+          history: [
+            {
+              question: 'What does BG 2.47 say about results?',
+              answer: 'Earlier answer context.',
+              passage_ids: ['bg.2.47'],
+            },
+          ],
+        },
+      });
+      expect(r.statusCode).toBe(200);
+      expect(r.json().passages[0].passage.id).toBe('bg.2.47');
+    } finally {
+      vi.restoreAllMocks();
+    }
+  });
+  it('returns an explicit service error when Ask or Verify has no model, never a successful canned answer', async () => {
+    vi.spyOn(models, 'modelConfigured').mockReturnValue(false);
+    try {
+      for (const [url, payload] of [
+        ['/v1/ask', { question: 'Explain BG 2.47' }],
+        ['/v1/verify', { claim: 'Explain BG 2.47' }],
+      ] as const) {
+        const r = await app.inject({ method: 'POST', url, payload });
+        expect(r.statusCode).toBe(503);
+        expect(r.json().error.code).toBe('AI_UNAVAILABLE');
+        expect(r.json().answer).toBeUndefined();
+      }
+    } finally {
+      vi.restoreAllMocks();
+    }
   });
 });

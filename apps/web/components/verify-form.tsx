@@ -4,11 +4,14 @@ import { Check, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { PassageCard } from './passage';
 import type { Passage } from '@core/shared/src/index';
+import type { CitedAnswer } from '@core/llm/src/provider';
 interface Result {
   verdict?: string;
   review_required?: boolean;
   matches: { passage: Passage; context?: { before: Passage[]; after: Passage[] } }[];
   explanation?: string;
+  answer?: CitedAnswer | null;
+  note?: string;
   quote_check?: string;
   coverage_note?: string;
   safety?: { kind: string; message: string };
@@ -30,6 +33,7 @@ export function VerifyForm() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ claim, claimed_source: source || undefined, lang: 'en' }),
+        signal: AbortSignal.timeout(90000),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error?.message ?? 'Could not check this quotation.');
@@ -129,10 +133,32 @@ export function VerifyForm() {
                     )}
                   </div>
                 ))}
+                {result.answer && (
+                  <div className="explanation">
+                    <span className="eyebrow">AI EVIDENCE ASSESSMENT · CHECK THE SOURCES</span>
+                    {result.answer.paragraphs.map((p, i) => (
+                      <div key={i}>
+                        <p>{p.text}</p>
+                        {p.citations.map((id) => {
+                          const hit = result.matches.find((h) => h.passage.id === id);
+                          return hit ? (
+                            <Link
+                              key={id}
+                              href={`/read/${hit.passage.work}/${encodeURIComponent(hit.passage.ref.replace(' ', '-'))}`}
+                            >
+                              {hit.passage.work_title} · {hit.passage.ref} ↗{' '}
+                            </Link>
+                          ) : null;
+                        })}
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <div className="explanation">
                   <span className="eyebrow">TEXT CHECK · DETERMINISTIC</span>
                   <h2>What this result tells you</h2>
                   <p>{result.explanation}</p>
+                  {result.note && <p>{result.note}</p>}
                   <p className="coverage">{result.coverage_note}</p>
                 </div>
               </>

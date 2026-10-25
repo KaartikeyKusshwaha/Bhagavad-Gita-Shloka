@@ -27,3 +27,7 @@ it('does not treat a fuzzy match or a reference alone as verified meaning', () =
       .verdict,
   ).toBe('misattributed');
 });
+it('resolves references across the full library rather than defaulting a Bible or Jain reference to the Gita', () => {
+  expect(parseClaim('Does Genesis 1.1 describe creation?').claimedWork).toBe('bible-genesis');
+  expect(parseClaim('What does BG 2.47 teach?').claimedRef).toBe('BG 2.47');
+});

@@ -144,3 +144,16 @@ not retract material already downloaded. Browser-only guest reading is supersede
 Dark maroon/red is the default palette, with a light rose reading option. Existing
 appearance preferences are migrated once to the new default, retaining text-size
 and font choices.
+
+## Required AI and reading sessions (latest)
+
+Ask and Verify require real configured-model inference for AI assessments. Service
+failures return an explicit error and Retry; a canned or source-only answer must
+not stand in for inference. Verify keeps the cited passage visible and provides a
+separate evidence-cited assessment, retaining deterministic quotation matching.
+See decision 015 for evidence and source restrictions.
+
+Reading has a continuous book layout, size and view controls, focus mode, account
+bookmarks/notes, and optional device-voice translation playback. An explicit session
+timer counts completed active reading minutes in the Study grid, separately from
+passages marked read. Hidden/unfocused tabs and idle time do not count.

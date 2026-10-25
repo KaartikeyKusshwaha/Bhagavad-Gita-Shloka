@@ -2,6 +2,7 @@ import { z } from 'zod';
 import type { Passage } from '../../shared/src/index.ts';
 import { quoteExistsCheck } from './guardrails.ts';
 import { findAllPassageReferences } from '../../shared/src/references.ts';
+import { AiServiceError } from './errors.ts';
 export const defaultChatModel = 'qwen3-1.7b-q8_0';
 export const defaultEmbeddingModel = 'qwen3-embedding-0.6b-q8_0:06507c7b4268';
 export const answerSchema = z.object({
@@ -39,20 +40,39 @@ function baseUrl(kind: 'chat' | 'embedding') {
     throw new Error('Model endpoint must use HTTPS or a loopback HTTP address.');
   return url;
 }
+let activeChatRequests = 0;
 async function post(kind: 'chat' | 'embedding', path: string, body: unknown, timeout: number) {
-  const key = process.env[kind === 'chat' ? 'MODEL_API_KEY' : 'EMBEDDING_API_KEY'];
-  const response = await fetch(new URL(path, baseUrl(kind)), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'User-Agent': 'OpenScripture/0.1',
-      ...(key ? { Authorization: `Bearer ${key}` } : {}),
-    },
-    body: JSON.stringify(body),
-    signal: AbortSignal.timeout(timeout),
-  });
-  if (!response.ok) throw new Error('MODEL_UNAVAILABLE');
-  return response.json();
+  if (kind === 'chat' && activeChatRequests >= 3)
+    throw new AiServiceError(
+      'AI_BUSY',
+      'The AI service is handling other requests. No answer was produced for this request. Please retry shortly.',
+    );
+  if (kind === 'chat') activeChatRequests++;
+  try {
+    const key = process.env[kind === 'chat' ? 'MODEL_API_KEY' : 'EMBEDDING_API_KEY'];
+    const response = await fetch(new URL(path, baseUrl(kind)), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': 'OpenScripture/0.1',
+        ...(key ? { Authorization: `Bearer ${key}` } : {}),
+      },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(timeout),
+    }).catch(() => {
+      throw new AiServiceError('AI_CONNECTION_FAILED');
+    });
+    if (!response.ok)
+      throw new AiServiceError(
+        response.status === 429 ? 'AI_RATE_LIMITED' : 'AI_UNAVAILABLE',
+        response.status === 429
+          ? 'The AI provider’s free request limit was reached. No AI assessment was produced. Please retry shortly.'
+          : undefined,
+      );
+    return await response.json();
+  } finally {
+    if (kind === 'chat') activeChatRequests--;
+  }
 }
 const readiness = new Map<string, { at: number; ready: boolean }>();
 export async function modelReady(kind: 'chat' | 'embedding') {

@@ -70,3 +70,19 @@ link. Each should show the Sign up / Sign in popup without opening reader conten
 Create an account or sign in to access all three destinations. After signout, access
 is blocked again. The default palette is dark maroon/red; Reading settings offers
 a light rose appearance. Previously downloaded public copies remain local files.
+
+## Latest: AI assessment and reading
+
+In Explore select Verify and ask `Does BG 2.47 teach that we should avoid all work?`.
+Expect an actual cited AI assessment and the referenced passage. Ask a follow-up in
+Ask, then reopen the saved history. A provider failure must show an error and Retry,
+never a successful generic substitute. Try a quotation with a wrong attribution.
+Check interpretation against the shown edition; an AI assessment is not certainty.
+
+Open a passage, adjust text size and Translation first, try Focus reading, bookmark
+and add a private note. Use Listen to translation with a matching installed voice;
+check speed, pause/resume and stop. AI study translations remain labelled unreviewed.
+Start a reading session, read actively for a minute, then pause it. Open Study and
+check the reading-minutes count and today's grid cell. Hidden tabs must not count;
+simply opening a passage must not add minutes. Confirm saved minutes and bookmarks
+after signing into the same account in another browser.

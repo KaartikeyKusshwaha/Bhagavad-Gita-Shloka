@@ -46,10 +46,11 @@ export default function Privacy() {
         </p>
         <p>
           The Study calendar records submitted queries and passages you deliberately mark read.
-          Opening or reloading a page does not create activity. Counts use your local timezone. You
-          can export or clear activity from Study. Clearing Explore history does not clear activity,
-          bookmarks, or reading progress. Other people using this browser profile may see this local
-          data.
+          Opening or reloading a page does not create activity. An optional reader session saves
+          completed active minutes; hidden, unfocused and idle time is excluded. Counts use your
+          local timezone. You can export or clear activity from Study. Clearing Explore history does
+          not clear activity, bookmarks, or reading progress. Other people using this browser
+          profile may see this local data.
         </p>
         <p>
           Reading plans and spaced-revision dates are also stored in your browser as a guest, or in
@@ -65,9 +66,10 @@ export default function Privacy() {
           attributed source evidence to the configured answer runtime. If you enable “Use relevant
           saved conversations,” up to two relevant earlier exchanges can also be sent. Private
           bookmark notes are never included. Saved conversations remain in this browser; only the
-          selected context is used for that request.{' '}
+          selected context is used for that request. Verify sends your claim and permitted stored
+          passages to the same provider for a cited evidence assessment.{' '}
           {process.env.MODEL_PROVIDER === 'groq'
-            ? 'This deployment uses Groq for Ask; Groq receives that question, context and evidence under its own data policies. Do not include personal or sensitive information.'
+            ? 'This deployment uses Groq for Ask and Verify; Groq receives the question or claim, selected context and evidence under its own data policies. Do not include personal or sensitive information.'
             : 'The local demo can use existing Qwen models on the host computer.'}{' '}
           Meaning search uses a Qwen embedding runtime on the website host. Provider availability is
           checked; no answer is generated when the runtime is unavailable.
@@ -101,9 +103,10 @@ export default function Privacy() {
           supported, it stays on your device. Otherwise, the browser’s speech provider may process
           audio online; the voice controls require your agreement before starting. This website does
           not receive or retain audio. You review the transcript before submitting it as a normal
-          text request. Explanation playback uses installed local device voices. No synthetic sacred
-          recitations are provided. Available human recitations stream from Wikimedia Commons only
-          when you request playback; that host receives the network request.
+          text request. Explanation and translation playback use installed local device voices.
+          Translation playback is labelled synthetic reading, distinct from human recitation.
+          Available human recitations stream from Wikimedia Commons only when you request playback;
+          that host receives the network request.
         </p>
         <h2>Clear device data</h2>
         <p>

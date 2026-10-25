@@ -189,11 +189,21 @@ export function SpeechInput({
   );
 }
 
-/** Speak explanatory prose only. Sacred text is handled by attributed human audio. */
-export function SpeakExplanation({ text, lang = 'en' }: { text: string; lang?: string }) {
+/** On-device synthetic reading, distinct from attributed human recitation. */
+export function SpeakExplanation({
+  text,
+  lang = 'en',
+  label = 'Listen to explanation',
+}: {
+  text: string;
+  lang?: string;
+  label?: string;
+}) {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]),
     [selected, setSelected] = useState(''),
     [speaking, setSpeaking] = useState(false),
+    [paused, setPaused] = useState(false),
+    [rate, setRate] = useState('0.95'),
     [message, setMessage] = useState('');
   const utterance = useRef<SpeechSynthesisUtterance | null>(null);
   useEffect(() => {
@@ -215,15 +225,15 @@ export function SpeakExplanation({ text, lang = 'en' }: { text: string; lang?: s
   function speak() {
     if (!voices.length) {
       setMessage(
-        'No matching device voice is available. Install an English speech voice in your device settings.',
+        `No matching device voice is available for ${lang}. Install a speech voice for this language in your device settings.`,
       );
       return;
     }
-    const u = new SpeechSynthesisUtterance(text.slice(0, 8000));
+    const u = new SpeechSynthesisUtterance(text);
     utterance.current = u;
     u.voice = voices.find((v) => v.voiceURI === selected) ?? voices[0];
     u.lang = u.voice.lang;
-    u.rate = 0.95;
+    u.rate = Number(rate);
     u.onend = () => {
       setSpeaking(false);
       utterance.current = null;
@@ -236,6 +246,7 @@ export function SpeakExplanation({ text, lang = 'en' }: { text: string; lang?: s
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(u);
     setSpeaking(true);
+    setPaused(false);
     setMessage('');
   }
   return (
@@ -251,11 +262,34 @@ export function SpeakExplanation({ text, lang = 'en' }: { text: string; lang?: s
         }}
       >
         {speaking ? <Square size={14} /> : <Volume2 size={15} />}{' '}
-        {speaking ? 'Stop playback' : 'Listen to explanation'}
+        {speaking ? 'Stop playback' : label}
       </button>
+      {speaking && (
+        <button
+          className="quiet-button"
+          onClick={() => {
+            if (paused) window.speechSynthesis.resume();
+            else window.speechSynthesis.pause();
+            setPaused(!paused);
+          }}
+        >
+          {paused ? 'Resume audio' : 'Pause audio'}
+        </button>
+      )}
+      <select
+        aria-label={`${label} speed`}
+        value={rate}
+        disabled={speaking}
+        onChange={(e) => setRate(e.target.value)}
+      >
+        <option value="0.75">0.75×</option>
+        <option value="0.95">1×</option>
+        <option value="1.2">1.25×</option>
+        <option value="1.5">1.5×</option>
+      </select>
       {voices.length > 1 && (
         <select
-          aria-label="Explanation voice"
+          aria-label={`${label} voice`}
           value={selected}
           onChange={(e) => setSelected(e.target.value)}
         >

@@ -153,6 +153,9 @@ function Reply({ turn }: { turn: ExploreTurn }) {
           )}
         </div>
       )}
+      {turn.reply.explanation && turn.reply.note && (
+        <p className="response-note">{turn.reply.note}</p>
+      )}
       {turn.reply.coverage_note && <p className="response-coverage">{turn.reply.coverage_note}</p>}
     </div>
   );
@@ -312,7 +315,7 @@ export function Explore({
     const controller = new AbortController();
     const signal = AbortSignal.any([
       controller.signal,
-      AbortSignal.timeout(requestMode === 'ask' ? 90000 : 45000),
+      AbortSignal.timeout(requestMode === 'search' ? 45000 : 90000),
     ]);
     request.current = controller;
     const threadId = active?.id ?? crypto.randomUUID(),
@@ -378,6 +381,10 @@ export function Explore({
                 ),
                 signal,
               });
+        if (response.status === 401) {
+          window.location.assign('/account/required');
+          return;
+        }
         const data = await response.json();
         if (!response.ok)
           throw new Error(
@@ -418,7 +425,13 @@ export function Explore({
       });
     } catch (err) {
       if (!controller.signal.aborted) {
-        setError(err instanceof Error ? err.message : 'Unable to connect. Please try again.');
+        setError(
+          signal.aborted
+            ? 'This request took too long. Try a shorter quotation or a specific passage reference.'
+            : err instanceof Error
+              ? err.message
+              : 'Unable to connect. Please try again.',
+        );
         setQuery(text);
       }
     } finally {
@@ -470,7 +483,7 @@ export function Explore({
           <span>New</span>
         </button>
       </div>
-      {!active && (
+      {!active && !pending && (
         <div className="explore-welcome">
           <span className="welcome-mark">
             <BookOpen size={30} strokeWidth={1.3} />
@@ -488,10 +501,10 @@ export function Explore({
           </p>
         </div>
       )}
-      {active && (
+      {(active || pending) && (
         <div className="conversation" aria-label="Explore conversation">
-          <h1 className="sr-only">{active.title}</h1>
-          {active.turns.map((turn) => (
+          <h1 className="sr-only">{active?.title ?? 'Looking up your question'}</h1>
+          {active?.turns.map((turn) => (
             <div className="conversation-turn" key={turn.id}>
               <div className="user-message">
                 <span>{modeLabels[turn.mode]}</span>
@@ -506,8 +519,22 @@ export function Explore({
                 <p>{pendingQuery}</p>
               </div>
               <p className="response-pending" role="status">
-                Looking through the collection<span>…</span>
+                {mode === 'search'
+                  ? 'Searching the stored texts'
+                  : 'Finding source evidence and preparing an assessment'}
+                <span>…</span>
               </p>
+              <button
+                className="quiet-button"
+                onClick={() => {
+                  request.current?.abort();
+                  setPending(false);
+                  setPendingQuery('');
+                  setQuery(pendingQuery);
+                }}
+              >
+                Stop request
+              </button>
             </div>
           )}
           <div ref={bottom} />
@@ -680,7 +707,7 @@ export function Explore({
           {mode === 'ask'
             ? 'Ask sends your question and selected context to the configured AI provider. Answers cite source passages.'
             : mode === 'verify'
-              ? 'A wording match confirms text, not a theological interpretation.'
+              ? 'Verify sends your claim and permitted source evidence to the AI provider for a cited assessment. A wording match confirms text, not theological truth.'
               : 'Search the published collection. Source and language availability vary.'}{' '}
           <Link href={mode === 'ask' ? '/privacy' : '/library'}>
             {mode === 'ask' ? 'Privacy' : 'Browse texts'}
@@ -706,6 +733,13 @@ export function Explore({
         {error && (
           <p className="explore-error" role="alert">
             {error}
+            <button
+              className="quiet-button"
+              disabled={pending || !query.trim()}
+              onClick={() => void submit()}
+            >
+              Retry request
+            </button>
           </p>
         )}
       </div>

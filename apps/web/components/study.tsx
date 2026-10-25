@@ -140,6 +140,10 @@ export function Study({ works }: { works: StudyWork[] }) {
             <span>
               <strong>{stats.read}</strong>passage{stats.read === 1 ? '' : 's'} marked read
             </span>
+            <span>
+              <strong>{data.activity.filter((a) => a.kind === 'reading').length}</strong>reading
+              minutes
+            </span>
           </div>
           <div
             className="activity-scroll"
@@ -234,11 +238,11 @@ export function Study({ works }: { works: StudyWork[] }) {
               </strong>
               <p>
                 {chosen.length
-                  ? (['read', 'search', 'verify', 'ask', 'practice'] as const)
+                  ? (['read', 'search', 'verify', 'ask', 'practice', 'reading'] as const)
                       .map((kind) => {
                         const count = chosen.filter((a) => a.kind === kind).length;
                         return count
-                          ? `${count} ${kind === 'read' ? 'passage' + (count === 1 ? '' : 's') + ' marked read' : kind === 'search' ? 'search' + (count === 1 ? '' : 'es') : kind === 'verify' ? 'quotation check' + (count === 1 ? '' : 's') : kind === 'ask' ? 'question' + (count === 1 ? '' : 's') : 'practice session' + (count === 1 ? '' : 's')}`
+                          ? `${count} ${kind === 'reading' ? 'reading minute' + (count === 1 ? '' : 's') : kind === 'read' ? 'passage' + (count === 1 ? '' : 's') + ' marked read' : kind === 'search' ? 'search' + (count === 1 ? '' : 'es') : kind === 'verify' ? 'quotation check' + (count === 1 ? '' : 's') : kind === 'ask' ? 'question' + (count === 1 ? '' : 's') : 'practice session' + (count === 1 ? '' : 's')}`
                           : null;
                       })
                       .filter(Boolean)
@@ -257,9 +261,11 @@ export function Study({ works }: { works: StudyWork[] }) {
             <summary>How activity is counted & device controls</summary>
             <p>
               A submitted search, quotation check or question counts once per submission. A passage
-              counts when you explicitly mark it read, once per day. Opening a page does not create
-              activity. The calendar uses your local timezone. Clearing Explore history leaves these
-              counts in place.
+              counts when you explicitly mark it read, once per day. Start a reading session in the
+              reader to count completed active minutes. The timer pauses in hidden or unfocused tabs
+              and after two minutes without interaction. Each minute contributes to the grid; it
+              does not certify understanding. Opening a page does not create activity. The calendar
+              uses your local timezone. Clearing Explore history leaves these counts in place.
             </p>
             <div>
               <button className="quiet-button" onClick={exportActivity}>

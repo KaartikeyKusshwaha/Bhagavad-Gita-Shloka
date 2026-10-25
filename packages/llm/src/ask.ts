@@ -2,7 +2,8 @@ import type { Database } from '../../db/src/index.ts';
 import { getPassageById, getPassage, getContext } from '../../db/src/queries.ts';
 import { searchPassages } from '../../search/src/index.ts';
 import type { SearchHit, Passage } from '../../shared/src/index.ts';
-import { canUseAI, generateCitedAnswer, modelReady, modelName } from './provider.ts';
+import { canUseAI, generateCitedAnswer, modelConfigured, modelName } from './provider.ts';
+import { AiServiceError } from './errors.ts';
 import { routeSafety } from './guardrails.ts';
 import { findPassageReference } from '../../shared/src/references.ts';
 export interface AskHistory {
@@ -10,7 +11,6 @@ export interface AskHistory {
   answer?: string;
   passage_ids: string[];
 }
-let answering = false;
 export async function askFromSources(
   db: Database,
   question: string,
@@ -52,9 +52,9 @@ export async function askFromSources(
   const retrieval = {
     passages: hits.slice(0, 8),
     answer: null,
-    note: 'Retrieved passages for study. An AI explanation is unavailable; read the source and context.',
+    note: 'Insufficient source evidence for this question.',
   };
-  if (!(await modelReady('chat'))) return retrieval;
+  if (!modelConfigured('chat')) throw new AiServiceError();
   const focusWork =
     options.work ??
     ref?.work ??
@@ -71,12 +71,6 @@ export async function askFromSources(
         ? 'These edition sources are available for reading and word search. Their terms exclude this AI use.'
         : 'No sufficient source evidence was retrieved. Try a specific passage or a shorter question.',
     };
-  if (answering)
-    return {
-      ...retrieval,
-      note: 'The explanation service is busy. Your source passages are available; try again shortly.',
-    };
-  answering = true;
   try {
     const passages: Passage[] = [];
     for (const hit of usable) {
@@ -116,12 +110,12 @@ export async function askFromSources(
       note: 'AI study explanation. Check the cited edition and surrounding passages; this is not a religious ruling.',
       review_required: true,
     };
-  } catch {
-    return {
-      ...retrieval,
-      note: 'The AI explanation could not be safely validated or completed. The retrieved passages remain available.',
-    };
-  } finally {
-    answering = false;
+  } catch (error) {
+    throw error instanceof AiServiceError
+      ? error
+      : new AiServiceError(
+          'AI_INVALID_RESPONSE',
+          'The AI response did not pass citation checks. No answer was published. Please retry.',
+        );
   }
 }

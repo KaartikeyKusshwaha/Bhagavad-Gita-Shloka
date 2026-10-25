@@ -1,7 +1,14 @@
 import type { Database } from '../../db/src/index.ts';
 import { getContext, getPassage, getWorks } from '../../db/src/queries.ts';
 import { searchPassages } from '../../search/src/index.ts';
-import { parsePassageReference } from '../../shared/src/references.ts';
+import { findPassageReference } from '../../shared/src/references.ts';
+import {
+  canUseAI,
+  generateCitedAnswer,
+  modelConfigured,
+  modelName,
+} from '../../llm/src/provider.ts';
+import { AiServiceError } from '../../llm/src/errors.ts';
 import {
   normalize,
   coverageMessage,
@@ -29,10 +36,7 @@ export function parseClaim(input: string, source?: string): ParsedClaim {
           : /\b(dhp|dhammapada)\b/i.test(input)
             ? 'dhammapada'
             : undefined);
-  const referenceText = input.match(
-    /(?:\b(?:BG|Quran|Koran|Gita)\s*)?\d{1,3}[.:]\d{1,3}|\b(?:Dhp|Dhammapada)\s+\d{1,3}/i,
-  )?.[0];
-  const reference = referenceText ? parsePassageReference(referenceText, claimedWork) : null;
+  const reference = findPassageReference(input, claimedWork);
   const quote =
     quoted?.[1] ??
     input
@@ -44,18 +48,29 @@ export function parseClaim(input: string, source?: string): ParsedClaim {
       .trim();
   return {
     quote,
-    claimedWork,
+    claimedWork: source || reference?.work || claimedWork,
     claimedRef: reference?.ref,
     lang: /[\u0900-\u097f]/.test(input) ? 'hi' : /[\u0600-\u06ff]/.test(input) ? 'ar' : 'en',
   };
 }
 export async function searchThreeWays(db: Database, claim: ParsedClaim) {
-  // Semantic retrieval is intentionally disabled until a real embedding worker is configured.
-  const hits = await searchPassages(db, claim.quote, { limit: 10 });
-  if (claim.claimedRef) {
-    const p = await getPassage(db, claim.claimedWork ?? 'bhagavad-gita', claim.claimedRef);
-    if (p && !hits.some((x) => x.passage.id === p.id))
-      hits.push({ passage: p, score: 0, match_type: 'reference' });
+  const p = claim.claimedRef
+    ? await getPassage(db, claim.claimedWork ?? 'bhagavad-gita', claim.claimedRef)
+    : null;
+  // A question with a reference already has its evidence. Do not run a costly
+  // whole-library similarity scan over the entire question before showing it.
+  if (p && findPassageReference(claim.quote, claim.claimedWork))
+    return [{ passage: p, score: 1, match_type: 'reference' as const }];
+  let hits: SearchHit[] = [];
+  try {
+    hits = await searchPassages(db, claim.quote, { limit: 10 });
+  } catch (error) {
+    if (!p) throw error;
+  }
+  if (p) {
+    const existing = hits.findIndex((x) => x.passage.id === p.id);
+    if (existing >= 0) hits.splice(existing, 1);
+    hits.unshift({ passage: p, score: 1, match_type: 'reference' });
   }
   return hits;
 }
@@ -112,6 +127,53 @@ export async function verifyClaim(db: Database, input: string, source?: string) 
   const decision = assignVerdict(claim, hits);
   const explanation = explain(decision.verdict, decision.review_required);
   const safe = quoteExistsCheck(explanation, passageTexts(matches.map((x) => x.passage)));
+  // The model interprets retrieved evidence; it never changes the text-match verdict.
+  let answer = null;
+  let note = '';
+  const evidence = [
+    ...new Map(
+      matches
+        .flatMap((m) => [m.passage, ...m.context.before.slice(-1), ...m.context.after.slice(0, 1)])
+        .filter(canUseAI)
+        .map((p) => [p.id, p]),
+    ).values(),
+  ].slice(0, 8);
+  if (!evidence.length) {
+    note = matches.length
+      ? 'The retrieved editions do not permit AI use. Read the text-match evidence below.'
+      : 'No supporting source was retrieved. This does not establish that the claim is false. Try an exact quotation or reference.';
+  } else {
+    if (!modelConfigured('chat')) throw new AiServiceError();
+    try {
+      const generated = await generateCitedAnswer(
+        `Assess this claim against the supplied source evidence: ${input}\nClaimed source: ${source ?? claim.claimedWork ?? 'unspecified'}. Text-match result: ${decision.verdict}. Explain whether these passages support, contradict, or leave the claim unresolved, and why. Distinguish wording from interpretation. Do not claim universal religious or historical truth.`,
+        evidence,
+      );
+      if (generated.paragraphs.length) {
+        answer = { ...generated, model: modelName('chat') };
+        const cited = new Set(generated.paragraphs.flatMap((p) => p.citations));
+        for (const p of evidence.filter((p) => cited.has(p.id)))
+          if (!matches.some((m) => m.passage.id === p.id))
+            matches.push({
+              passage: p,
+              score: 0,
+              match_type: 'reference',
+              context: await getContext(db, p, 1, 1),
+            });
+        note =
+          'AI evidence assessment, not a scholarly verdict. Check the cited edition and context.';
+      } else
+        note =
+          'The model could not establish this claim from the retrieved evidence. The text check remains available.';
+    } catch (error) {
+      throw error instanceof AiServiceError
+        ? error
+        : new AiServiceError(
+            'AI_INVALID_RESPONSE',
+            'The AI assessment did not pass citation checks. No assessment was published. Please retry.',
+          );
+    }
+  }
   const works = await getWorks(db);
   return {
     ...decision,
@@ -119,6 +181,8 @@ export async function verifyClaim(db: Database, input: string, source?: string) 
     context: matches[0]?.context ?? { before: [], after: [] },
     explanation: safe ? explanation : 'Explanation withheld: could not verify its quotes.',
     explanation_kind: 'deterministic_text_check',
+    answer,
+    note,
     quote_check: safe ? 'pass' : 'withheld',
     coverage_note: coverageMessage(new Set(works.map((x) => x.tradition)).size, works.length),
     capabilities: { exact: true, fuzzy: true, semantic: false, context_judgment: false },
