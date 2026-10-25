@@ -4,7 +4,14 @@ import Link from 'next/link';
 import { accountStorage, personalGet } from '../lib/personal-storage';
 import { emptyLearning, parseAccountData } from '@core/shared/src/account-data';
 import { parseDeviceData } from '@core/shared/src/device-data';
-type User = { id: string; name: string; username: string };
+type User = {
+  id: string;
+  name: string;
+  username: string;
+  email?: string | null;
+  password_login?: boolean;
+  google_login?: boolean;
+};
 const Context = createContext<{ user: User | null; status: string; flush: () => Promise<void> }>({
   user: null,
   status: '',
@@ -22,7 +29,10 @@ export async function accountRequest(path: string, method = 'GET', body?: unknow
     cache: 'no-store',
   });
   const data = await response.json();
-  if (!response.ok) throw new Error(data.error?.message ?? 'Account request failed.');
+  if (!response.ok)
+    throw Object.assign(new Error(data.error?.message ?? 'Account request failed.'), {
+      code: data.error?.code,
+    });
   return data;
 }
 export function AccountProvider({ children }: { children: React.ReactNode }) {
@@ -157,7 +167,7 @@ export function AccountProvider({ children }: { children: React.ReactNode }) {
         children
       ) : (
         <div className="account-loading" role="status">
-          {status || 'Opening your reading room�'}
+          {status || 'Opening your reading room…'}
           {status && <button onClick={() => location.reload()}>Reload</button>}
         </div>
       )}
@@ -166,10 +176,17 @@ export function AccountProvider({ children }: { children: React.ReactNode }) {
 }
 export function AccountLink() {
   const { user } = useAccount();
-  return (
+  return user ? (
     <Link className="quiet-button account-link" href="/account">
-      {user ? user.name : 'Sign in'}
+      {user.name}
     </Link>
+  ) : (
+    <div className="account-entry-links">
+      <Link href="/account/signin">Sign in</Link>
+      <Link className="account-signup-link" href="/account/signup">
+        Sign up
+      </Link>
+    </div>
   );
 }
 export function DashboardAccount() {

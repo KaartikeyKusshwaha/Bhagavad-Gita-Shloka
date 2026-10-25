@@ -16,13 +16,24 @@ export default function Privacy() {
         </p>
         <h2>Accounts</h2>
         <p>
-          Accounts use a username, display name and a hashed password. No email is collected. A
-          private recovery code can reset your password and is replaced after use. Sessions use an
-          HttpOnly cookie and expire after seven days. Sign out on shared devices. Account data is
-          held in the site database; it is not end-to-end encrypted. You can permanently delete your
-          live account and saved data in account settings. Database backups may retain copies until
-          rotated. Importing guest data is optional. Multiple devices use version checks; a conflict
-          asks you to reload rather than silently replacing newer saved data.
+          Accounts use an email address or username, a display name and a hashed website password.
+          Email addresses are login identifiers; password signup does not verify mailbox ownership
+          or send email. A private recovery code can reset your password and is replaced after use.
+          Sessions use an HttpOnly cookie and expire after seven days. Sign out on shared devices.
+          Account data is held in the site database; it is not end-to-end encrypted. You can
+          permanently delete your live account and saved data in account settings. Database backups
+          may retain copies until rotated. Importing guest data is optional. Multiple devices use
+          version checks; a conflict asks you to reload rather than silently replacing newer saved
+          data.
+        </p>
+        <h2>Optional Google sign-in</h2>
+        <p>
+          When configured, Google sign-in shares your Google account identifier, verified email and
+          basic display name with this website. We request only OpenID, email and profile scopes,
+          not access to Gmail messages, contacts or Drive. Google tokens are verified and are not
+          stored for later API use. A matching email does not automatically link an existing
+          password account; sign in first and explicitly link Google. Google-only accounts use
+          Google for recovery and fresh Google authentication for account deletion.
         </p>
         <h2>Explore history and Study activity</h2>
         <p>

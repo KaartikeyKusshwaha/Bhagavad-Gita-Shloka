@@ -51,3 +51,14 @@ browser and confirm your dashboard and history. Sign out and confirm the private
 entries disappear. Guest entries are separate and only import via the Study control.
 Try recovery with your saved code; existing sessions should expire and the new code
 replaces the old one. Delete a test account in settings using its password.
+
+## Email and Google access
+
+Use the separate Sign up header link to create an account with an email and a new
+website password (or choose Use a username instead). On Sign in, entering an unused
+email and continuing should open Sign up with that address preserved. An existing
+address should request the website password; a wrong password must not create a
+second account. Gmail addresses also work as normal email logins. One-click Continue
+with Google appears only after OAuth setup. When enabled, verify Google's account
+chooser opens in a full browser and the completed login returns to your own Study
+dashboard. Existing password accounts must explicitly link Google from settings.

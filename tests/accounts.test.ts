@@ -177,3 +177,102 @@ it('keeps lightweight account checks separate from the public reading budget', a
       .statusCode,
   ).toBe(200);
 });
+it('accepts any valid email as a login address and routes new addresses to signup without creating accounts implicitly', async () => {
+  const body = {
+    email: 'reader.fixture+college@gmail.com',
+    name: 'Email reader',
+    password: 'long-email-test-password',
+  };
+  expect((await request('POST', '/identify', { identifier: body.email })).json().next).toBe(
+    'signup',
+  );
+  const created = await request('POST', '/signup', {
+    ...body,
+    email: ' READER.FIXTURE+COLLEGE@GMAIL.COM ',
+  });
+  expect(created.statusCode).toBe(200);
+  const first = created.json(),
+    cookie = String(created.headers['set-cookie']).split(';')[0];
+  expect((await request('GET', '', undefined, cookie)).json().user.email).toBe(body.email);
+  expect((await request('GET', '', undefined, cookie)).json().user.password_login).toBe(true);
+  expect(
+    (await request('POST', '/identify', { identifier: body.email.toUpperCase() })).json(),
+  ).toMatchObject({ next: 'signin', password_login: true });
+  expect((await request('POST', '/signup', body)).statusCode).toBe(409);
+  expect(
+    (
+      await request('POST', '/signin', {
+        identifier: body.email.toUpperCase(),
+        password: body.password,
+      })
+    ).statusCode,
+  ).toBe(200);
+  expect(
+    (
+      await request('POST', '/signin', {
+        identifier: body.email,
+        password: 'wrong-email-test-password',
+      })
+    ).statusCode,
+  ).toBe(401);
+  expect(
+    (await request('POST', '/identify', { identifier: 'new-reader@outlook.com' })).json().next,
+  ).toBe('signup');
+  expect(
+    (await db.query('SELECT id FROM reader_accounts WHERE email=$1', ['new-reader@outlook.com']))
+      .rows,
+  ).toHaveLength(0);
+  expect(
+    (
+      await request('POST', '/recover', {
+        identifier: body.email,
+        password: 'changed-email-test-password',
+        recoveryCode: first.recoveryCode,
+      })
+    ).statusCode,
+  ).toBe(200);
+  expect((await request('GET', '/data', undefined, cookie)).statusCode).toBe(401);
+  expect((await request('POST', '/signup', { ...body, email: 'not-an-email' })).statusCode).toBe(
+    400,
+  );
+});
+it('exposes only configured Google sign-in and binds one-time OAuth state to its initiating browser', async () => {
+  const { vi } = await import('vitest');
+  expect((await request('GET', '/options')).json().google).toBe(false);
+  expect((await request('POST', '/google/start', { purpose: 'signin' })).statusCode).toBe(503);
+  vi.stubEnv('GOOGLE_CLIENT_ID', 'test-client.apps.googleusercontent.com');
+  vi.stubEnv('GOOGLE_CLIENT_SECRET', 'test-secret-not-a-real-key');
+  vi.stubEnv('AUTH_PUBLIC_ORIGIN', 'https://scripture.example.test');
+  try {
+    expect((await request('GET', '/options')).json().google).toBe(true);
+    expect((await request('POST', '/google/start', { purpose: 'link' })).statusCode).toBe(401);
+    const start = await request('POST', '/google/start', { purpose: 'signin' }),
+      url = new URL(start.json().url),
+      cookie = String(start.headers['set-cookie']).split(';')[0];
+    expect(url.origin).toBe('https://accounts.google.com');
+    expect(url.searchParams.get('scope')).toBe('openid email profile');
+    expect(url.searchParams.get('code_challenge_method')).toBe('S256');
+    expect(url.searchParams.get('redirect_uri')).toBe(
+      'https://scripture.example.test/v1/account/google/callback',
+    );
+    const state = url.searchParams.get('state');
+    const forged = await request('GET', `/google/callback?state=${state}&code=fake`);
+    expect(forged.headers.location).toContain('googleError=state');
+    const cancelled = await request(
+      'GET',
+      `/google/callback?state=${state}&error=access_denied`,
+      undefined,
+      cookie,
+    );
+    expect(cancelled.headers.location).toContain('googleError=cancelled');
+    const replay = await request(
+      'GET',
+      `/google/callback?state=${state}&code=fake`,
+      undefined,
+      cookie,
+    );
+    expect(replay.headers.location).toContain('googleError=state');
+  } finally {
+    vi.unstubAllEnvs();
+  }
+});

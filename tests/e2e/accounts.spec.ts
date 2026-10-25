@@ -1,11 +1,19 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 test.afterEach(async ({ page }) => {
-  await page.request.delete('/v1/account', {
-    headers: { 'x-scripture-client': '1' },
-    data: { password: 'only-testing-a-long-password' },
-  });
+  const response = await page.request.get('/v1/account');
+  if (!response.ok()) return;
+  const { user } = await response.json();
+  if (
+    user &&
+    (/^qa_\d+$/.test(user.username) || /^qa_email_\d+@example\.com$/.test(user.email ?? ''))
+  )
+    await page.request.delete('/v1/account', {
+      headers: { 'x-scripture-client': '1' },
+      data: { password: 'only-testing-a-long-password' },
+    });
 });
+
 test('accounts carry reading, bookmarks, lessons and history to a new browser; signout isolates guest data', async ({
   page,
   browser,
@@ -16,10 +24,11 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
   await page.goto('/read/bhagavad-gita/BG-4.7');
   await page.getByRole('button', { name: 'Bookmark on this device', exact: true }).click();
   await page.goto('/account');
-  await page.getByRole('button', { name: 'Create an account', exact: true }).click();
+  await page.locator('main').getByRole('link', { name: 'Sign up', exact: true }).click();
+  await page.getByRole('button', { name: 'Use a username instead', exact: true }).click();
   await page.getByLabel('Your name', { exact: true }).fill('Reading tester');
   await page.getByLabel(/^Username/).fill(username);
-  await page.getByLabel(/^Password/).fill(password);
+  await page.getByLabel(/^Website password/).fill(password);
   await page.getByRole('button', { name: 'Create account', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Keep your recovery code safe' })).toBeVisible();
   await expect(page.locator('.recovery-code')).toHaveText(/^[a-f0-9]{48}$/);
@@ -58,8 +67,9 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
   try {
     await second.goto('/account');
     await expect(second.locator('.account-loading')).toHaveCount(0);
-    await second.getByLabel(/^Username/).fill(username);
-    await second.getByLabel(/^Password/).fill(password);
+    await second.getByLabel('Email or username', { exact: true }).fill(username);
+    await second.getByRole('button', { name: 'Continue with email or username' }).click();
+    await second.getByLabel(/^Website password/).fill(password);
     await second.getByRole('button', { name: 'Sign in', exact: true }).click();
     await expect(
       second
@@ -91,10 +101,54 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
     );
     await page.screenshot({ path: 'output/qa-account-mobile.png', fullPage: true });
   } finally {
-    await page.request.delete('/v1/account', {
-      headers: { 'x-scripture-client': '1' },
-      data: { password },
-    });
     await context.close();
   }
+});
+
+test('email-first access opens signup for a new address and signs existing readers in without losing their account', async ({
+  page,
+}) => {
+  test.setTimeout(90000);
+  const email = `qa_email_${Date.now()}@example.com`,
+    password = 'only-testing-a-long-password';
+  await page.goto('/account/signin');
+  await page.getByLabel('Email or username', { exact: true }).fill(email);
+  await page.getByRole('button', { name: 'Continue with email or username' }).click();
+  await expect(page).toHaveURL(/\/account\/signup$/);
+  await expect(page.getByRole('heading', { name: 'Create your account.' })).toBeVisible();
+  await expect(page.getByLabel('Email address', { exact: true })).toHaveValue(email);
+  await page.getByLabel('Your name', { exact: true }).fill('Email reader');
+  await page.getByLabel(/^Website password/).fill(password);
+  await page.getByRole('button', { name: 'Create account', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Keep your recovery code safe' })).toBeVisible();
+  await page.getByRole('button', { name: 'I saved my code · Continue' }).click();
+  await expect(
+    page.getByText('Welcome, Email reader. Your dashboard syncs across devices.'),
+  ).toBeVisible();
+  await page.goto('/account');
+  await page.getByRole('button', { name: 'Sign out', exact: true }).click();
+  await page.goto('/account/signin');
+  await page.getByLabel('Email or username', { exact: true }).fill(email);
+  await page.getByRole('button', { name: 'Continue with email or username' }).click();
+  await expect(page.getByLabel(/^Website password/)).toBeVisible();
+  await page.getByLabel(/^Website password/).fill('wrong-long-test-password');
+  await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+  await expect(page.locator('main').getByRole('alert')).toContainText('password is incorrect');
+  await expect(page).toHaveURL(/\/account\/signin$/);
+  await page.getByLabel(/^Website password/).fill(password);
+  await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+  await expect(
+    page.getByText('Welcome, Email reader. Your dashboard syncs across devices.'),
+  ).toBeVisible();
+  const removed = await page.request.delete('/v1/account', {
+    headers: { 'x-scripture-client': '1' },
+    data: { password },
+  });
+  expect(removed.status()).toBe(200);
+  await page.goto('/account/signup');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.getByLabel('Email address', { exact: true })).toBeVisible();
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: 'output/qa-email-signup-mobile.png', fullPage: true });
 });

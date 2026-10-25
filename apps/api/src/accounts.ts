@@ -1,3 +1,4 @@
+import { registerGoogle, googleConfigured } from './google-auth.ts';
 import { randomBytes, randomUUID, createHash, scrypt, timingSafeEqual } from 'node:crypto';
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
@@ -5,14 +6,29 @@ import type { Database } from '../../../packages/db/src/index.ts';
 import { parseAccountData, emptyLearning } from '../../../packages/shared/src/account-data.ts';
 import { emptyDeviceData } from '../../../packages/shared/src/device-data.ts';
 const digest = (value: string) => createHash('sha256').update(value).digest('hex');
-const credentials = z.object({
-  username: z
-    .string()
-    .trim()
-    .toLowerCase()
-    .regex(/^[a-z0-9_]{3,32}$/),
-  password: z.string().min(12).max(128),
-});
+const accountIdentifier = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .max(254)
+  .refine((value) => z.email().safeParse(value).success || /^[a-z0-9_]{3,32}$/.test(value));
+const credentials = z
+  .object({
+    username: accountIdentifier.optional(),
+    identifier: accountIdentifier.optional(),
+    password: z.string().min(12).max(128),
+  })
+  .refine((value) => Boolean(value.username || value.identifier), 'Enter your email or username');
+const loginIdentifier = (value: { username?: string; identifier?: string }) =>
+  value.identifier ?? value.username!;
+export type ReaderIdentity = {
+  id: string;
+  username: string;
+  name: string;
+  email: string | null;
+  password_login: boolean;
+  google_login: boolean;
+};
 let hashing = false;
 export async function hashPassword(password: string, salt = randomBytes(16).toString('hex')) {
   if (hashing) throw Object.assign(new Error('Password service busy'), { statusCode: 503 });
@@ -37,8 +53,8 @@ export async function registerAccounts(app: FastifyInstance, db: Database) {
   const cookieName = secure ? '__Host-scripture-session' : 'scripture-session';
   const cookie = (token: string, age: number) =>
     `${cookieName}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${age}${secure ? '; Secure' : ''}`;
-  const fail = (reply: FastifyReply, status: number, message: string) =>
-    reply.code(status).send({ error: { code: 'ACCOUNT_ERROR', message } });
+  const fail = (reply: FastifyReply, status: number, message: string, code = 'ACCOUNT_ERROR') =>
+    reply.code(status).send({ error: { code, message } });
   async function identity(req: FastifyRequest) {
     const token = req.headers.cookie
       ?.split(';')
@@ -46,11 +62,22 @@ export async function registerAccounts(app: FastifyInstance, db: Database) {
       .find((c) => c.startsWith(`${cookieName}=`))
       ?.slice(cookieName.length + 1);
     if (!token || !/^[a-f0-9]{64}$/.test(token)) return null;
-    const { rows } = await db.query<{ id: string; username: string; name: string }>(
-      'SELECT a.id,a.username,a.name FROM reader_accounts a JOIN reader_sessions s ON s.account_id=a.id WHERE s.token_hash=$1 AND s.expires_at>now()',
+    const { rows } = await db.query<ReaderIdentity>(
+      'SELECT a.id,a.username,a.name,a.email,(a.password_hash IS NOT NULL) AS password_login,(a.google_sub IS NOT NULL) AS google_login FROM reader_accounts a JOIN reader_sessions s ON s.account_id=a.id WHERE s.token_hash=$1 AND s.expires_at>now()',
       [digest(token)],
     );
     return rows[0] ?? null;
+  }
+  function setSessionCookie(reply: FastifyReply, value: string) {
+    const existing = reply.getHeader('Set-Cookie');
+    if (!existing) {
+      reply.header('Set-Cookie', value);
+      return;
+    }
+    reply.header('Set-Cookie', [
+      ...(Array.isArray(existing) ? existing : typeof existing === 'string' ? [existing] : []),
+      value,
+    ]);
   }
   async function session(reply: FastifyReply, id: string) {
     const token = randomBytes(32).toString('hex');
@@ -59,7 +86,7 @@ export async function registerAccounts(app: FastifyInstance, db: Database) {
       digest(token),
       id,
     ]);
-    reply.header('Set-Cookie', cookie(token, 604800));
+    setSessionCookie(reply, cookie(token, 604800));
   }
   app.addHook('onRequest', async (req, reply) => {
     if (!req.url.startsWith('/v1/account')) return;
@@ -78,26 +105,82 @@ export async function registerAccounts(app: FastifyInstance, db: Database) {
       }
     }
   });
+  await registerGoogle(app, db, {
+    identity,
+    session,
+    clearSession: (reply) => {
+      setSessionCookie(reply, cookie('', 0));
+    },
+  });
   const readerLimit = { rateLimit: { max: 120, timeWindow: '1 minute' } };
   app.get('/v1/account', { config: readerLimit }, async (req) => ({ user: await identity(req) }));
   const limit = { rateLimit: { max: 5, timeWindow: '15 minutes' } };
+  app.get('/v1/account/options', { config: readerLimit }, async () => ({
+    google: googleConfigured(),
+  }));
+  app.post(
+    '/v1/account/identify',
+    { config: { rateLimit: { max: 15, timeWindow: '1 minute' } } },
+    async (req) => {
+      const { identifier } = z.object({ identifier: accountIdentifier }).parse(req.body);
+      const { rows } = await db.query<{ password_login: boolean; google_login: boolean }>(
+        'SELECT (password_hash IS NOT NULL) AS password_login,(google_sub IS NOT NULL) AS google_login FROM reader_accounts WHERE username=$1 OR lower(email)=$1',
+        [identifier],
+      );
+      return rows[0]
+        ? { next: 'signin', ...rows[0] }
+        : { next: 'signup', password_login: true, google_login: false };
+    },
+  );
   app.post('/v1/account/signup', { config: limit }, async (req, reply) => {
-    const body = credentials.extend({ name: z.string().trim().min(1).max(80) }).parse(req.body);
+    const body = z
+      .object({
+        name: z.string().trim().min(1).max(80),
+        email: z.string().trim().toLowerCase().max(254).pipe(z.email()).optional(),
+        username: z
+          .string()
+          .trim()
+          .toLowerCase()
+          .regex(/^[a-z0-9_]{3,32}$/)
+          .optional(),
+        password: z.string().min(12).max(128),
+      })
+      .refine((value) => Boolean(value.email || value.username), 'Enter your email or username')
+      .parse(req.body);
     const id = randomUUID(),
-      recoveryCode = randomBytes(24).toString('hex');
+      recoveryCode = randomBytes(24).toString('hex'),
+      username = body.username ?? `reader_${randomBytes(8).toString('hex')}`;
     const password = await hashPassword(body.password);
     const created = await db.transaction(async (tx) => {
       const result = await tx.query(
-        'INSERT INTO reader_accounts(id,username,name,password_hash,recovery_hash) VALUES($1,$2,$3,$4,$5) ON CONFLICT(username) DO NOTHING RETURNING id',
-        [id, body.username, body.name, password, digest(recoveryCode)],
+        'INSERT INTO reader_accounts(id,username,name,password_hash,recovery_hash,email) VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT DO NOTHING RETURNING id',
+        [id, username, body.name, password, digest(recoveryCode), body.email ?? null],
       );
       if (!result.rows.length) return false;
       await tx.query('INSERT INTO reader_data(account_id) VALUES($1)', [id]);
       return true;
     });
-    if (!created) return fail(reply, 409, 'That username is unavailable. Choose another.');
+    if (!created)
+      return fail(
+        reply,
+        409,
+        body.email
+          ? 'An account already uses this email. Sign in instead.'
+          : 'That username is unavailable. Choose another.',
+        'ACCOUNT_EXISTS',
+      );
     await session(reply, id);
-    return { user: { id, username: body.username, name: body.name }, recoveryCode };
+    return {
+      user: {
+        id,
+        username,
+        name: body.name,
+        email: body.email ?? null,
+        password_login: true,
+        google_login: false,
+      },
+      recoveryCode,
+    };
   });
   app.post('/v1/account/signin', { config: limit }, async (req, reply) => {
     const body = credentials.parse(req.body);
@@ -105,30 +188,32 @@ export async function registerAccounts(app: FastifyInstance, db: Database) {
       id: string;
       username: string;
       name: string;
-      password_hash: string;
-    }>('SELECT id,username,name,password_hash FROM reader_accounts WHERE username=$1', [
-      body.username,
-    ]);
+      password_hash: string | null;
+    }>(
+      'SELECT id,username,name,password_hash FROM reader_accounts WHERE username=$1 OR lower(email)=$1',
+      [loginIdentifier(body)],
+    );
     // Run the same expensive comparison for unknown usernames.
     const row = rows[0],
       valid = await matches(
         body.password,
         row?.password_hash ?? `${'0'.repeat(32)}:${'0'.repeat(128)}`,
       );
-    if (!row || !valid) return fail(reply, 401, 'Username or password is incorrect.');
+    if (!row || !row.password_hash || !valid)
+      return fail(reply, 401, 'Email, username or password is incorrect.');
     await session(reply, row.id);
     return { user: { id: row.id, username: row.username, name: row.name } };
   });
   app.post('/v1/account/recover', { config: limit }, async (req, reply) => {
     const body = credentials
-      .extend({ recoveryCode: z.string().regex(/^[a-f0-9]{48}$/) })
+      .safeExtend({ recoveryCode: z.string().regex(/^[a-f0-9]{48}$/) })
       .parse(req.body);
     const recoveryCode = randomBytes(24).toString('hex'),
       password = await hashPassword(body.password);
     const id = await db.transaction(async (tx) => {
       const { rows } = await tx.query<{ id: string }>(
-        'UPDATE reader_accounts SET password_hash=$1,recovery_hash=$2 WHERE username=$3 AND recovery_hash=$4 RETURNING id',
-        [password, digest(recoveryCode), body.username, digest(body.recoveryCode)],
+        'UPDATE reader_accounts SET password_hash=$1,recovery_hash=$2 WHERE (username=$3 OR lower(email)=$3) AND recovery_hash=$4 RETURNING id',
+        [password, digest(recoveryCode), loginIdentifier(body), digest(body.recoveryCode)],
       );
       if (!rows[0]) return null;
       await tx.query('DELETE FROM reader_sessions WHERE account_id=$1', [rows[0].id]);
@@ -202,7 +287,7 @@ export async function registerAccounts(app: FastifyInstance, db: Database) {
       'SELECT password_hash FROM reader_accounts WHERE id=$1',
       [user.id],
     );
-    if (!(await matches(password, rows[0].password_hash)))
+    if (!rows[0]?.password_hash || !(await matches(password, rows[0].password_hash)))
       return fail(reply, 401, 'Password is incorrect.');
     await db.query('DELETE FROM reader_accounts WHERE id=$1', [user.id]);
     reply.header('Set-Cookie', cookie('', 0));

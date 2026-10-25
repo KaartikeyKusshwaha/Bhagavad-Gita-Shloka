@@ -110,3 +110,14 @@ in seven days. Backups may retain deleted data until rotated. Account sync is no
 end-to-end encrypted. Conflicting device revisions stop saving with an explicit error
 and an export option; reload obtains the current server version. No automatic merge
 of concurrently edited dashboards is claimed.
+
+## Email-first access (latest user request)
+
+Sign in and Sign up have separate visible links and dedicated pages. Email addresses
+from Gmail and other providers work with a website password; usernames remain
+compatible. A new email entered at sign-in opens signup, while wrong passwords never
+create accounts. Optional Google sign-in uses authorization code + PKCE and verified
+identity tokens, and is exposed only when the Google OAuth client is configured.
+Password accounts require explicit authenticated linking, not email-only matching.
+Google-only accounts require fresh Google authentication for permanent deletion.
+Provider setup and current limits are documented in decision 013.
