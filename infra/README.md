@@ -106,5 +106,6 @@ search and reading continue; meaning search states its availability honestly.
 
 Back up with `sudo -u postgres pg_dump -Fc scripture` into a root-only directory.
 Restore to a different database first and verify counts, sources and a known
-report before any disaster recovery. Browser history and learning progress stay
-on the device and are not part of the server database backup.
+report before any disaster recovery. Guest history and learning progress stay on the device. Signed-in reader accounts,
+session hashes and private dashboard payloads are part of the server database backup.
+Keep backups private and manage retention, including copies containing deleted accounts.

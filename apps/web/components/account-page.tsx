@@ -42,11 +42,12 @@ export function AccountPage() {
   }
   async function remove(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const password = new FormData(event.currentTarget).get('password');
     setBusy(true);
     try {
       await flush();
       await accountRequest('', 'DELETE', {
-        password: new FormData(event.currentTarget).get('password'),
+        password,
       });
       leave();
     } catch (e) {

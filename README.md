@@ -23,7 +23,9 @@ and business operations in the original PDF.
 - Strict TypeScript, Fastify REST API and OpenAPI; PostgreSQL pg_trgm/pgvector schema.
 - No live scripture API calls when reading, no trackers, no generated scripture.
 - Three destinations: Explore, Read, Study; one Explore composer and optional history drawer.
-- Browser-local conversations with reopen/search/rename/delete/pause controls, real
+- Free username/password accounts with private synchronized Study dashboards, recovery
+  codes and account deletion. Guests keep their data locally; importing guest data is optional.
+- Conversations with reopen/search/rename/delete/pause controls, real
   learning-activity calendar, read marks, streaks and saved passages. Bookmarks have
   colours and private notes; explicit read marks provide a Continue reading link.
 - Optional, visible saved-conversation context for Ask. Groq uses retrieved source

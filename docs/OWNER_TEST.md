@@ -34,8 +34,9 @@ Check light/dark appearance, text size, keyboard navigation and mobile scrolling
 Use a passage's Report an error link for a text/attribution problem. Describe a
 functional issue with the URL, browser, action and expected result.
 
-Saved history, bookmarks, plans and activity belong to the browser profile; there
-is no account or cross-device synchronization. Clear controls are available.
+Guest history, bookmarks, plans and activity belong to the browser profile. Free
+accounts synchronize saved reading across devices; sign in and reload to retrieve
+the latest saved version. Clear controls remain available.
 Ask sends selected context to Groq; free quotas can temporarily stop answers.
 Meaning search, speech matching and AI interpretations are experimental. No
 scholarly approval, pronunciation assessment or complete all-religion corpus is

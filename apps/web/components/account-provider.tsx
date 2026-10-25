@@ -14,7 +14,10 @@ export const useAccount = () => useContext(Context);
 export async function accountRequest(path: string, method = 'GET', body?: unknown) {
   const response = await fetch(`/v1/account${path}`, {
     method,
-    headers: { 'Content-Type': 'application/json', 'X-Scripture-Client': '1' },
+    headers: {
+      'X-Scripture-Client': '1',
+      ...(body === undefined ? {} : { 'Content-Type': 'application/json' }),
+    },
     ...(body === undefined ? {} : { body: JSON.stringify(body) }),
     cache: 'no-store',
   });

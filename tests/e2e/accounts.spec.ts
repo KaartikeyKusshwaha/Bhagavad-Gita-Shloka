@@ -29,6 +29,7 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
   await expect(page.getByRole('progressbar', { name: 'Reading plan progress' })).toBeVisible();
   await expect(page.getByRole('status').filter({ hasText: 'Saved to your account' })).toBeVisible();
   await page.goto('/');
+  await expect(page.locator('.explore-page')).toHaveAttribute('data-ready', 'true');
   await page.getByRole('textbox', { name: 'Search the texts', exact: true }).fill('BG 2.47');
   await page.getByRole('button', { name: 'Send to Explore' }).click();
   await expect(page.getByRole('article', { name: 'BG 2.47' })).toBeVisible();
@@ -40,6 +41,7 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
     second = await context.newPage();
   try {
     await second.goto('/account');
+    await expect(second.locator('.account-loading')).toHaveCount(0);
     await second.getByLabel(/^Username/).fill(username);
     await second.getByLabel(/^Password/).fill(password);
     await second.getByRole('button', { name: 'Sign in', exact: true }).click();
@@ -70,6 +72,7 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
       page.getByText('Your first day starts with a passage or a question.'),
     ).toBeVisible();
     await page.goto('/account');
+    await expect(page.locator('.account-loading')).toHaveCount(0);
     await page.setViewportSize({ width: 390, height: 844 });
     expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
