@@ -126,12 +126,6 @@ export function AccountProvider({ children }: { children: React.ReactNode }) {
   }, []);
   return (
     <Context.Provider value={{ user, status, flush: () => flush.current() }}>
-      {!ready && (
-        <div className="account-loading" role="status">
-          {status || 'Opening your reading room…'}
-          {status && <button onClick={() => location.reload()}>Reload</button>}
-        </div>
-      )}
       {user && status !== 'Saving…' && status !== 'Saved to your account' && (
         <div className="account-sync-error" role="alert">
           {status}{' '}
@@ -159,9 +153,14 @@ export function AccountProvider({ children }: { children: React.ReactNode }) {
           <button onClick={() => location.reload()}>Reload saved version</button>
         </div>
       )}
-      <div inert={!ready} aria-busy={!ready}>
-        {children}
-      </div>
+      {ready ? (
+        children
+      ) : (
+        <div className="account-loading" role="status">
+          {status || 'Opening your reading room�'}
+          {status && <button onClick={() => location.reload()}>Reload</button>}
+        </div>
+      )}
     </Context.Provider>
   );
 }
