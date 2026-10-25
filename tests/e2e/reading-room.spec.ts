@@ -4,6 +4,10 @@ import AxeBuilder from '@axe-core/playwright';
 test('additional editions keep their actual numbering, scripts and source notices', async ({
   page,
 }) => {
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/library');
   await page.getByRole('link', { name: 'Begin reading Dhammapada', exact: true }).click();
   await expect(page.getByRole('article', { name: 'Dhp 1', exact: true })).toBeVisible({
@@ -16,6 +20,10 @@ test('additional editions keep their actual numbering, scripts and source notice
   await expect(page.getByRole('article', { name: 'Dhp 21', exact: true })).toBeVisible();
   await expect(page.getByText('Primary text · Pali', { exact: true })).toBeVisible();
   await page.setViewportSize({ width: 390, height: 844 });
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/read/quran/Quran-2:255');
   await expect(page.getByRole('article', { name: 'Quran 2:255', exact: true })).toBeVisible();
   await expect(page.locator('.arabic-text')).toHaveAttribute('dir', 'rtl');
@@ -29,10 +37,18 @@ test('additional editions keep their actual numbering, scripts and source notice
   const a11y = await new AxeBuilder({ page }).analyze();
   expect(a11y.violations.map((v) => v.id)).toEqual([]);
   await page.screenshot({ path: 'output/qa-quran-mobile.png', fullPage: true });
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/search?q=Dhp+5');
   await expect(page.getByRole('article', { name: 'Dhp 5', exact: true })).toBeVisible();
 });
 test('home, chapter picker, exact/fuzzy search, quotation check, report flow', async ({ page }) => {
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/');
   await expect(
     page.getByRole('heading', { name: 'A little curiosity. A clear source.' }),
@@ -51,8 +67,16 @@ test('home, chapter picker, exact/fuzzy search, quotation check, report flow', a
   await page.getByLabel('Verse', { exact: true }).selectOption('20');
   await page.getByRole('button', { name: 'Open passage' }).click();
   await expect(page.getByRole('article', { name: 'BG 12.20' })).toBeVisible();
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/search?q=karmanye+vadhikaraste');
   await expect(page.getByRole('article', { name: 'BG 2.47' })).toBeVisible();
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/verify');
   await page
     .getByLabel('Paste what you heard')
@@ -81,6 +105,10 @@ test('mobile layout, primary text labels, keyboard access and no external script
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/read/bhagavad-gita/BG-2.47');
   await expect(
     page.getByRole('region', { name: 'Primary text · BG 2.47', exact: true }),
@@ -101,6 +129,10 @@ test('mobile layout, primary text labels, keyboard access and no external script
       ),
   ).toEqual([]);
   await page.screenshot({ path: 'output/qa-reader-mobile.png', fullPage: true });
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/');
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();

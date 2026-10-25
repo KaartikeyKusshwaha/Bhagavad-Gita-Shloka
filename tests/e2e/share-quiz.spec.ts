@@ -4,6 +4,10 @@ test('downloads a real attributed PNG and quizzes recorded word order', async ({
   page,
   request,
 }) => {
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/read/bhagavad-gita/BG-2.47');
   await page.getByLabel('Share passage', { exact: true }).click();
   const download = page.waitForEvent('download');

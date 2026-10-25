@@ -30,6 +30,10 @@ test('voice input requires browser-service consent and transcript review before 
   page.on('request', (request) => {
     if (request.url().includes('/v1/search?')) searches++;
   });
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/');
   await page.getByRole('button', { name: 'Voice input', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Start microphone', exact: true })).toBeDisabled();

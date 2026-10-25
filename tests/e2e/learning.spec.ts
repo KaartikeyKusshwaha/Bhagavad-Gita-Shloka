@@ -4,6 +4,10 @@ import AxeBuilder from '@axe-core/playwright';
 test('practice hides the source, compares a recall and persists a spaced review', async ({
   page,
 }) => {
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/read/bhagavad-gita/BG-2.47');
   await page.getByText('Practice this passage', { exact: true }).click();
   await page.getByRole('button', { name: 'Hide practice text', exact: true }).click();
@@ -17,10 +21,15 @@ test('practice hides the source, compares a recall and persists a spaced review'
     page.getByRole('region', { name: 'Primary text · BG 2.47', exact: true }),
   ).toBeVisible();
   await page.getByRole('button', { name: 'Remembered', exact: true }).click();
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/study');
   await page.getByRole('button', { name: 'Study tools', exact: true }).click();
   await page.getByLabel('Choose a study tool').selectOption('revision');
   await expect(page.getByRole('link', { name: /Bhagavad Gita · BG 2.47/ })).toBeVisible();
+  await page.waitForFunction(() => document.body.dataset.accountSync === 'ready');
   await page.reload();
   await page.getByRole('button', { name: 'Study tools', exact: true }).click();
   await page.getByLabel('Choose a study tool').selectOption('revision');
@@ -31,6 +40,10 @@ test('daily reading resumes with real passage progress and classroom links recon
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/study');
   await page.getByRole('button', { name: 'Study tools', exact: true }).click();
   await page.getByLabel('Reading plan text').selectOption('dhammapada');
@@ -42,6 +55,7 @@ test('daily reading resumes with real passage progress and classroom links recon
   await expect(
     page.getByText('Dhammapada · 1 of 423 passages complete', { exact: true }),
   ).toBeVisible();
+  await page.waitForFunction(() => document.body.dataset.accountSync === 'ready');
   await page.reload();
   await page.getByRole('button', { name: 'Study tools', exact: true }).click();
   await expect(page.getByText(/Today’s reading is complete/)).toBeVisible();
@@ -51,6 +65,10 @@ test('daily reading resumes with real passage progress and classroom links recon
   await page.getByRole('button', { name: 'Create share link', exact: true }).click();
   const share = await page.getByLabel('Classroom share link').inputValue();
   expect(share).toContain('/lesson#');
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto(share);
   await expect(
     page.getByRole('heading', { name: 'Classroom test set', exact: true }),

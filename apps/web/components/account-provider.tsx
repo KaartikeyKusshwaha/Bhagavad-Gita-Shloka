@@ -43,6 +43,10 @@ export function AccountProvider({ children }: { children: React.ReactNode }) {
     [status, setStatus] = useState('');
   const flush = useRef<() => Promise<void>>(async () => {});
   useEffect(() => {
+    document.body.dataset.accountSync =
+      status === 'Saving…' ? 'saving' : ready ? 'ready' : 'loading';
+  }, [status, ready]);
+  useEffect(() => {
     let closed = false,
       timer: ReturnType<typeof setTimeout> | undefined,
       revision = 0,
@@ -213,7 +217,7 @@ export function AccountLink() {
         }
       }}
     >
-      <summary aria-label="Profile menu">
+      <summary>
         <span className="profile-avatar" aria-hidden="true">
           {user.name.slice(0, 1).toUpperCase()}
         </span>

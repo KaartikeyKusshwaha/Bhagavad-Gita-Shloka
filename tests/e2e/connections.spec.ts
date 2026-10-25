@@ -5,6 +5,10 @@ test('graph filters suggestions, previews a source neighbour and follows its con
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/read/bhagavad-gita/BG-2.47');
   await page.getByText('Explore related passages', { exact: true }).click();
   const graph = page.getByRole('group', {
@@ -39,6 +43,10 @@ test('graph filters suggestions, previews a source neighbour and follows its con
 });
 
 test('themes use the same Explore history and preserve distinct sources', async ({ page }) => {
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/');
   await page.getByRole('button', { name: 'Ask', exact: true }).click();
   await page.getByText('Explore a theme across texts', { exact: true }).click();
@@ -59,6 +67,7 @@ test('themes use the same Explore history and preserve distinct sources', async 
       .first(),
   ).toBeVisible();
   await expect(page).toHaveURL(/\?chat=/);
+  await page.waitForFunction(() => document.body.dataset.accountSync === 'ready');
   await page.reload();
   await expect(page.getByText(/an editorial keyword trail/)).toBeVisible();
 });

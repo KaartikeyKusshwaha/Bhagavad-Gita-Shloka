@@ -4,6 +4,10 @@ import AxeBuilder from '@axe-core/playwright';
 test('compares attributed human editions and discloses combined source ranges on mobile', async ({
   page,
 }) => {
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/read/bhagavad-gita/BG-2.43');
   const comparison = page.locator('.translation-comparison');
   await expect(comparison.locator('.comparison-grid')).toBeHidden();

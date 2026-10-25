@@ -3,6 +3,10 @@ import AxeBuilder from '@axe-core/playwright';
 test('tradition shelves contain real texts, languages and durable private reading tools', async ({
   page,
 }) => {
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/library');
   await expect(
     page.getByRole('heading', { name: 'Many traditions. Room for discovery.' }),
@@ -20,6 +24,10 @@ test('tradition shelves contain real texts, languages and durable private readin
   await expect(
     page.getByRole('article', { name: 'Tanakh Genesis 1.1', exact: true }),
   ).toBeVisible();
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/read/bible-genesis/Genesis-1.1');
   await expect(page.getByText('Human edition · English', { exact: true })).toBeVisible();
   await expect(page.getByText('Human translation · Hindi', { exact: true })).toBeVisible();
@@ -28,10 +36,15 @@ test('tradition shelves contain real texts, languages and durable private readin
   await page.getByRole('button', { name: 'sage bookmark', exact: true }).click();
   await page.getByLabel('My note', { exact: true }).fill('My private Genesis note');
   await page.getByRole('button', { name: 'Mark as read', exact: true }).click();
+  await page.waitForFunction(() => document.body.dataset.accountSync === 'ready');
   await page.reload();
   await expect(page.locator('.passage-card')).toHaveClass(/marked-sage/);
   await page.getByText('Bookmark colour & private note', { exact: true }).click();
   await expect(page.getByLabel('My note', { exact: true })).toHaveValue('My private Genesis note');
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/library');
   await expect(page.getByRole('link', { name: /CONTINUE READING Genesis/ })).toBeVisible();
   await page.setViewportSize({ width: 390, height: 844 });
@@ -48,10 +61,18 @@ test('large chapters paginate and restricted editions have no machine-translatio
   const r = await request.get('/v1/works/quran/chapters/2?page=2');
   expect(r.status()).toBe(200);
   expect((await r.json()).passages[0].ref).toBe('Quran 2:81');
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/read/quran/chapter/2?page=4');
   await expect(page.getByRole('navigation', { name: 'Section pages' })).toContainText(
     'Page 4 of 4',
   );
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/read/quran/Quran-1:1');
   await expect(page.getByText('Human translation · English', { exact: true })).toBeVisible();
   await expect(
@@ -83,12 +104,20 @@ test('saved conversation context is opt-in and never contains private bookmark n
       },
     });
   });
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/read/bible-genesis/Genesis-1.1');
   await page.getByRole('button', { name: 'Bookmark to my account', exact: true }).click();
   await page.getByText('Bookmark colour & private note', { exact: true }).click();
   await page
     .getByLabel('My note', { exact: true })
     .fill('Private note must not leave this browser');
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/');
   await page.getByRole('button', { name: 'Ask', exact: true }).click();
   await page

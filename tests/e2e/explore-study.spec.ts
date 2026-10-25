@@ -3,6 +3,10 @@ import AxeBuilder from '@axe-core/playwright';
 test('Explore saves, reopens, renames and deletes history; pause keeps a conversation temporary', async ({
   page,
 }) => {
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/');
   await expect(
     page.getByRole('navigation', { name: 'Main navigation', exact: true }).getByRole('link'),
@@ -11,6 +15,7 @@ test('Explore saves, reopens, renames and deletes history; pause keeps a convers
   await page.getByRole('button', { name: 'Send to Explore' }).click();
   await expect(page.getByRole('article', { name: 'BG 2.47' })).toBeVisible();
   await expect(page).toHaveURL(/\?chat=/);
+  await page.waitForFunction(() => document.body.dataset.accountSync === 'ready');
   await page.reload();
   await expect(page.getByRole('article', { name: 'BG 2.47' })).toBeVisible();
   await page.getByRole('button', { name: 'Open Explore history' }).click();
@@ -26,6 +31,7 @@ test('Explore saves, reopens, renames and deletes history; pause keeps a convers
   await page.getByRole('textbox', { name: 'Search the texts', exact: true }).fill('BG 4.7');
   await page.getByRole('button', { name: 'Send to Explore' }).click();
   await expect(page.getByRole('article', { name: 'BG 4.7' })).toBeVisible();
+  await page.waitForFunction(() => document.body.dataset.accountSync === 'ready');
   await page.reload();
   await expect(
     page.getByRole('heading', { name: 'A little curiosity. A clear source.' }),
@@ -46,9 +52,18 @@ test('Explore saves, reopens, renames and deletes history; pause keeps a convers
 test('Study counts only deliberate reading and real submissions; bookmarks and activity survive reload', async ({
   page,
 }) => {
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/study');
   await expect(page.getByText('Your first day starts with a passage or a question.')).toBeVisible();
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/read/bhagavad-gita/BG-2.47');
+  await page.waitForFunction(() => document.body.dataset.accountSync === 'ready');
   await page.reload();
   await page.getByRole('button', { name: 'Mark as read', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Read · saved to Study' })).toHaveAttribute(
@@ -57,6 +72,10 @@ test('Study counts only deliberate reading and real submissions; bookmarks and a
   );
   await page.getByRole('button', { name: 'Read · saved to Study' }).click();
   await page.getByRole('button', { name: 'Bookmark to my account', exact: true }).click();
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/study');
   await expect(page.getByText('1 passage marked read', { exact: true })).toBeVisible();
   const active = page.getByRole('grid').getByRole('button', { name: /: 1 learning action$/ });
@@ -67,6 +86,7 @@ test('Study counts only deliberate reading and real submissions; bookmarks and a
   await expect(page.getByText('No recorded activity. There is no need to catch up.')).toBeVisible();
   await page.getByRole('button', { name: 'Saved passages 1' }).click();
   await expect(page.getByRole('link', { name: /Bhagavad Gita · BG 2.47/ })).toBeVisible();
+  await page.waitForFunction(() => document.body.dataset.accountSync === 'ready');
   await page.reload();
   await page.getByRole('button', { name: 'Saved passages 1' }).click();
   await expect(page.getByRole('link', { name: /Bhagavad Gita · BG 2.47/ })).toBeVisible();
@@ -77,6 +97,10 @@ test('Explore and Study work on mobile, with accessible controls and an overlay 
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/');
   await expect(page.getByRole('navigation', { name: 'Mobile navigation' })).toBeVisible();
   await expect(page.locator('.explore-page')).toHaveAttribute('data-ready', 'true');
@@ -102,6 +126,10 @@ test('Explore and Study work on mobile, with accessible controls and an overlay 
   await expect(page.getByRole('button', { name: 'Close history' })).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Open Explore history' })).toBeFocused();
+  if (await page.locator('body').count())
+    await page.waitForFunction(
+      () => !document.body.dataset.accountSync || document.body.dataset.accountSync === 'ready',
+    );
   await page.goto('/study');
   await expect(page.getByRole('grid')).toBeVisible();
   await expect
