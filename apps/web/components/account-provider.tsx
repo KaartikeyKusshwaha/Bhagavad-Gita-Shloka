@@ -2,7 +2,7 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { UserRound, ChevronDown, LogOut } from 'lucide-react';
+import { ChevronDown, LogOut } from 'lucide-react';
 import { accountStorage, personalGet } from '../lib/personal-storage';
 import { emptyLearning, parseAccountData } from '@core/shared/src/account-data';
 import { parseDeviceData } from '@core/shared/src/device-data';
@@ -242,54 +242,6 @@ export function AccountLink() {
         Sign up
       </Link>
     </div>
-  );
-}
-export function AccountWelcome() {
-  const { user } = useAccount(),
-    path = usePathname();
-  const [dismissed, setDismissed] = useState(true);
-  useEffect(() => {
-    try {
-      setDismissed(sessionStorage.getItem('scripture-guest-welcome') === 'dismissed');
-    } catch {
-      setDismissed(false);
-    }
-  }, []);
-  if (user || dismissed || path.startsWith('/account') || path === '/offline') return null;
-  return (
-    <section className="account-welcome" aria-labelledby="account-welcome-title">
-      <div className="welcome-copy">
-        <UserRound size={22} aria-hidden="true" />
-        <div>
-          <h2 id="account-welcome-title">Your own reading room.</h2>
-          <p>
-            Sign in or create a free account to keep your bookmarks, reading plans and Explore
-            history across devices.
-          </p>
-        </div>
-      </div>
-      <div className="welcome-actions">
-        <Link className="button primary" href="/account/signup">
-          Sign up
-        </Link>
-        <Link className="button" href="/account/signin">
-          Sign in
-        </Link>
-        <button
-          className="quiet-button"
-          onClick={() => {
-            setDismissed(true);
-            try {
-              sessionStorage.setItem('scripture-guest-welcome', 'dismissed');
-            } catch {
-              /* Continue without session storage. */
-            }
-          }}
-        >
-          Continue as guest
-        </button>
-      </div>
-    </section>
   );
 }
 export function ProfileDetails() {

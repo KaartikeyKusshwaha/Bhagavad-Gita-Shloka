@@ -21,8 +21,6 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
   test.setTimeout(90000);
   const username = `qa_${Date.now()}`,
     password = 'only-testing-a-long-password';
-  await page.goto('/read/bhagavad-gita/BG-4.7');
-  await page.getByRole('button', { name: 'Bookmark on this device', exact: true }).click();
   await page.goto('/account');
   await page.locator('main').getByRole('link', { name: 'Sign up', exact: true }).click();
   await page.getByRole('button', { name: 'Use a username instead', exact: true }).click();
@@ -45,14 +43,6 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
   await expect(page.getByRole('region', { name: 'Your profile details' })).toContainText(username);
   await page.getByRole('link', { name: 'Open my dashboard', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Saved passages 0' })).toBeVisible();
-  await page.getByText('Bring your guest reading with you', { exact: true }).click();
-  await page.getByRole('button', { name: 'Import browser data', exact: true }).click();
-  await expect(
-    page.getByText('Browser data imported. Your existing account entries take priority.'),
-  ).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Saved passages 1' })).toBeVisible({
-    timeout: 20000,
-  });
   await page.goto('/read/bhagavad-gita/BG-2.47');
   await page.getByRole('button', { name: 'Mark as read', exact: true }).click();
   await page.getByRole('button', { name: 'Bookmark to my account', exact: true }).click();
@@ -87,7 +77,7 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
         .filter({ hasText: 'passage marked read' })
         .locator('strong'),
     ).toHaveText('1');
-    await second.getByRole('button', { name: 'Saved passages 2' }).click();
+    await second.getByRole('button', { name: 'Saved passages 1' }).click();
     await expect(second.getByRole('link', { name: /Bhagavad Gita · BG 2.47/ })).toBeVisible();
     await second.getByRole('button', { name: 'Study tools', exact: true }).click();
     await expect(second.getByRole('progressbar', { name: 'Reading plan progress' })).toBeVisible();
@@ -96,14 +86,12 @@ test('accounts carry reading, bookmarks, lessons and history to a new browser; s
     await expect(second.getByRole('button', { name: 'BG 2.47 1 exchange' })).toBeVisible();
     await second.goto('/account');
     await second.getByRole('button', { name: 'Sign out', exact: true }).click();
-    await expect(second.getByRole('button', { name: 'Saved passages 0' })).toBeVisible();
+    await expect(second.getByRole('dialog')).toBeVisible();
     await page.goto('/account');
     await page.getByText('Delete my account', { exact: true }).click();
     await page.getByLabel('Confirm your password').fill(password);
     await page.getByRole('button', { name: 'Permanently delete account' }).click();
-    await expect(page.getByRole('button', { name: 'Saved passages 1' })).toBeVisible({
-      timeout: 20000,
-    });
+    await expect(page.getByRole('dialog')).toBeVisible({ timeout: 20000 });
     await page.goto('/account');
     await expect(page.locator('.account-loading')).toHaveCount(0);
     await page.setViewportSize({ width: 390, height: 844 });
@@ -166,29 +154,45 @@ test('email-first access opens signup for a new address and signs existing reade
   await page.screenshot({ path: 'output/qa-email-signup-mobile.png', fullPage: true });
 });
 
-test('startup welcomes guests with working signup and signin, and guest choice lasts for the session', async ({
+test('guests cannot open Explore, Read or Study and the signup popup is accessible in maroon appearance', async ({
   page,
+  request,
 }) => {
-  await page.goto('/study');
-  const welcome = page.getByRole('region', { name: 'Your own reading room.' });
-  await expect(welcome).toBeVisible();
-  await welcome.getByRole('link', { name: 'Sign up', exact: true }).click();
-  await expect(page).toHaveURL(/\/account\/signup$/);
+  for (const target of [
+    '/',
+    '/library',
+    '/read/bhagavad-gita/BG-2.47',
+    '/study',
+    '/search?q=BG%202.47',
+  ]) {
+    await page.goto(target);
+    await expect(page).toHaveURL(/\/account\/required$/);
+    const popup = page.getByRole('dialog', { name: 'Make this space yours.' });
+    await expect(popup).toBeVisible();
+    await expect(
+      page.locator('.explore-page,.passage-card,.study-page,.library-browser'),
+    ).toHaveCount(0);
+  }
+  for (const endpoint of [
+    '/v1/search?q=BG%202.47',
+    '/v1/works',
+    '/v1/passages/bhagavad-gita/BG%202.47',
+  ])
+    expect((await request.get(endpoint)).status()).toBe(401);
+  const popup = page.getByRole('dialog');
+  await popup.getByRole('link', { name: 'Sign up', exact: true }).click();
   await expect(page.getByLabel('Email address', { exact: true })).toBeVisible();
-  await page.goto('/');
-  await welcome.getByRole('link', { name: 'Sign in', exact: true }).click();
-  await expect(page).toHaveURL(/\/account\/signin$/);
+  await page.goto('/study');
+  await page.getByRole('dialog').getByRole('link', { name: 'Sign in', exact: true }).click();
   await expect(page.getByLabel('Email or username', { exact: true })).toBeVisible();
   await page.goto('/study');
   await page.setViewportSize({ width: 390, height: 844 });
-  await expect(welcome).toBeVisible();
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  expect(
+    await page.evaluate(() =>
+      getComputedStyle(document.documentElement).getPropertyValue('--paper').trim(),
+    ),
+  ).toBe('#190d13');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await page.screenshot({ path: 'output/qa-account-welcome-mobile.png', fullPage: true });
-  await welcome.getByRole('button', { name: 'Continue as guest', exact: true }).click();
-  await page.reload();
-  await expect(welcome).toHaveCount(0);
-  await expect(
-    page.locator('.account-entry-links').getByRole('link', { name: 'Sign up', exact: true }),
-  ).toBeVisible();
+  await page.screenshot({ path: 'output/qa-maroon-member-popup.png', fullPage: true });
 });

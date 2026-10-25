@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './reader-fixture';
 import AxeBuilder from '@axe-core/playwright';
 test('Explore saves, reopens, renames and deletes history; pause keeps a conversation temporary', async ({
   page,
@@ -56,7 +56,7 @@ test('Study counts only deliberate reading and real submissions; bookmarks and a
     'true',
   );
   await page.getByRole('button', { name: 'Read · saved to Study' }).click();
-  await page.getByRole('button', { name: 'Bookmark on this device', exact: true }).click();
+  await page.getByRole('button', { name: 'Bookmark to my account', exact: true }).click();
   await page.goto('/study');
   await expect(page.getByText('1 passage marked read', { exact: true })).toBeVisible();
   const active = page.getByRole('grid').getByRole('button', { name: /: 1 learning action$/ });

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './reader-fixture';
 
 test('voice input requires browser-service consent and transcript review before submitting', async ({
   page,

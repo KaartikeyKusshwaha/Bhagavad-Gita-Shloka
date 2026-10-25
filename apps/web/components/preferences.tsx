@@ -2,12 +2,15 @@
 import { useEffect, useState } from 'react';
 import { SlidersHorizontal, Check } from 'lucide-react';
 export function Preferences() {
-  const [settings, setSettings] = useState({ dark: false, large: false, plain: false }),
+  const [settings, setSettings] = useState({ dark: true, large: false, plain: false }),
     [ready, setReady] = useState(false);
   useEffect(() => {
     try {
       const saved = localStorage.getItem('scripture-preferences');
-      if (saved) setSettings(JSON.parse(saved));
+      if (saved) {
+        const previous = JSON.parse(saved);
+        setSettings({ ...previous, dark: previous.paletteVersion === 2 ? previous.dark : true });
+      }
     } catch {
       /* optional device preferences */
     }
@@ -19,7 +22,10 @@ export function Preferences() {
     document.documentElement.dataset.large = String(settings.large);
     document.documentElement.dataset.plain = String(settings.plain);
     try {
-      localStorage.setItem('scripture-preferences', JSON.stringify(settings));
+      localStorage.setItem(
+        'scripture-preferences',
+        JSON.stringify({ ...settings, paletteVersion: 2 }),
+      );
     } catch {
       /* storage unavailable */
     }

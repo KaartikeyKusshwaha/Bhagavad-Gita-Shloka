@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './reader-fixture';
 import AxeBuilder from '@axe-core/playwright';
 
 test('graph filters suggestions, previews a source neighbour and follows its connections', async ({

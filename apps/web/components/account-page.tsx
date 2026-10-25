@@ -387,7 +387,7 @@ export function AccountPage({ initialMode = 'signin' }: { initialMode?: Mode }) 
             {mode === 'signup' && isEmail
               ? 'Your email is a login address. We do not send emails or claim to have verified it. '
               : ''}
-            <Link href="/library">Continue reading as a guest</Link>
+            <Link href="/account/signin">Back to account access</Link>
           </p>
         </>
       )}

@@ -10,9 +10,10 @@ export default function Privacy() {
       <div className="prose">
         <p>
           No advertising, third-party analytics, or tracking scripts are used. Preferences,
-          bookmarks, reading progress, activity, and Explore history stay in this browser when you
-          read as a guest. When signed in, bookmarks, notes, activity, reading plans, revision cards
-          and saved Explore conversations synchronize to your private account on our server.
+          bookmarks, reading progress, activity, and Explore history stay in this browser for
+          historical guest data. Explore, Read and Study now require sign-in. When signed in,
+          bookmarks, notes, activity, reading plans, revision cards and saved Explore conversations
+          synchronize to your private account on our server.
         </p>
         <h2>Accounts</h2>
         <p>

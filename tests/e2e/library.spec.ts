@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './reader-fixture';
 import AxeBuilder from '@axe-core/playwright';
 test('tradition shelves contain real texts, languages and durable private reading tools', async ({
   page,
@@ -23,7 +23,7 @@ test('tradition shelves contain real texts, languages and durable private readin
   await page.goto('/read/bible-genesis/Genesis-1.1');
   await expect(page.getByText('Human edition · English', { exact: true })).toBeVisible();
   await expect(page.getByText('Human translation · Hindi', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Bookmark on this device', exact: true }).click();
+  await page.getByRole('button', { name: 'Bookmark to my account', exact: true }).click();
   await page.getByText('Bookmark colour & private note', { exact: true }).click();
   await page.getByRole('button', { name: 'sage bookmark', exact: true }).click();
   await page.getByLabel('My note', { exact: true }).fill('My private Genesis note');
@@ -84,7 +84,7 @@ test('saved conversation context is opt-in and never contains private bookmark n
     });
   });
   await page.goto('/read/bible-genesis/Genesis-1.1');
-  await page.getByRole('button', { name: 'Bookmark on this device', exact: true }).click();
+  await page.getByRole('button', { name: 'Bookmark to my account', exact: true }).click();
   await page.getByText('Bookmark colour & private note', { exact: true }).click();
   await page
     .getByLabel('My note', { exact: true })

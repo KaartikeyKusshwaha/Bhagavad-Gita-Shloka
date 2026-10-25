@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './reader-fixture';
 import { recallQuiz } from '../../packages/shared/src/practice';
 test('downloads a real attributed PNG and quizzes recorded word order', async ({
   page,

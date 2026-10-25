@@ -131,3 +131,16 @@ links remain in the header. It does not appear on account or offline pages.
 Signed-in users have a labelled Profile dropdown showing their name, email/username,
 sync status, dashboard, account details and sign-out. A profile details card appears
 in Study and on the account page. No fourth main navigation destination was added.
+
+## Latest access and appearance decision
+
+Explore, Read and Study now require an authenticated account. Guests opening these
+pages (including direct links) are sent to the signup/signin popup; their underlying
+page is not served. Reader data/action API endpoints also require a session when
+running the website, and their responses are no-store. Account access, sources,
+privacy/about and operational health remain public. Existing downloaded public
+editions are local copies and are not DRM-protected; requiring website sign-in does
+not retract material already downloaded. Browser-only guest reading is superseded.
+Dark maroon/red is the default palette, with a light rose reading option. Existing
+appearance preferences are migrated once to the new default, retaining text-size
+and font choices.

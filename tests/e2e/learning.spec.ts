@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './reader-fixture';
 import AxeBuilder from '@axe-core/playwright';
 
 test('practice hides the source, compares a recall and persists a spaced review', async ({
@@ -37,7 +37,7 @@ test('daily reading resumes with real passage progress and classroom links recon
   await page.getByLabel('Daily pace').selectOption('1');
   await page.getByRole('button', { name: 'Start reading plan', exact: true }).click();
   await expect(page.getByRole('article', { name: 'Dhp 1', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Bookmark on this device', exact: true }).click();
+  await page.getByRole('button', { name: 'Bookmark to my account', exact: true }).click();
   await page.getByRole('button', { name: 'Complete today’s reading', exact: true }).click();
   await expect(
     page.getByText('Dhammapada · 1 of 423 passages complete', { exact: true }),

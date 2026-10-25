@@ -293,4 +293,5 @@ export async function registerAccounts(app: FastifyInstance, db: Database) {
     reply.header('Set-Cookie', cookie('', 0));
     return { ok: true };
   });
+  return { identity };
 }

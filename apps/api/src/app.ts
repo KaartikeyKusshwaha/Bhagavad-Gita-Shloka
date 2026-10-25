@@ -1,3 +1,4 @@
+import { protectedReaderPage, protectedReaderApi } from '../../../packages/shared/src/access.ts';
 import { registerAccounts } from './accounts.ts';
 import Fastify from 'fastify';
 import helmet from '@fastify/helmet';
@@ -119,7 +120,8 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
       req.url.startsWith('/v1/') &&
       req.method === 'GET' &&
       !req.url.startsWith('/v1/admin') &&
-      !req.url.startsWith('/v1/account')
+      !req.url.startsWith('/v1/account') &&
+      !protectedReaderApi(req.url.split('?')[0])
     )
       reply.header(
         'Cache-Control',
@@ -128,7 +130,19 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
     else reply.header('Cache-Control', 'no-store');
     return payload;
   });
-  await registerAccounts(app, db);
+  const accounts = await registerAccounts(app, db);
+  if (options.web)
+    app.addHook('onRequest', async (req, reply) => {
+      const path = new URL(req.url, 'http://localhost').pathname;
+      if (!protectedReaderPage(path) && !protectedReaderApi(path)) return;
+      if (await accounts.identity(req)) return;
+      reply.header('Cache-Control', 'no-store');
+      if (path.startsWith('/v1/'))
+        return reply
+          .code(401)
+          .send(error('SIGN_IN_REQUIRED', 'Sign up or sign in to use Explore, Read and Study.'));
+      return reply.redirect('/account/required');
+    });
   app.get('/v1/health', async () => {
     await db.query('SELECT 1');
     const works = await getWorks(db);

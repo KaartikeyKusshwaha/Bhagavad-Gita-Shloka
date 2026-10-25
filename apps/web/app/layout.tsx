@@ -1,4 +1,4 @@
-import { AccountProvider, AccountLink, AccountWelcome } from '../components/account-provider';
+import { AccountProvider, AccountLink } from '../components/account-provider';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { BookOpen, ArrowUpRight } from 'lucide-react';
@@ -36,14 +36,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Preferences />
             </div>
           </header>
-          <main id="main">
-            <AccountWelcome />
-            {children}
-          </main>
+          <main id="main">{children}</main>
           <footer className="site-footer">
             <div>
               <Link className="footer-brand" href="/">
-                Open Scripture<span>Free to read. Open to everyone.</span>
+                Open Scripture<span>A free account. A world of reading.</span>
               </Link>
               <p>Free accounts. No ads. No third-party tracking.</p>
             </div>

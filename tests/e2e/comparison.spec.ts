@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './reader-fixture';
 import AxeBuilder from '@axe-core/playwright';
 
 test('compares attributed human editions and discloses combined source ranges on mobile', async ({

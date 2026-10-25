@@ -276,3 +276,36 @@ it('exposes only configured Google sign-in and binds one-time OAuth state to its
     vi.unstubAllEnvs();
   }
 });
+it('requires a real session for reader APIs when running the website and does not cache private reader responses', async () => {
+  const website = await createApp(db, { web: true });
+  try {
+    for (const path of ['/', '/library', '/study', '/read/bhagavad-gita/BG-2.47']) {
+      const response = await website.inject(path);
+      expect(response.statusCode).toBe(302);
+      expect(response.headers.location).toBe('/account/required');
+    }
+    const denied = await website.inject('/v1/search?q=BG%202.47');
+    expect(denied.statusCode).toBe(401);
+    expect(denied.headers['cache-control']).toBe('no-store');
+    const created = await website.inject({
+      method: 'POST',
+      url: '/v1/account/signup',
+      headers: { 'x-scripture-client': '1' },
+      payload: { username: 'member_test', name: 'Member', password: 'member-test-long-password' },
+    });
+    const cookie = String(created.headers['set-cookie']).split(';')[0];
+    const works = await website.inject({ url: '/v1/works', headers: { cookie } });
+    expect(works.statusCode).toBe(200);
+    expect(works.headers['cache-control']).toBe('no-store');
+    expect(
+      (
+        await website.inject({
+          url: '/v1/works',
+          headers: { cookie: 'scripture-session=' + '0'.repeat(64) },
+        })
+      ).statusCode,
+    ).toBe(401);
+  } finally {
+    await website.close();
+  }
+});

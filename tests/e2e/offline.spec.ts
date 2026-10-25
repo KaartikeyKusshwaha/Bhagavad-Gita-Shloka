@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './reader-fixture';
 
 test('a downloaded edition stays readable and exactly searchable with the network disabled', async ({
   page,
