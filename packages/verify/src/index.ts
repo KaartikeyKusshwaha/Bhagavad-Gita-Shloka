@@ -59,7 +59,12 @@ export async function searchThreeWays(db: Database, claim: ParsedClaim) {
     : null;
   // A question with a reference already has its evidence. Do not run a costly
   // whole-library similarity scan over the entire question before showing it.
-  if (p && findPassageReference(claim.quote, claim.claimedWork))
+  if (
+    p &&
+    (findPassageReference(claim.quote, claim.claimedWork) ||
+      /\?$/.test(claim.quote) ||
+      /^explain\b/i.test(claim.quote))
+  )
     return [{ passage: p, score: 1, match_type: 'reference' as const }];
   let hits: SearchHit[] = [];
   try {
@@ -185,7 +190,12 @@ export async function verifyClaim(db: Database, input: string, source?: string) 
     note,
     quote_check: safe ? 'pass' : 'withheld',
     coverage_note: coverageMessage(new Set(works.map((x) => x.tradition)).size, works.length),
-    capabilities: { exact: true, fuzzy: true, semantic: false, context_judgment: false },
+    capabilities: {
+      exact: true,
+      fuzzy: true,
+      ai_assessment: Boolean(answer),
+      context_judgment: 'unreviewed_ai_assessment',
+    },
     lang: claim.lang,
   };
 }

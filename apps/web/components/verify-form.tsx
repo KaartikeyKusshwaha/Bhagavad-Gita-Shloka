@@ -17,7 +17,11 @@ interface Result {
   safety?: { kind: string; message: string };
   error?: { message: string };
 }
-export function VerifyForm() {
+export function VerifyForm({
+  works,
+}: {
+  works: { slug: string; title: string; tradition: string }[];
+}) {
   const [claim, setClaim] = useState(''),
     [source, setSource] = useState(''),
     [pending, setPending] = useState(false),
@@ -69,10 +73,11 @@ export function VerifyForm() {
           </label>
           <select id="claimed-source" value={source} onChange={(e) => setSource(e.target.value)}>
             <option value="">Find the source</option>
-            <option value="bhagavad-gita">Bhagavad Gita</option>
-            <option value="quran">Quran · Arabic</option>
-            <option value="dhammapada">Dhammapada</option>
-            <option value="bible">Bible (not yet loaded)</option>
+            {works.map((w) => (
+              <option key={w.slug} value={w.slug}>
+                {w.title} · {w.tradition}
+              </option>
+            ))}
           </select>
         </div>
         <button type="submit" className="button primary" disabled={pending}>

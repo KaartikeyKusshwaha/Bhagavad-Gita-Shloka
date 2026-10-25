@@ -51,7 +51,7 @@ export function Reader({
               <details
                 className="reader-part"
                 key={part}
-                open={parts.length === 1 || current?.metadata?.part === part}
+                open={parts.length > 1 && current?.metadata?.part === part}
               >
                 <summary>{part || 'Contents'}</summary>
                 {divisions
@@ -73,30 +73,30 @@ export function Reader({
             ))}
           </nav>
           {first.work === 'bhagavad-gita' && (
-            <div className="notice">
-              <strong>A note on editions</strong>700-verse recension. In chapter 13, the Besant
+            <details className="notice">
+              <summary>A note on editions</summary>700-verse recension. In chapter 13, the Besant
               translation’s verse number is one higher. Every translation shows its edition
               reference.
-            </div>
+            </details>
           )}
         </aside>
         <div className="reader-main">
+          <div className="page-heading">
+            <span className="eyebrow">
+              {current?.metadata?.part?.toUpperCase() ||
+                `${sectionLabel.toUpperCase()} ${String(chapter).padStart(2, '0')}`}{' '}
+              · {current?.verse_count} {passageLabel.toUpperCase()}S
+            </span>
+            <h1>{current?.title}</h1>
+            <p>
+              {String(
+                first.work_metadata?.description ??
+                  first.source.display_rules?.description ??
+                  'Original Sanskrit, a human translation, and room to read around the words.',
+              )}
+            </p>
+          </div>
           <ReadingExperience work={first.work}>
-            <div className="page-heading">
-              <span className="eyebrow">
-                {current?.metadata?.part?.toUpperCase() ||
-                  `${sectionLabel.toUpperCase()} ${String(chapter).padStart(2, '0')}`}{' '}
-                · {current?.verse_count} {passageLabel.toUpperCase()}S
-              </span>
-              <h1>{current?.title}</h1>
-              <p>
-                {String(
-                  first.work_metadata?.description ??
-                    first.source.display_rules?.description ??
-                    'Original Sanskrit, a human translation, and room to read around the words.',
-                )}
-              </p>
-            </div>
             <ReaderPicker
               key={first.id}
               work={first.work}
