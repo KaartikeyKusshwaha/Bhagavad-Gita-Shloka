@@ -213,7 +213,7 @@ export function AccountLink() {
         }
       }}
     >
-      <summary aria-label="Open profile">
+      <summary aria-label="Profile menu">
         <span className="profile-avatar" aria-hidden="true">
           {user.name.slice(0, 1).toUpperCase()}
         </span>

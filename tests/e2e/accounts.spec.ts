@@ -127,7 +127,7 @@ test('email-first access opens signup for a new address and signs existing reade
   ).toBeVisible();
   await page.goto('/account');
   await page.getByRole('button', { name: 'Sign out', exact: true }).click();
-  await expect(page).toHaveURL(/\/study$/, { timeout: 20000 });
+  await expect(page).toHaveURL(/\/account\/required$/, { timeout: 20000 });
   await page.goto('/account/signin');
   await page.getByLabel('Email or username', { exact: true }).fill(email);
   await page.getByRole('button', { name: 'Continue with email or username' }).click();
