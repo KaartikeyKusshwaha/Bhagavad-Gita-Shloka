@@ -9,9 +9,20 @@ export default function Privacy() {
       </div>
       <div className="prose">
         <p>
-          No accounts, advertising, third-party analytics, or tracking scripts are used.
-          Preferences, bookmarks, reading progress, activity, and Explore history stay in this
-          browser. They are not synchronized to an account.
+          No advertising, third-party analytics, or tracking scripts are used. Preferences,
+          bookmarks, reading progress, activity, and Explore history stay in this browser when you
+          read as a guest. When signed in, bookmarks, notes, activity, reading plans, revision cards
+          and saved Explore conversations synchronize to your private account on our server.
+        </p>
+        <h2>Accounts</h2>
+        <p>
+          Accounts use a username, display name and a hashed password. No email is collected. A
+          private recovery code can reset your password and is replaced after use. Sessions use an
+          HttpOnly cookie and expire after seven days. Sign out on shared devices. Account data is
+          held in the site database; it is not end-to-end encrypted. You can permanently delete your
+          live account and saved data in account settings. Database backups may retain copies until
+          rotated. Importing guest data is optional. Multiple devices use version checks; a conflict
+          asks you to reload rather than silently replacing newer saved data.
         </p>
         <h2>Explore history and Study activity</h2>
         <p>
@@ -29,11 +40,11 @@ export default function Privacy() {
           data.
         </p>
         <p>
-          Reading plans and spaced-revision dates are also stored only in this browser. Remove a
-          plan or individual revision entries in Study tools. Classroom share links contain the
-          chosen references, title and discussion questions in the URL fragment; anyone with the
-          link can read them. The application does not save a server lesson record. Avoid personal
-          information in classroom links.
+          Reading plans and spaced-revision dates are also stored in your browser as a guest, or in
+          your account when signed in. Remove a plan or individual revision entries in Study tools.
+          Classroom share links contain the chosen references, title and discussion questions in the
+          URL fragment; anyone with the link can read them. The application does not save a server
+          lesson record. Avoid personal information in classroom links.
         </p>
         <h2>Search and quotation checks</h2>
         <p>
@@ -91,9 +102,9 @@ export default function Privacy() {
         </p>
         <p>
           Use the History and Study controls to remove those records, or clear this site's browser
-          storage to remove all saved history, activity, preferences, bookmarks, and progress.
-          DELETE /v1/me/data confirms that no account, audio, or transcript record is held on the
-          server; it does not clear your browser's storage.
+          storage to remove all saved history, activity, preferences, bookmarks, and progress. Use
+          account settings to delete your live account and synchronized data. The legacy DELETE
+          /v1/me/data endpoint does not delete accounts or clear browser storage.
         </p>
       </div>
     </div>

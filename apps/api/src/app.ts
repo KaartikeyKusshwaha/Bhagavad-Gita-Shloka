@@ -1,3 +1,4 @@
+import { registerAccounts } from './accounts.ts';
 import Fastify from 'fastify';
 import helmet from '@fastify/helmet';
 import rateLimit from '@fastify/rate-limit';
@@ -80,7 +81,10 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
   await app.register(rateLimit, {
     max: 60,
     timeWindow: '1 minute',
-    errorResponseBuilder: () => error('RATE_LIMITED', 'Please wait before trying again.'),
+    errorResponseBuilder: () => ({
+      statusCode: 429,
+      ...error('RATE_LIMITED', 'Please wait before trying again.'),
+    }),
   });
   await app.register(swagger, {
     openapi: {
@@ -111,7 +115,12 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
   });
   app.addHook('onSend', async (req, reply, payload) => {
     reply.header('Referrer-Policy', 'no-referrer');
-    if (req.url.startsWith('/v1/') && req.method === 'GET' && !req.url.startsWith('/v1/admin'))
+    if (
+      req.url.startsWith('/v1/') &&
+      req.method === 'GET' &&
+      !req.url.startsWith('/v1/admin') &&
+      !req.url.startsWith('/v1/account')
+    )
       reply.header(
         'Cache-Control',
         req.url.includes('/health') ? 'no-store' : 'public, max-age=60, stale-while-revalidate=300',
@@ -119,6 +128,7 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
     else reply.header('Cache-Control', 'no-store');
     return payload;
   });
+  await registerAccounts(app, db);
   app.get('/v1/health', async () => {
     await db.query('SELECT 1');
     const works = await getWorks(db);
@@ -491,7 +501,7 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
   });
   app.delete('/v1/me/data', async () => ({
     deleted: 0,
-    note: 'No accounts, transcripts, or audio are stored. Anonymous reports and public contributions are not linked to a personal profile.',
+    note: 'Use account settings to delete your account and saved data. This legacy endpoint does not delete account records. No audio or transcripts are stored.',
   }));
   const isAdmin = (auth?: string) => {
     const token = process.env.ADMIN_TOKEN;

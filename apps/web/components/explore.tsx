@@ -1,4 +1,5 @@
 'use client';
+import { useAccount } from './account-provider';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -163,6 +164,7 @@ export function Explore({
   works: WorkOption[];
   semanticAvailable?: boolean;
 }) {
+  const { user } = useAccount();
   const device = useDeviceData(),
     params = useSearchParams();
   const [mode, setMode] = useState<ExploreMode>('search'),
@@ -457,7 +459,11 @@ export function Explore({
           <span>History</span>
         </button>
         <span className="device-note">
-          {device.rememberHistory ? 'History stays on this device' : 'History paused'}
+          {device.rememberHistory
+            ? user
+              ? 'History saved to your account'
+              : 'History stays on this device'
+            : 'History paused'}
         </span>
         <button className="quiet-button" onClick={newConversation}>
           <PenLine size={17} />
@@ -828,7 +834,9 @@ export function Explore({
                   <Trash2 size={14} /> Clear all Explore history
                 </button>
               </details>
-              <small>Private to this browser. No account or cloud sync.</small>
+              <small>
+                {user ? 'Private to your account.' : 'Private to this browser. Sign in to sync.'}
+              </small>
             </div>
           </aside>
         </div>

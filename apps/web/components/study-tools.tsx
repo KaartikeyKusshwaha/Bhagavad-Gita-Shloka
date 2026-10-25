@@ -197,8 +197,8 @@ export function StudyTools({ works }: { works: StudyWork[] }) {
           ) : (
             <>
               <p>
-                Start from the beginning of one edition. Your place stays on this device; missed
-                days carry no penalty.
+                Start from the beginning of one edition. Your place is saved with your reading data;
+                missed days carry no penalty.
               </p>
               <label>
                 Text

@@ -1,4 +1,5 @@
 'use client';
+import { DashboardAccount, useAccount } from './account-provider';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { BookOpen, Bookmark, Check, ChevronRight, Download, Flame, Trash2 } from 'lucide-react';
@@ -6,6 +7,7 @@ import { activityDays, calendarDays, learningStats, localDay } from '@core/share
 import { useDeviceData, changeDeviceData } from '../lib/device-store';
 import { StudyTools, type StudyWork } from './study-tools';
 export function Study({ works }: { works: StudyWork[] }) {
+  const { user } = useAccount();
   const data = useDeviceData(),
     [today, setToday] = useState<Date | null>(null),
     [selected, setSelected] = useState(''),
@@ -91,12 +93,17 @@ export function Study({ works }: { works: StudyWork[] }) {
         <div>
           <span className="eyebrow">YOUR OWN PACE</span>
           <h1>A little, often.</h1>
-          <p>A record of your curiosity. Private to this device.</p>
+          <p>
+            {user
+              ? 'Your personal reading dashboard.'
+              : 'A record of your curiosity. Private to this device.'}
+          </p>
         </div>
         <span className="study-emblem">
           <BookOpen size={29} strokeWidth={1.3} />
         </span>
       </div>
+      <DashboardAccount />
       <div className="study-switch" role="group" aria-label="Study view">
         <button aria-pressed={tab === 'activity'} onClick={() => setTab('activity')}>
           <Flame size={15} />

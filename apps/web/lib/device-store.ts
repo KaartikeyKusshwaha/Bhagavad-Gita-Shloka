@@ -1,4 +1,5 @@
 'use client';
+import { personalGet, personalSet } from './personal-storage';
 import { useSyncExternalStore } from 'react';
 import {
   emptyDeviceData,
@@ -12,7 +13,7 @@ let cachedRaw: string | null | undefined,
   cachedState: DeviceData = emptyDeviceData;
 function snapshot(): DeviceData {
   try {
-    const raw = localStorage.getItem(KEY);
+    const raw = personalGet(KEY);
     if (raw !== cachedRaw) {
       cachedRaw = raw;
       cachedState = retainHistory(parseDeviceData(raw));
@@ -35,9 +36,9 @@ export function useDeviceData() {
 }
 export function changeDeviceData(update: (state: DeviceData) => DeviceData) {
   // Parse again before mutation: malformed storage is preserved instead of silently replaced.
-  const current = parseDeviceData(localStorage.getItem(KEY));
+  const current = parseDeviceData(personalGet(KEY));
   const next = retainHistory(update(current));
-  localStorage.setItem(KEY, JSON.stringify(next));
+  personalSet(KEY, JSON.stringify(next));
   cachedRaw = undefined;
   window.dispatchEvent(new Event(EVENT));
 }

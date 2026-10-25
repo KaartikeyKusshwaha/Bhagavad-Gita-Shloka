@@ -1,4 +1,5 @@
 'use client';
+import { useAccount } from './account-provider';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Copy, Check, Flag, ArrowUpRight, Bookmark } from 'lucide-react';
@@ -19,6 +20,7 @@ export function PassageCard({
   featured?: boolean;
   compact?: boolean;
 }) {
+  const { user } = useAccount();
   const [script, setScript] = useState<'original' | 'roman'>('original'),
     [copied, setCopied] = useState(false),
     [notice, setNotice] = useState('');
@@ -34,7 +36,9 @@ export function PassageCard({
         ...state,
         bookmarks: state.bookmarks.map((b) => (b.id === passage.id ? { ...b, ...update } : b)),
       }));
-      setNotice('Bookmark updated on this device.');
+      setNotice(
+        user ? 'Bookmark updated. Syncing to your account.' : 'Bookmark updated on this device.',
+      );
     } catch {
       setNotice('Device storage is unavailable.');
     }
@@ -143,7 +147,13 @@ export function PassageCard({
           <SharePassage passage={passage} translationId={translation?.id} />
           <button
             onClick={bookmark}
-            aria-label={saved ? 'Remove bookmark' : 'Bookmark on this device'}
+            aria-label={
+              saved
+                ? 'Remove bookmark'
+                : user
+                  ? 'Bookmark to my account'
+                  : 'Bookmark on this device'
+            }
             aria-pressed={saved}
           >
             <Bookmark size={17} fill={saved ? 'currentColor' : 'none'} />

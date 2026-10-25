@@ -54,9 +54,10 @@ export default function About() {
         <h2>Your reading belongs to you</h2>
         <p>
           No account, advertising or tracking scripts are required. Saved conversations, progress
-          and practice stay in this browser. You can pause or clear them. Ask sends selected
-          question context to its configured AI provider; see <Link href="/privacy">Privacy</Link>{' '}
-          before sharing sensitive information.
+          and practice stay in this browser for guests. Free accounts synchronize your saved reading
+          across devices. You can pause history or delete your data. Ask sends selected question
+          context to its configured AI provider; see <Link href="/privacy">Privacy</Link> before
+          sharing sensitive information.
         </p>
         <p>
           This is a college-project beta. Automated checks cover its technical behavior; they do not

@@ -92,3 +92,21 @@ unreviewed study translations support 24 target languages only for eligible sour
 they are never stored as canonical text or published human editions.
 Final owner acceptance remains pending. Source research or an empty
 workspace package does not count as a functioning feature.
+
+## Accounts (user-authorized 2026-10-25)
+
+Free username/password accounts now provide an individual Study dashboard. Signed-in
+bookmarks and notes, deliberate reading marks and return places, the activity grid,
+reading plans, spaced-revision cards, and saved Explore conversations synchronize to
+PostgreSQL. Guest reading stays local; guest imports are explicit and account entries
+win matching IDs. Preferences and downloaded public editions remain device-local.
+Explore history can still be paused, renamed, deleted or cleared; notes are not sent
+to Groq. AI context remains opt-in retrieval, not training.
+
+No email address, paid auth service or email verification is required. Sign-up shows a
+one-time recovery code; recovery rotates the code and revokes all sessions. Account
+settings support sign-out and password-confirmed permanent deletion. Sessions expire
+in seven days. Backups may retain deleted data until rotated. Account sync is not
+end-to-end encrypted. Conflicting device revisions stop saving with an explicit error
+and an export option; reload obtains the current server version. No automatic merge
+of concurrently edited dashboards is claimed.

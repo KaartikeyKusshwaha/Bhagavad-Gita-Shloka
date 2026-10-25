@@ -40,3 +40,13 @@ Ask sends selected context to Groq; free quotas can temporarily stop answers.
 Meaning search, speech matching and AI interpretations are experimental. No
 scholarly approval, pronunciation assessment or complete all-religion corpus is
 claimed. Actual microphone and voice quality are part of this owner test.
+
+## Individual account checks
+
+Create an account using a unique username and a password of at least 12 characters;
+save the recovery code. Bookmark and annotate a passage, mark it read, create a reading
+plan, and submit an Explore search. After the save completes, sign in from another
+browser and confirm your dashboard and history. Sign out and confirm the private
+entries disappear. Guest entries are separate and only import via the Study control.
+Try recovery with your saved code; existing sessions should expire and the new code
+replaces the old one. Delete a test account in settings using its password.

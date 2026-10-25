@@ -21,8 +21,8 @@ precedence. This is an overhaul of the existing college project, not a new busin
 - Use available models and services; no paid subscription or hosting upgrade
   without a user-approved budget. Surface provider failures honestly.
 - User-requested Explore history and Study activity stay in this browser by
-  default. Support pausing, deleting and clearing. Do not send raw history to
-  analytics or add account/cloud synchronization without user authorization.
+  default. Support pausing, deleting and clearing. Do not send raw history to analytics. The user explicitly authorized free accounts
+  and private cloud synchronization on 2026-10-25; guests remain local by default.
 - Activity reflects real submitted queries and explicit read/practice actions;
   never seed fake streaks or count page loads as learning.
 
