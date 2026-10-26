@@ -58,7 +58,7 @@ export async function geminiJson<T>(
       throw new AiServiceError(
         response.status === 429 ? 'AI_RATE_LIMITED' : 'AI_UNAVAILABLE',
         response.status === 429
-          ? 'Gemini’s free request limit was reached. No answer was produced. Wait a minute and retry.'
+        ? 'Gemini’s free usage limit was reached. No answer was produced. Retry after the provider’s quota resets.'
           : 'Gemini could not complete this request. No substitute answer was produced. Please retry.',
       );
     const raw = await response.json();
