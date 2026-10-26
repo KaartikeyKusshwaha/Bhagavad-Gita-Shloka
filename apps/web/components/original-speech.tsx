@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import type { Passage } from '@core/shared/src/index';
-import { cartesiaLanguages } from '@core/shared/src/speech';
+import { cartesiaLanguages, sourceSpeechLanguage } from '@core/shared/src/speech';
 import { languageName } from './library-browser';
 type Options = {
   available: boolean;
@@ -12,7 +12,7 @@ type Options = {
   voices: { id: string; name: string; locale: string }[];
 };
 export function OriginalSpeech({ passage }: { passage: Passage }) {
-  const lang = String(passage.source.display_rules.lang ?? '');
+  const lang = sourceSpeechLanguage(passage);
   const [options, setOptions] = useState<Options | null>(null),
     [voice, setVoice] = useState(''),
     [pending, setPending] = useState(false),

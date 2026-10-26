@@ -1,7 +1,7 @@
 import type { Database } from './index.ts';
 import { cachedRead } from './read-cache.ts';
 import type { Passage, Source, Translation, HumanAudio } from '../../shared/src/index.ts';
-const passageSelect = `SELECT p.*,w.slug AS work,w.title AS work_title,w.metadata AS work_metadata,t.slug AS tradition,t.name AS tradition_name,d.number AS chapter,to_jsonb(s) AS source FROM published_passages p JOIN works w ON w.id=p.work_id JOIN traditions t ON t.id=w.tradition_id JOIN divisions d ON d.id=p.division_id JOIN sources s ON s.id=p.source_id`;
+const passageSelect = `SELECT p.*,w.slug AS work,w.title AS work_title,w.original_lang,w.metadata AS work_metadata,t.slug AS tradition,t.name AS tradition_name,d.number AS chapter,to_jsonb(s) AS source FROM published_passages p JOIN works w ON w.id=p.work_id JOIN traditions t ON t.id=w.tradition_id JOIN divisions d ON d.id=p.division_id JOIN sources s ON s.id=p.source_id`;
 export async function hydrate(db: Database, rows: Record<string, unknown>[]): Promise<Passage[]> {
   if (!rows.length) return [];
   const translations = (

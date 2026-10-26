@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { z } from 'zod';
 import type { Database } from '../../db/src/index.ts';
 import type { Passage } from '../../shared/src/index.ts';
-import { cartesiaLanguages } from '../../shared/src/speech.ts';
+import { cartesiaLanguages, sourceSpeechLanguage } from '../../shared/src/speech.ts';
 import { SpeechError } from './speech-error.ts';
 import { sanskritModel, sanskritVoices, generateSanskrit } from './yourvoic.ts';
 export { SpeechError } from './speech-error.ts';
@@ -63,7 +63,7 @@ async function provider(path: string, init: RequestInit = {}) {
   return response;
 }
 export function speechEligibility(p: Passage) {
-  const lang = String(p.source.display_rules.lang ?? '');
+  const lang = sourceSpeechLanguage(p);
   if (lang !== 'sa' && !cartesiaLanguages.has(lang))
     return {
       available: false,

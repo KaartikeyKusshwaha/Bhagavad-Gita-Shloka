@@ -3,3 +3,7 @@ export const cartesiaLanguages = new Set(
     ' ',
   ),
 );
+import type { Passage } from './index.ts';
+export function sourceSpeechLanguage(p: Passage) {
+  return String(p.original_lang ?? p.source.display_rules.lang ?? '');
+}
