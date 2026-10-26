@@ -44,7 +44,7 @@ it('rejects incomplete output, quota exhaustion and invalid JSON without trying 
     .mockResolvedValueOnce(
       new Response(JSON.stringify({ status: 'incomplete', output_text: '{"text":"Partial"}' })),
     )
-    .mockResolvedValueOnce(new Response('{}', { status: 429 }))
+    .mockResolvedValueOnce(new Response('{}', { status: 429, headers: { 'retry-after': '64231' } }))
     .mockResolvedValueOnce(
       new Response(JSON.stringify({ status: 'completed', output_text: 'not JSON' })),
     );
@@ -52,6 +52,7 @@ it('rejects incomplete output, quota exhaustion and invalid JSON without trying 
   await expect(geminiJson('Explain', {}, schema)).rejects.toMatchObject({ code: 'AI_INCOMPLETE' });
   await expect(geminiJson('Explain', {}, schema)).rejects.toMatchObject({
     code: 'AI_RATE_LIMITED',
+    message: expect.stringContaining('18 hour(s)'),
   });
   await expect(geminiJson('Explain', {}, schema)).rejects.toMatchObject({
     code: 'AI_INVALID_RESPONSE',
