@@ -96,3 +96,7 @@ request checks the provider normally; quota exhaustion does not permanently
 disable the integration or switch models. New requests work after the provider
 allows them again. Previous failed questions are not queued for automatic sending.
 The provider contract test covers a quota error followed by a successful response.
+
+The latest owner instruction supersedes the expanded message above. The public
+error must contain only: “This service is currently unavailable.” Do not include
+provider names, technical causes or reset information in that message.
