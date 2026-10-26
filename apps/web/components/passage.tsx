@@ -343,7 +343,7 @@ export function PassageCard({
           </div>
         </details>
       )}
-      {!compact && <OriginalSpeech key={passage.id} passage={passage} />}
+      {!compact && <OriginalSpeech key={`speech-${passage.id}`} passage={passage} />}
       {!compact && <Practice key={passage.id} passage={passage} onHide={setPracticeHidden} />}
       {!compact && (
         <div className="passage-bottom">
