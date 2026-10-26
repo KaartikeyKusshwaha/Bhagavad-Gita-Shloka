@@ -167,6 +167,7 @@ A database backup preceded the upgrade. Previous code is retained at
 `/opt/open-scripture-previous-20261025T160442Z`. Public health returned 200; the
 service had zero automatic restarts at verification. Already downloaded public
 copies cannot be revoked through website authentication; see decision 014.
+
 # Render migration, original speech and Verify evidence limits, 2026-10-26
 
 Current website: https://open-scripture.onrender.com. Application commit
@@ -199,3 +200,34 @@ English and Sanskrit WAVs remained byte-identical cache HITs after redeployment,
 with no extra speech usage during the replay check. Source-text/voice/model cache
 keys and persistent provider caps remain enforced. The QA account was disposable;
 owner pronunciation and final acceptance reviews remain pending.
+
+## Gemini evidence research · 26 October 2026
+
+Deployed application commit `5ff6bbc8c36c6e2a13e90850d1a8f3d24be977b1`, Render
+`dep-dbfl5c29lscs73ai7pkg`, at https://open-scripture.onrender.com. CI run
+`40328783144` passed lint, types, all 73 unit/API tests, source integrity, production
+build and all 28 browser flows. Provider completion/quota contracts, public-page
+cache reuse, redirect restrictions, collection routing and long-answer account
+history have automated coverage.
+
+Live Edge testing verified a Gemini historical assessment, revision-linked public
+citations, account persistence and reload. The saved reply's actual model was
+`gemini-3.6-flash`; four paragraphs assessed the Jammal claim as mixed with a
+qualification about the sauce detail. Live discovery disclosed an unavailable
+underlying report instead of pretending to read it. Standalone real Gemini tests
+using the production source database produced a developed BG 2.47 answer and a
+contradicted scripture claim using BG 2.47, 2.48 and 3.8. Citation validation does
+not establish scholarly correctness or guarantee model factual accuracy.
+
+Google then returned the account's actual **20 model requests/day** free limit.
+Testing exhausted it. Since planning plus answering usually uses two requests,
+roughly ten planned exchanges/day is the practical upper bound before other use.
+The reported reset was around 27 October at 12:30 IST. Live Ask's quota error and
+reset-wait message were verified; a successful deployed Gemini Ask after reset is
+still pending. The integration remains Gemini-selected, with no automatic Groq
+fallback. This is a material free-tier limit for a public site.
+
+After the release, original English and Sanskrit WAV cache bytes were unchanged,
+with four cache entries and no extra generation usage (Cartesia 345, YourVoic 154
+lifetime characters). The owned QA account was removed. Owner acceptance,
+pronunciation checks and independent editorial review remain pending.

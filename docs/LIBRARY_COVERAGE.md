@@ -28,9 +28,9 @@ English edition is original Sanskrit, Hebrew, Greek, Chinese or Japanese.
 
 Additional languages can be requested as clearly labelled, unreviewed AI study
 translations for eligible source texts. These are separate from published human
-editions, are not canonical text, and can fail or be limited by Groq Free quotas.
+editions, are not canonical text, and can fail or be limited by the configured AI provider's free quotas.
 ClearQuran (no derivatives), Tanzil verbatim text, SuttaCentral's model restriction,
-and the Gurbani import are excluded from this translation feature. Groq is not
+and the Gurbani import are excluded from this translation feature. The answer model is not
 fine-tuned: Ask uses retrieved passages plus bounded conversation context.
 Word/reference retrieval covers all imported works. The existing meaning index
 still covers 6,936 Gita/Quran passages; it has not been rebuilt for the new works.

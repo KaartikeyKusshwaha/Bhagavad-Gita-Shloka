@@ -32,8 +32,12 @@ see [deployment notes](infra/RENDER.md). Render Free can sleep while idle.
 - Conversations with reopen/search/rename/delete/pause controls, real
   learning-activity calendar, read marks, streaks and saved passages. Bookmarks have
   colours and private notes; explicit read marks provide a Continue reading link.
-- Optional, visible saved-conversation context for Ask. Groq uses retrieved source
-  evidence and bounded context; it is not fine-tuned on users' conversations.
+- Optional, visible saved-conversation context for Ask. Gemini uses retrieved source
+  evidence and bounded context for developed cited explanations; conversations do
+  not fine-tune the model. Verify assesses meaning separately from quotation
+  matching and can retrieve public historical sources through Wikipedia and
+  accessible cited reports on selected publishers. Source links, coverage limits
+  and qualified verdicts stay with saved answers. See [decision 018](docs/decisions/018-gemini-evidence-research.md).
 - Unreviewed study translations in supported languages, requested explicitly and
   disabled for restricted sources; published human editions stay separate.
 - Browser speech input with consent/transcript review and local explanation voices.
@@ -46,9 +50,10 @@ see [deployment notes](infra/RENDER.md). Render Free can sleep while idle.
 
 The original [implementation plan](docs/build-plan.md) remains a reference. See
 [acceptance status](docs/acceptance.md). Existing Qwen models provide optional
-meaning search and cited Ask/follow-up answers locally. The Oracle deployment uses
-the same Qwen embedding model and the user-authorized Groq Free-plan account for
-Ask. See the deployment record for actual checks and limitations.
+meaning search and cited Ask/follow-up answers locally. Render uses the protected
+Oracle Qwen embedding runtime and Gemini 3.6 Flash for Ask and Verify. Groq remains
+an explicitly selectable provider; errors do not switch providers automatically.
+See the deployment record for actual checks and free-tier limitations.
 MCP, WhatsApp and separate client apps are excluded by the maintainer's later scope.
 Human evaluations, printed-edition samples and named reviewers are not fabricated.
 

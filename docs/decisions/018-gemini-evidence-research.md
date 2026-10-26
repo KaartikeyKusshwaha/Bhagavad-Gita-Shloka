@@ -70,6 +70,13 @@ publisher URLs, actual-page retrieval, source failures and scope routing. Browse
 contracts verify saved long answers and linked sources after account history
 reload. Live provider checks use the supplied key and real retrieved evidence;
 temporary provider load errors remain an operational limit of the free tier.
+The actual supplied project later returned HTTP 429 with a **20 requests/day**
+free limit and a Retry-After header. A planned Ask/Verify usually uses two
+requests (planning and answer), so this account can support about ten such
+exchanges per day before other use. Testing reached that limit on October 26;
+the reported reset was around October 27, 12:30 IST. This is suitable for a
+small demonstration, not an unrestricted public AI service. There is no automatic
+Groq substitution. Where supplied, the provider reset wait is shown in the error.
 
 Official references checked 2026-10-26:
 
