@@ -96,3 +96,10 @@ byte-identical cache HITs after the final deployment. Cache count stayed at four
 usage stayed at Cartesia 345 characters and YourVoic lifetime 154 characters.
 The disposable QA account and its saved test history were deleted successfully.
 The live tab was left at the normal member sign-in entry for owner acceptance.
+
+The owner-requested simple availability message is live at application commit
+`9a4e7e763a7e6a6c0e8caf9e5061269934448e83`, Render
+`dep-dbfla2m7bikc73e0ir20` (26 October, 18:58:52 IST). Live Ask returns the
+requested service-unavailable message during quota exhaustion. A subsequent
+provider success is accepted normally; there is no manual disable flag or
+automatic model substitution. CI `40330484183` passed the full technical workflow.

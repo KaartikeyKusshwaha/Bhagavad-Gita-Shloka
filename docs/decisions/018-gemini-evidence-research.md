@@ -86,3 +86,13 @@ Official references checked 2026-10-26:
 - https://www.mediawiki.org/wiki/API:Search
 - https://www.mediawiki.org/wiki/API:Parsing_wikitext
 - https://foundation.wikimedia.org/wiki/Policy:User-Agent_policy
+
+## Owner-requested availability message
+
+The owner subsequently requested a simple service-unavailable message during
+Gemini quota exhaustion. It now says: “This service is currently unavailable. It
+will resume when Gemini’s usage quota resets. Please try again then.” Each new
+request checks the provider normally; quota exhaustion does not permanently
+disable the integration or switch models. New requests work after the provider
+allows them again. Previous failed questions are not queued for automatic sending.
+The provider contract test covers a quota error followed by a successful response.
