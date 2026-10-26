@@ -16,6 +16,21 @@ restore. A final private-data synchronization preceded redirecting the old URL.
 Fourteen live Edge browser checks passed on the initial Render deployment. Both
 audio providers returned migrated cache HITs with byte-identical SHA-256 hashes.
 
+The Verify evidence-limit fix is live at application commit
+`a140e22317b5f3dfa92444a66d6829cac8a3067e`, Render deploy
+`dep-dbfig4ec6qcc739rhc9g`, completed 2026-10-26 at 15:46:59 IST. CI run
+`40304358650` passed 62 unit/API tests and all 27 browser flows. The public site
+was tested using the Edge browser extension with an isolated QA account. The
+reported historical claim returned a real model evidence-limit explanation that
+survived a full reload of account history. Real semantic retrieval found BG 2.62;
+Groq's initial BG 2.47 answer and contextual follow-up both cited that passage.
+
+After redeployment, English and Sanskrit audio returned HIT with the same bytes
+as before migration: SHA-256 `029a9198aeeca8695cafbcd055c7ecdf8ea4d261565be859bcb665e1d4a5e536`
+and `455d5f8d1d9401a307b3c9354e0466db67a94fe2c4bb090571c77923bd737a0c`.
+The replay check left provider counters unchanged. Owner pronunciation review is
+still required; playable synthesized audio is not editorial or liturgical signoff.
+
 `render.yaml` records the reproducible service configuration. Secrets remain in the
 hosting environment and ignored local migration files, never in this repository.
 

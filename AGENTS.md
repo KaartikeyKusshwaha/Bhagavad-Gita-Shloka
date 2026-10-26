@@ -36,3 +36,5 @@ and pnpm test:e2e against an owned local server. Never build and run Next dev in
 the same .next directory simultaneously. Browser tests use isolated profiles.
 Do not manufacture human-written evaluation sets or printed-edition signoff.
 Do not commit secrets, personal history, local databases or generated test reports.
+For deployment/browser UI, the owner requires the Edge browser extension with
+tab-scoped control. Do not use Windows window/desktop automation for this project.

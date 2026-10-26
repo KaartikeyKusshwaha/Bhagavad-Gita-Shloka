@@ -167,3 +167,35 @@ A database backup preceded the upgrade. Previous code is retained at
 `/opt/open-scripture-previous-20261025T160442Z`. Public health returned 200; the
 service had zero automatic restarts at verification. Already downloaded public
 copies cannot be revoked through website authentication; see decision 014.
+# Render migration, original speech and Verify evidence limits, 2026-10-26
+
+Current website: https://open-scripture.onrender.com. Application commit
+`a140e22317b5f3dfa92444a66d6829cac8a3067e` is live in Render deploy
+`dep-dbfig4ec6qcc739rhc9g` (15:46:59 IST). Render and Neon are on Free plans in
+Singapore. Oracle's old website redirects to Render and its web service is
+disabled; the protected Qwen embedding model remains on Oracle.
+
+Migration preserved all 140 works, 120,858 passages, 39,154 translations, the
+3 original accounts and private records, 6,936 vectors, existing speech WAVs and
+usage budgets. Final synchronization preceded the old-site redirect. Database TLS
+certificate validation and restored statistics were checked. Original backups are
+retained privately; credentials were not committed.
+
+CI `40304358650` passed lint, strict types, all 62 unit/API tests, ingestion/source
+integrity checks, production build and 27 browser flows. Three local Verify/reader
+browser checks passed. The initial Render site also passed 14 live Edge checks
+covering accounts/access, history, reading sessions, bookmarks, Study/Next tracking
+and playable Cartesia/YourVoic original audio.
+
+The owner's historical-broadcast claim reproduced an empty-citation failure with
+real Groq inference. A dedicated validated evidence-limit response now says the
+claim is not established from the retrieved texts; it does not label it true or
+false. The deployed result and account-history reload were verified through the
+Edge extension using an isolated QA account. Related passages start collapsed.
+Real meaning retrieval found BG 2.62, and a real Groq initial answer plus contextual
+follow-up both cited BG 2.47. Provider failures still fail explicitly.
+
+English and Sanskrit WAVs remained byte-identical cache HITs after redeployment,
+with no extra speech usage during the replay check. Source-text/voice/model cache
+keys and persistent provider caps remain enforced. The QA account was disposable;
+owner pronunciation and final acceptance reviews remain pending.
