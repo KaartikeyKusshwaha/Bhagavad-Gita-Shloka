@@ -11,14 +11,17 @@ export async function researchAssessment(db: Database, input: string, source?: s
     const plan = await planRetrieval(input, 'verify', [], source);
     const claim = parseClaim(input, source);
     const initial = plan.scope === 'historical' ? [] : await searchThreeWays(db, claim);
+    // "Bible" identifies the collection, not one of its 66 stored book slugs.
+    const collection = source || claim.claimedWork;
+    const options = collection === 'bible' ? { tradition: 'christianity' } : { work: collection };
     const scripture =
       plan.scope === 'historical'
         ? { hits: [], evidence: [] }
         : await retrieveScripture(
             db,
             plan.scripture_queries,
-            { work: source || claim.claimedWork },
-            initial,
+            options,
+            initial.filter((h) => !options.tradition || h.passage.tradition === options.tradition),
           );
     const web = plan.web_queries.length
       ? await researchPublicSources(plan.web_queries)

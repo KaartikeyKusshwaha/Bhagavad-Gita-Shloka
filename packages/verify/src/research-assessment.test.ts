@@ -6,6 +6,7 @@ const mocks = vi.hoisted(() => ({
   web: vi.fn(),
   generate: vi.fn(),
   context: vi.fn(),
+  parse: vi.fn(),
 }));
 vi.mock('../../llm/src/retrieval.ts', () => ({
   planRetrieval: mocks.plan,
@@ -18,7 +19,7 @@ vi.mock('../../llm/src/provider.ts', () => ({
   modelName: () => 'synthetic-gemini',
 }));
 vi.mock('./index.ts', () => ({
-  parseClaim: () => ({ quote: 'synthetic', lang: 'en' }),
+  parseClaim: () => mocks.parse() ?? { quote: 'synthetic', lang: 'en' },
   searchThreeWays: async () => [],
   assignVerdict: () => ({ verdict: 'not_found', review_required: true }),
   explain: () => 'Wording check only.',
@@ -84,4 +85,24 @@ it('surfaces source retrieval errors before inference rather than returning a su
     researchAssessment({} as Database, 'A historical test claim.'),
   ).rejects.toMatchObject({ code: 'AI_INVALID_RESPONSE' });
   expect(mocks.generate).not.toHaveBeenCalled();
+});
+it('searches the Christian book collection for a generic Bible claim instead of a nonexistent work', async () => {
+  mocks.plan.mockResolvedValue({
+    scope: 'scripture',
+    scripture_queries: ['love enemy'],
+    web_queries: [],
+  });
+  mocks.parse.mockReturnValue({ quote: 'synthetic', lang: 'en', claimedWork: 'bible' });
+  mocks.scripture.mockResolvedValue({ hits: [], evidence: [] });
+  mocks.generate.mockResolvedValue({
+    paragraphs: [],
+    assessment: { verdict: 'insufficient_evidence', scope: 'scripture' },
+  });
+  await researchAssessment({} as Database, 'A synthetic Bible teaching.');
+  expect(mocks.scripture).toHaveBeenCalledWith(
+    expect.anything(),
+    ['love enemy'],
+    { tradition: 'christianity' },
+    [],
+  );
 });
