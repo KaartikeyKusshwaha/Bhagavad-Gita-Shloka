@@ -336,7 +336,7 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
           .array(
             z.object({
               question: z.string().max(1500),
-              answer: z.string().max(900).optional(),
+              answer: z.string().max(4500).optional(),
               passage_ids: z.array(z.string().max(150)).max(8),
             }),
           )

@@ -17,6 +17,8 @@ import {
   type Verdict,
 } from '../../shared/src/index.ts';
 import { routeSafety, quoteExistsCheck } from '../../llm/src/guardrails.ts';
+import { usesGemini } from '../../llm/src/gemini.ts';
+import { researchAssessment } from './research-assessment.ts';
 export interface ParsedClaim {
   quote: string;
   claimedWork?: string;
@@ -129,6 +131,7 @@ export async function verifyClaim(db: Database, input: string, source?: string) 
   const safety = routeSafety(input);
   if (safety.kind !== 'ordinary')
     return { safety, matches: [], explanation: safety.message, quote_check: 'pass' as const };
+  if (usesGemini()) return researchAssessment(db, input, source);
   const claim = parseClaim(input, source),
     hits = await searchThreeWays(db, claim),
     matches = await fetchBest(db, hits);

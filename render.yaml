@@ -28,7 +28,11 @@ services:
       - key: LLM_MODEL
         value: openai/gpt-oss-20b
       - key: MODEL_PROVIDER
-        value: groq
+        value: gemini
+      - key: GEMINI_MODEL
+        value: gemini-3.6-flash
+      - key: GEMINI_API_KEY
+        sync: false
       - key: MODEL_API_KEY
         sync: false
       - key: EMBEDDING_MODEL

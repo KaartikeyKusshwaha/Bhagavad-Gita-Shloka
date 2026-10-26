@@ -177,3 +177,16 @@ the truth of modern historical claims. Scripture-based paragraphs still require
 valid citations; provider failures are errors, never successful substitute answers.
 See decision 017. The live website runs on Render Free with Neon Free PostgreSQL;
 the existing Oracle VM continues to supply the protected embedding model.
+
+## Gemini evidence research (latest)
+
+Gemini 3.6 Flash now has an explicit provider adapter for developed cited answers
+and bounded additional retrieval across permitted stored editions. Verify adds
+an AI meaning assessment (supported, contradicted, mixed or insufficient evidence)
+separate from exact quotation matching. Historical claims can retrieve English
+Wikipedia articles and accessible underlying reports on selected publishers;
+the interface identifies public sources and the limits of that discovery method.
+It does not claim whole-web coverage, universal certainty or model training.
+Long answers, verdicts and source links persist with private account history.
+Provider and retrieval failures remain explicit errors. No paid Google Search
+grounding or automatic model substitution is used. See decision 018.

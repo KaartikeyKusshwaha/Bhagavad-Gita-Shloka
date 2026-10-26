@@ -11,6 +11,7 @@ export default ts.config(
       'playwright-report/**',
       'test-results/**',
       'output/**',
+      '.local/**',
     ],
   },
   js.configs.recommended,

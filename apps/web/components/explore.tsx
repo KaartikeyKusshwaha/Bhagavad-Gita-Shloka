@@ -65,6 +65,13 @@ function historyGroup(date: string) {
 function Reply({ turn }: { turn: ExploreTurn }) {
   const passages = turnPassages(turn.reply);
   const unresolved = turn.reply.answer?.unresolved;
+  const assessment = turn.reply.answer?.assessment;
+  const verdictLabels = {
+    supported: 'Supported by the retrieved evidence',
+    contradicted: 'Contradicted by the retrieved evidence',
+    mixed: 'Partly supported · qualifications matter',
+    insufficient_evidence: 'Insufficient evidence',
+  };
   if (turn.reply.safety)
     return (
       <div className="explore-safety" role="alert">
@@ -80,13 +87,15 @@ function Reply({ turn }: { turn: ExploreTurn }) {
         </span>
         <span>
           {turn.mode === 'verify'
-            ? unresolved
-              ? 'Not established from these texts'
-              : turn.reply.verdict === 'accurate'
-                ? 'Wording found'
-                : turn.reply.verdict === 'misattributed'
-                  ? 'Attribution differs'
-                  : 'No exact quotation confirmed'
+            ? assessment
+              ? verdictLabels[assessment.verdict]
+              : unresolved
+                ? 'Not established from these texts'
+                : turn.reply.verdict === 'accurate'
+                  ? 'Wording found'
+                  : turn.reply.verdict === 'misattributed'
+                    ? 'Attribution differs'
+                    : 'No exact quotation confirmed'
             : turn.mode === 'ask'
               ? 'From the collection'
               : `${passages.length} passage${passages.length === 1 ? '' : 's'} found`}
@@ -124,7 +133,7 @@ function Reply({ turn }: { turn: ExploreTurn }) {
             </details>
           )}
         </>
-      ) : !unresolved ? (
+      ) : !unresolved && !turn.reply.web_sources?.length ? (
         <p className="response-note">
           No matching passage was found in the currently loaded texts. Try a shorter phrase or a
           specific reference.
@@ -135,7 +144,9 @@ function Reply({ turn }: { turn: ExploreTurn }) {
           <span>
             {unresolved
               ? 'AI assessment · evidence limit'
-              : 'AI study explanation · check the sources'}
+              : assessment
+                ? 'AI evidence assessment · check the sources'
+                : 'AI study explanation · check the sources'}
           </span>
           {unresolved && <p>{unresolved.explanation}</p>}
           {turn.reply.answer.paragraphs.map((paragraph, i) => (
@@ -144,6 +155,19 @@ function Reply({ turn }: { turn: ExploreTurn }) {
               <div className="answer-citations">
                 {paragraph.citations.map((id) => {
                   const p = passages.find((p) => p.id === id);
+                  const web = turn.reply.web_sources?.find((s) => s.id === id);
+                  if (web)
+                    return (
+                      <a
+                        key={id}
+                        href={web.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title={`${web.attribution} · Retrieved ${web.retrieved_at.slice(0, 10)}`}
+                      >
+                        {web.title} ↗
+                      </a>
+                    );
                   return p ? (
                     <Link
                       key={id}
@@ -176,6 +200,22 @@ function Reply({ turn }: { turn: ExploreTurn }) {
         <p className="response-note">{turn.reply.note}</p>
       )}
       {turn.reply.coverage_note && <p className="response-coverage">{turn.reply.coverage_note}</p>}
+      {!!turn.reply.web_sources?.length && (
+        <details className="more-evidence">
+          <summary>Public sources · {turn.reply.web_sources.length}</summary>
+          {turn.reply.web_sources.map((s) => (
+            <p key={s.id}>
+              <a href={s.url} target="_blank" rel="noopener noreferrer">
+                {s.title} ↗
+              </a>
+              <br />
+              <small>
+                {s.attribution} · Accessed {s.retrieved_at.slice(0, 10)}
+              </small>
+            </p>
+          ))}
+        </details>
+      )}
     </div>
   );
 }
@@ -334,7 +374,7 @@ export function Explore({
     const controller = new AbortController();
     const signal = AbortSignal.any([
       controller.signal,
-      AbortSignal.timeout(requestMode === 'search' ? 45000 : 90000),
+      AbortSignal.timeout(requestMode === 'search' ? 45000 : 120000),
     ]);
     request.current = controller;
     const threadId = active?.id ?? crypto.randomUUID(),
@@ -391,7 +431,7 @@ export function Explore({
                             answer: t.reply.answer?.paragraphs
                               .map((p) => p.text)
                               .join(' ')
-                              .slice(0, 900),
+                              .slice(0, 4500),
                             passage_ids: turnPassages(t.reply)
                               .slice(0, 8)
                               .map((p) => p.id),
@@ -726,7 +766,7 @@ export function Explore({
           {mode === 'ask'
             ? 'Ask sends your question and selected context to the configured AI provider. Answers cite source passages.'
             : mode === 'verify'
-              ? 'Verify checks claims against the loaded scriptures using AI. It cannot independently establish modern historical events. A wording match confirms text, not theological truth.'
+              ? 'Verify assesses claims using AI and the loaded texts. Historical claims also use Wikipedia and accessible cited reports. Your public-topic search terms go to Wikipedia; your claim and evidence go to the AI provider. A wording match alone does not prove a claim.'
               : 'Search the published collection. Source and language availability vary.'}{' '}
           <Link href={mode === 'ask' ? '/privacy' : '/library'}>
             {mode === 'ask' ? 'Privacy' : 'Browse texts'}

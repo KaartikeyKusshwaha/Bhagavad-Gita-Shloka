@@ -68,6 +68,55 @@ test('evidence-limit assessments keep related scripture separate and survive acc
   await expect(page.getByRole('article', { name: 'BG 2.47', exact: true })).toBeVisible();
 });
 
+test('historical assessments show source links and retain a developed answer after account history reload', async ({
+  page,
+}) => {
+  const source = {
+    id: 'web:synthetic',
+    title: 'Synthetic report for interface testing',
+    url: 'https://talkorigins.org/synthetic-test',
+    kind: 'referenced_report',
+    attribution: 'Synthetic contract fixture, not historical evidence',
+    retrieved_at: new Date().toISOString(),
+  };
+  const paragraphs = Array.from({ length: 7 }, (_, index) => ({
+    text: `Component ${index + 1}: ${'A detailed evidence explanation for this interface contract. '.repeat(15)}`,
+    citations: [source.id],
+  }));
+  await page.route('**/v1/verify', (route) =>
+    route.fulfill({
+      json: {
+        verdict: 'not_found',
+        matches: [],
+        web_sources: [source],
+        answer: {
+          model: 'synthetic-contract-model',
+          assessment: { verdict: 'mixed', scope: 'historical' },
+          paragraphs,
+        },
+      },
+    }),
+  );
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Verify', exact: true }).click();
+  await page
+    .getByRole('textbox', { name: 'Quotation to verify', exact: true })
+    .fill('A synthetic historical claim for interface testing.');
+  await page.getByRole('button', { name: 'Send to Explore', exact: true }).click();
+  await expect(
+    page.getByText('Partly supported · qualifications matter', { exact: true }),
+  ).toBeVisible();
+  await expect(page.locator('.answer-citations a')).toHaveCount(7);
+  await expect(page.locator('.answer-citations a').first()).toHaveAttribute('href', source.url);
+  await expect(page.locator('.assistant-response')).not.toContainText(
+    'No matching passage was found',
+  );
+  await page.waitForFunction(() => document.body.dataset.accountSync === 'ready');
+  await page.reload();
+  await expect(page.locator('.answer-citations a')).toHaveCount(7);
+  await expect(page.getByText(paragraphs[6].text, { exact: true })).toBeVisible();
+});
+
 test('reader sessions save active minutes, exclude pauses, and restore preferences and bookmarks', async ({
   page,
   request,

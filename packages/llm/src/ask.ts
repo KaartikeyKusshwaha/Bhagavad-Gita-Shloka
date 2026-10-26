@@ -6,6 +6,8 @@ import { canUseAI, generateCitedAnswer, modelConfigured, modelName } from './pro
 import { AiServiceError } from './errors.ts';
 import { routeSafety } from './guardrails.ts';
 import { findPassageReference } from '../../shared/src/references.ts';
+import { usesGemini } from './gemini.ts';
+import { planRetrieval, retrieveScripture } from './retrieval.ts';
 export interface AskHistory {
   question: string;
   answer?: string;
@@ -36,6 +38,67 @@ export async function askFromSources(
       )
         reusable.push({ passage: p, score: 1, match_type: 'reference' });
     }
+  if (usesGemini()) {
+    if (!modelConfigured('chat')) throw new AiServiceError();
+    if (referenced && !canUseAI(referenced))
+      return {
+        passages: [{ passage: referenced, score: 1, match_type: 'reference' as const }],
+        answer: null,
+        note: 'These edition sources are available for reading and word search. Their terms exclude this AI use.',
+      };
+    try {
+      const focus = options.work ?? ref?.work ?? reusable[0]?.passage.work;
+      const plan = await planRetrieval(
+        question,
+        'ask',
+        history.map((h) => h.question),
+        focus,
+      );
+      const seed =
+        referenced &&
+        (!options.work || referenced.work === options.work) &&
+        (!options.tradition || referenced.tradition === options.tradition)
+          ? [{ passage: referenced, score: 1, match_type: 'reference' as const }]
+          : reusable;
+      const retrieved = await retrieveScripture(
+        db,
+        plan.scripture_queries,
+        { work: focus, tradition: options.tradition },
+        seed,
+      );
+      const answer = await generateCitedAnswer(
+        question,
+        retrieved.evidence,
+        history.map(
+          (h) =>
+            `${h.question}\nPrevious answer (context, not evidence): ${(h.answer ?? '').slice(0, 4500)}`,
+        ),
+      );
+      const cited = new Set(answer.paragraphs.flatMap((p) => p.citations));
+      const all = [
+        ...new Map(
+          [...retrieved.evidence, ...retrieved.hits.map((h) => h.passage)].map((p) => [p.id, p]),
+        ).values(),
+      ];
+      return {
+        passages: all
+          .filter((p) => cited.has(p.id))
+          .map((passage) => ({ passage, score: 1, match_type: 'reference' as const })),
+        answer: answer.paragraphs.length ? { ...answer, model: modelName('chat') } : null,
+        note: answer.paragraphs.length
+          ? 'AI study explanation grounded in the cited editions. Prior exchanges provide context, not source evidence.'
+          : 'The retrieved permitted editions did not provide sufficient evidence for an answer. Try a specific passage or narrower question.',
+        review_required: true,
+      };
+    } catch (error) {
+      throw error instanceof AiServiceError
+        ? error
+        : new AiServiceError(
+            'AI_INVALID_RESPONSE',
+            'The answer did not pass evidence checks. Please retry.',
+          );
+    }
+  }
   const hits: SearchHit[] = ref
     ? referenced &&
       (!options.work || ref.work === options.work) &&

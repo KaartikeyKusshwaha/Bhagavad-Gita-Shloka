@@ -68,9 +68,11 @@ export default function Privacy() {
           bookmark notes are never included. Saved conversations remain in this browser; only the
           selected context is used for that request. Verify sends your claim and permitted stored
           passages to the same provider for a cited evidence assessment.{' '}
-          {process.env.MODEL_PROVIDER === 'groq'
-            ? 'This deployment uses Groq for Ask and Verify; Groq receives the question or claim, selected context and evidence under its own data policies. Do not include personal or sensitive information.'
-            : 'The local demo can use existing Qwen models on the host computer.'}{' '}
+          {process.env.MODEL_PROVIDER === 'gemini'
+            ? 'This deployment uses Google Gemini for query planning, Ask, Verify and optional study translations. The free tier may use submitted content to improve Google products under its own terms. Requests disable Gemini interaction storage; this does not override Google’s data policies. Do not submit personal or sensitive information. Historical Verify sends selected public-topic keywords to English Wikipedia and retrieves accessible cited reports from selected publishers; it is not a whole-web search. Public article pages are cached in server memory for up to 15 minutes. Private conversations are not used as search evidence or public cache entries.'
+            : process.env.MODEL_PROVIDER === 'groq'
+              ? 'This deployment uses Groq for Ask and Verify; Groq receives the question or claim, selected context and evidence under its own data policies. Do not include personal or sensitive information.'
+              : 'The local demo can use existing Qwen models on the host computer.'}{' '}
           Meaning search uses a Qwen embedding runtime on the website host. Provider availability is
           checked; no answer is generated when the runtime is unavailable.
         </p>

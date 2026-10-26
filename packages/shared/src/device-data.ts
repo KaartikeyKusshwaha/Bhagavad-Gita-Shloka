@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import type { Passage, SearchHit } from './index.ts';
 import type { StudyAnswer } from '../../llm/src/provider.ts';
+import { assessmentSchema, webSourceSchema, type WebSource } from './research.ts';
 
 export type ExploreMode = 'search' | 'verify' | 'ask';
 export interface ExploreReply {
@@ -11,6 +12,7 @@ export interface ExploreReply {
   explanation?: string;
   note?: string;
   coverage_note?: string;
+  web_sources?: WebSource[];
   safety?: { kind: string; message?: string };
   answer?: (StudyAnswer & { model: string }) | null;
 }
@@ -134,20 +136,22 @@ const hit = z.object({
 });
 const reply = z.object({
   hits: z.array(hit).max(50).optional(),
-  matches: z.array(z.object({ passage })).max(10).optional(),
+  matches: z.array(z.object({ passage })).max(12).optional(),
   passages: z.array(hit).max(50).optional(),
   verdict: z.string().optional(),
   explanation: z.string().optional(),
   note: z.string().optional(),
   coverage_note: z.string().optional(),
+  web_sources: z.array(webSourceSchema).max(6).optional(),
   answer: z
     .object({
       paragraphs: z
         .array(
-          z.object({ text: z.string().max(1400), citations: z.array(z.string().max(150)).max(5) }),
+          z.object({ text: z.string().max(2400), citations: z.array(z.string().max(150)).max(5) }),
         )
-        .max(3),
+        .max(12),
       model: z.string().max(150),
+      assessment: assessmentSchema.optional(),
       unresolved: z
         .object({
           claim_excerpt: z.string().min(3).max(800),
