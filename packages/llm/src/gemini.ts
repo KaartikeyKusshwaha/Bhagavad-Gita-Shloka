@@ -57,9 +57,7 @@ export async function geminiJson<T>(
     if (!response.ok) {
       throw new AiServiceError(
         response.status === 429 ? 'AI_RATE_LIMITED' : 'AI_UNAVAILABLE',
-        response.status === 429
-          ? 'This service is currently unavailable. It will resume when Gemini’s usage quota resets. Please try again then.'
-          : 'This service is currently unavailable. Please try again shortly.',
+        'This service is currently unavailable.',
       );
     }
     const raw = await response.json();
