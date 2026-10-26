@@ -261,11 +261,12 @@ export function Study({ works }: { works: StudyWork[] }) {
             <summary>How activity is counted & device controls</summary>
             <p>
               A submitted search, quotation check or question counts once per submission. A passage
-              counts when you explicitly mark it read, once per day. Start a reading session in the
-              reader to count completed active minutes. The timer pauses in hidden or unfocused tabs
-              and after two minutes without interaction. Each minute contributes to the grid; it
-              does not certify understanding. Opening a page does not create activity. The calendar
-              uses your local timezone. Clearing Explore history leaves these counts in place.
+              counts when you mark it read or press Next to save the passage you are leaving, once
+              per day. Start a reading session in the reader to count completed active minutes. The
+              timer pauses in hidden or unfocused tabs and after two minutes without interaction.
+              Each minute contributes to the grid; it does not certify understanding. Opening a page
+              does not create activity. The calendar uses your local timezone. Clearing Explore
+              history leaves these counts in place.
             </p>
             <div>
               <button className="quiet-button" onClick={exportActivity}>

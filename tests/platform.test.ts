@@ -35,6 +35,45 @@ afterAll(async () => {
   await db?.close();
 });
 describe('imported text and actual API', () => {
+  it('speech accepts stored passage identifiers only, enforces website controls and source restrictions', async () => {
+    expect(
+      (
+        await app.inject({
+          method: 'POST',
+          url: '/v1/speech/original',
+          payload: { passage_id: 'bg.2.47' },
+        })
+      ).statusCode,
+    ).toBe(403);
+    expect(
+      (
+        await app.inject({
+          method: 'POST',
+          url: '/v1/speech/original',
+          headers: { 'x-scripture-client': '1' },
+          payload: { passage_id: 'bg.2.47', text: 'Arbitrary unapproved text' },
+        })
+      ).statusCode,
+    ).toBe(400);
+    expect(
+      (
+        await app.inject({
+          method: 'POST',
+          url: '/v1/speech/original',
+          headers: { 'x-scripture-client': '1' },
+          payload: { passage_id: 'missing' },
+        })
+      ).statusCode,
+    ).toBe(404);
+    const restricted = await app.inject({
+      method: 'POST',
+      url: '/v1/speech/original',
+      headers: { 'x-scripture-client': '1' },
+      payload: { passage_id: 'quran.1.1' },
+    });
+    expect(restricted.statusCode).toBe(422);
+    expect(restricted.json().error.code).toBe('SPEECH_NOT_SUPPORTED');
+  });
   it('creates a complete offline edition with shared source records and unchanged Quran strings', async () => {
     const pack = (await createOfflinePack(db, 'quran'))!;
     expect(pack.passages).toHaveLength(6236);

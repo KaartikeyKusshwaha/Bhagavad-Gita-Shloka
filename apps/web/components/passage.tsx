@@ -7,10 +7,9 @@ import type { Passage } from '../../../packages/shared/src/index';
 import { addActivity } from '@core/shared/src/device-data';
 import { useDeviceData, changeDeviceData } from '../lib/device-store';
 import { Practice } from './practice';
-import { HumanAudio } from './human-audio';
 import { SharePassage } from './share-passage';
 import { StudyTranslation } from './study-translation';
-import { SpeakExplanation } from './speech';
+import { OriginalSpeech } from './original-speech';
 import { languageName } from './library-browser';
 export function PassageCard({
   passage,
@@ -277,19 +276,6 @@ export function PassageCard({
                 <span> · {String(translation.source_ref ?? passage.ref)}</span>
               </p>
               {translation.is_machine && <p>Machine translation, may contain errors</p>}
-              {!compact && translation.source.display_rules.no_generative_ai !== true && (
-                <div className="translation-listen">
-                  <SpeakExplanation
-                    key={translation.id}
-                    text={translation.text}
-                    lang={translation.lang}
-                    label="Listen to translation"
-                  />
-                  <small>
-                    Device voice · synthetic reading of this translation, not human recitation.
-                  </small>
-                </div>
-              )}
               <p className="source-inline">
                 <a href={translation.source.url} target="_blank" rel="noreferrer">
                   View translation source
@@ -357,7 +343,7 @@ export function PassageCard({
           </div>
         </details>
       )}
-      {!compact && passage.audio && <HumanAudio tracks={passage.audio} />}
+      {!compact && <OriginalSpeech key={passage.id} passage={passage} />}
       {!compact && <Practice key={passage.id} passage={passage} onHide={setPracticeHidden} />}
       {!compact && (
         <div className="passage-bottom">

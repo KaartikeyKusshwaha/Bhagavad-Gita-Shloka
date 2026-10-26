@@ -86,3 +86,17 @@ Start a reading session, read actively for a minute, then pause it. Open Study a
 check the reading-minutes count and today's grid cell. Hidden tabs must not count;
 simply opening a passage must not add minutes. Confirm saved minutes and bookmarks
 after signing into the same account in another browser.
+
+## Latest: original speech and Next (supersedes translation playback)
+
+Open Gita BG 2.47 and press Next. Study must show that passage read, including after
+reload and signing into another browser. Revisiting and pressing Next again on the
+same day must not add a second read event for that passage. The timer is optional.
+
+On BG 2.47 open Listen to original · Sanskrit and generate audio. It should use
+YourVoic's Sanskrit voice, not the English translation or a Hindi voice. On Genesis
+1.1 open Listen to original · English to use Cartesia. Press Play, seek, pause and
+change speed. Load saved audio again: the player should identify a saved cache hit.
+Reload and repeat; the cached version should still load. Audition pronunciation
+against the displayed text before considering recitation quality approved. Sources
+with reuse restrictions and unsupported languages must not silently switch voices.

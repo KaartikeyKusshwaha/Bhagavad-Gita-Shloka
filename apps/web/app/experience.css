@@ -2380,6 +2380,41 @@ button.activity-cell:focus-visible {
   color: var(--muted);
   margin-bottom: 26px;
 }
+.original-speech {
+  margin: 20px;
+  padding: 16px 0;
+  border-block: 1px solid var(--line);
+}
+.original-speech summary {
+  cursor: pointer;
+  color: var(--green);
+  font-size: 13px;
+}
+.original-speech audio {
+  display: block;
+  width: 100%;
+  margin-block: 18px;
+}
+.original-speech label {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+}
+.original-speech select {
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px;
+  max-width: 100%;
+}
+.original-speech .translation-controls {
+  flex-wrap: wrap;
+}
+.next-reading {
+  display: grid;
+  gap: 8px;
+}
 
 /* The reader is a continuous page of a book; tools stay at its edges. */
 .reader-main {

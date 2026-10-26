@@ -4,6 +4,7 @@ import { ReaderPicker } from './reader-picker';
 import { PassageCard } from './passage';
 import { Connections } from './connections';
 import { ReadingExperience } from './reading-experience';
+import { NextReading } from './next-reading';
 import type { Passage } from '@core/shared/src/index';
 interface Division {
   number: number;
@@ -125,13 +126,29 @@ export function Reader({
                   Page {page} of {Math.ceil(current.verse_count / 80)}
                 </span>
                 {page * 80 < current.verse_count && (
-                  <Link href={`/read/${first.work}/chapter/${chapter}?page=${page + 1}`}>
-                    Next page
-                    <ArrowRight size={14} />
-                  </Link>
+                  <NextReading
+                    key={passages.at(-1)!.id}
+                    passage={passages.at(-1)!}
+                    href={`/read/${first.work}/chapter/${chapter}?page=${page + 1}`}
+                    label="page"
+                  />
                 )}
               </nav>
             )}
+            {!context &&
+              current &&
+              page * 80 >= current.verse_count &&
+              divisions.find((d) => d.number > chapter) && (
+                <nav className="verse-navigation" aria-label="Next chapter">
+                  <span />
+                  <NextReading
+                    key={passages.at(-1)!.id}
+                    passage={passages.at(-1)!}
+                    href={`/read/${first.work}/chapter/${divisions.find((d) => d.number > chapter)!.number}`}
+                    label={divisions.find((d) => d.number > chapter)!.title}
+                  />
+                </nav>
+              )}
             {context && (
               <>
                 <nav className="verse-navigation" aria-label="Previous and next passage">
@@ -145,9 +162,12 @@ export function Reader({
                     <span />
                   )}
                   {context.after[0] && (
-                    <Link href={`/read/${first.work}/${context.after[0].ref.replace(' ', '-')}`}>
-                      {context.after[0].ref} <ArrowRight size={14} />
-                    </Link>
+                    <NextReading
+                      key={first.id}
+                      passage={first}
+                      href={`/read/${first.work}/${context.after[0].ref.replace(' ', '-')}`}
+                      label={context.after[0].ref}
+                    />
                   )}
                 </nav>
                 <details className="context-section">

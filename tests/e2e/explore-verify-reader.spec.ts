@@ -39,9 +39,7 @@ test('reader sessions save active minutes, exclude pauses, and restore preferenc
   await page.getByLabel('Reading text size', { exact: true }).selectOption('large');
   await page.getByLabel('Reading view', { exact: true }).selectOption('translation');
   await expect(page.locator('.scripture-block').first()).toBeHidden();
-  await expect(
-    page.getByRole('button', { name: 'Listen to translation', exact: true }),
-  ).toBeVisible();
+  await expect(page.getByText('Listen to original · Sanskrit', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Focus reading', exact: true }).click();
   await expect(page.locator('.chapter-sidebar')).toBeHidden();
   await page.clock.install();

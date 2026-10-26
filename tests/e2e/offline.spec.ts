@@ -45,7 +45,7 @@ test('a downloaded edition stays readable and exactly searchable with the networ
   await context.setOffline(false);
 });
 
-test('human recitation is labelled with its whole-surah scope and loads only on request', async ({
+test('reader uses no human recordings and honours source restrictions on synthetic speech', async ({
   page,
 }) => {
   const requests: string[] = [];
@@ -59,15 +59,9 @@ test('human recitation is labelled with its whole-surah scope and loads only on 
   await page.goto('/read/quran/Quran-1:1');
   expect(requests).toEqual([]);
   await expect(page.locator('audio')).toHaveCount(0);
-  await page.getByText('Listen · human recitation', { exact: true }).click();
   await expect(
-    page.getByText('Complete Surah 1, Al-Fatiha (all seven verses)', { exact: true }),
+    page.getByText('Synthetic speech is not enabled for this source edition.', { exact: true }),
   ).toBeVisible();
-  await expect(page.locator('audio')).toHaveAttribute('preload', 'none');
-  await expect(page.locator('audio')).toHaveAttribute(
-    'src',
-    'https://upload.wikimedia.org/wikipedia/commons/e/ea/Surah-Fathia.flac',
-  );
   expect(requests).toEqual([]);
-  await expect(page.getByRole('link', { name: 'Source recording ↗', exact: true })).toBeVisible();
+  await expect(page.getByText('Listen · human recitation', { exact: true })).toHaveCount(0);
 });

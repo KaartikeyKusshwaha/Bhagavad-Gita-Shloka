@@ -103,10 +103,13 @@ export default function Privacy() {
           supported, it stays on your device. Otherwise, the browser’s speech provider may process
           audio online; the voice controls require your agreement before starting. This website does
           not receive or retain audio. You review the transcript before submitting it as a normal
-          text request. Explanation and translation playback use installed local device voices.
-          Translation playback is labelled synthetic reading, distinct from human recitation.
-          Available human recitations stream from Wikimedia Commons only when you request playback;
-          that host receives the network request.
+          text request. Explanation playback uses installed local device voices. Original-text
+          speech sends the displayed eligible source passage to Cartesia, or to YourVoic for
+          Sanskrit, only when you request generation. The resulting synthetic audio is cached in the
+          website database for shared replay; it contains published source text, not your private
+          notes or conversations. Voice discovery contacts the selected provider when you open its
+          controls. Playback uses the website’s own response. The reader does not use human
+          recordings or substitute another language’s voice.
         </p>
         <h2>Clear device data</h2>
         <p>

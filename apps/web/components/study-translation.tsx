@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import type { Passage } from '@core/shared/src/index';
-import { SpeakExplanation } from './speech';
 export const studyLanguages = {
   en: 'English',
   hi: 'Hindi',
@@ -99,12 +98,6 @@ export function StudyTranslation({ passage }: { passage: Passage }) {
           <small>
             Generated from {passage.source.name}. This is not a published scripture edition.
           </small>
-          <SpeakExplanation
-            key={language + result}
-            text={result}
-            lang={language}
-            label="Listen to study translation"
-          />
         </section>
       )}
       {error && (

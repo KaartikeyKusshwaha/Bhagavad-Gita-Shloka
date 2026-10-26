@@ -31,6 +31,13 @@ import { verifyClaim } from '../../../packages/verify/src/index.ts';
 import { normalize } from '../../../packages/shared/src/index.ts';
 import { routeSafety } from '../../../packages/llm/src/guardrails.ts';
 import { AiServiceError } from '../../../packages/llm/src/errors.ts';
+import {
+  SpeechError,
+  speechEligibility,
+  nativeVoices,
+  passageSpeech,
+  speechProvider,
+} from '../../../packages/llm/src/cartesia.ts';
 const error = (code: string, message: string) => ({ error: { code, message } });
 const claimBody = z.object({
   claim: z.string().trim().min(2).max(5000),
@@ -74,7 +81,7 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
         imgSrc: ["'self'", 'data:', 'blob:'],
         fontSrc: ["'self'"],
         connectSrc: ["'self'"],
-        mediaSrc: ["'self'", 'https://upload.wikimedia.org'],
+        mediaSrc: ["'self'", 'blob:'],
         objectSrc: ["'none'"],
         frameAncestors: ["'none'"],
       },
@@ -98,6 +105,8 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
     },
   });
   app.setErrorHandler<Error & { validation?: unknown; statusCode?: number }>((err, _req, reply) => {
+    if (err instanceof SpeechError)
+      return reply.code(err.statusCode).send(error(err.code, err.message));
     if (err instanceof AiServiceError)
       return reply.code(err.statusCode).send(error(err.code, err.message));
     if (err instanceof z.ZodError || err.validation)
@@ -471,6 +480,52 @@ export async function createApp(db: Database, options: { web?: boolean } = {}) {
     );
     return reply.code(201).send({ id, status: 'queued' });
   });
+  app.get('/v1/speech/options', async (req, reply) => {
+    const q = z.object({ passage_id: z.string().max(150) }).parse(req.query);
+    const p = await getPassageById(db, q.passage_id);
+    if (!p) return reply.code(404).send(error('NOT_FOUND', 'Passage unavailable.'));
+    const eligibility = speechEligibility(p);
+    return {
+      ...eligibility,
+      ...speechProvider(eligibility.lang),
+      voices: eligibility.available ? await nativeVoices(eligibility.lang) : [],
+    };
+  });
+  app.post(
+    '/v1/speech/original',
+    { config: { rateLimit: { max: 12, timeWindow: '1 minute' } } },
+    async (req, reply) => {
+      if (
+        req.headers['x-scripture-client'] !== '1' ||
+        req.headers['sec-fetch-site'] === 'cross-site'
+      )
+        return reply
+          .code(403)
+          .send(error('SPEECH_ORIGIN', 'Use the speech controls on this website.'));
+      if (req.headers.origin && req.headers.origin !== `${req.protocol}://${req.host}`)
+        return reply.code(403).send(error('SPEECH_ORIGIN', 'Speech request origin did not match.'));
+      const q = z
+        .object({
+          passage_id: z.string().max(150),
+          voice_id: z
+            .string()
+            .regex(/^[A-Za-z0-9_-]{1,80}$/)
+            .optional(),
+        })
+        .strict()
+        .parse(req.body);
+      const p = await getPassageById(db, q.passage_id);
+      if (!p) return reply.code(404).send(error('NOT_FOUND', 'Passage unavailable.'));
+      const result = await passageSpeech(db, p, q.voice_id);
+      return reply
+        .type('audio/wav')
+        .header('X-Speech-Cache', result.cached ? 'HIT' : 'MISS')
+        .header('X-Speech-Model', speechProvider(result.voice.locale.split('-')[0]).model)
+        .header('X-Speech-Provider', speechProvider(result.voice.locale.split('-')[0]).provider)
+        .header('X-Speech-Locale', result.voice.locale)
+        .send(result.audio);
+    },
+  );
   app.get('/v1/speech/tts', async (req, reply) => {
     const q = z.object({ passage_id: z.string(), lang: z.string().optional() }).parse(req.query);
     const audio = (

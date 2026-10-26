@@ -157,3 +157,13 @@ Reading has a continuous book layout, size and view controls, focus mode, accoun
 bookmarks/notes, and optional device-voice translation playback. An explicit session
 timer counts completed active reading minutes in the Study grid, separately from
 passages marked read. Hidden/unfocused tabs and idle time do not count.
+
+## Original-text audio and Next tracking (supersedes translation audio)
+
+Use Cartesia for eligible supported original source languages and YourVoic Aura
+Prime for Sanskrit. No human recordings, translation playback or substitute-language
+voices in the reader. Audio is generated on request and stored in a persistent
+shared source-text cache; replay consumes no new generation allowance. Provider
+errors and free-budget exhaustion are explicit. See decision 016 for exact caps.
+Next marks the passage being left read and saves its Study grid event before
+navigation, deduplicated per passage/day. A page load alone records nothing.
