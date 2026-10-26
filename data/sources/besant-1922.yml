@@ -1,0 +1,16 @@
+{
+  "id": "besant-1922",
+  "name": "Annie Besant · The Lord’s Song (1922)",
+  "url": "https://en.wikisource.org/wiki/Bhagavad-Gita_(Besant_4th)",
+  "license": "Public-domain text; CC-BY-SA-4.0 transcription",
+  "license_url": "https://en.wikisource.org/wiki/Bhagavad-Gita_(Besant_4th)#copyright",
+  "commercial_ok": true,
+  "attribution": "Annie Besant (translator), 4th edition, G. A. Natesan & Co., 1922; English Wikisource contributors. Original wording preserved; footnote markers omitted.",
+  "retrieved_at": "2026-10-24",
+  "checksum": "b258e6b57075274cf89471f3c9c3da22191508979d87568e3598a92b73be138c",
+  "status": "approved",
+  "display_rules": {
+    "layer": "Translation",
+    "chapter_13": "Platform BG 13.1–34 corresponds to Besant 13.2–35; Besant’s opening question is not part of the 700-verse recension."
+  }
+}

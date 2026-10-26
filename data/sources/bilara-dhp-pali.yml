@@ -1,0 +1,21 @@
+{
+  "id": "bilara-dhp-pali",
+  "name": "SuttaCentral · Dhammapada Pali",
+  "url": "https://suttacentral.net/dhp",
+  "license": "Public-domain ancient text; SuttaCentral CC0 transcription",
+  "license_url": "https://suttacentral.net/licensing?lang=en",
+  "attribution": "Pali Dhammapada, Mahāsaṅgīti edition, via SuttaCentral Bilara. Segments joined into verses; headings and colophons excluded.",
+  "display_rules": {
+    "layer": "Primary text",
+    "language": "Pali",
+    "lang": "pi",
+    "no_generative_ai": true,
+    "description": "All 423 Pali verses in Roman script, with Bhikkhu Sujato’s English translation. SuttaCentral text is used for reading and ordinary search only; excluded from generative AI.",
+    "edition": "Bilara published commit 6a395ceb6f28549111d7d96859f7f6f6610afc01",
+    "bundle": "dhammapada.json"
+  },
+  "checksum": "99133048fa61d9293b5c1e1293e7bb485bd2000f6b6257f27dbeed05e6d449a1",
+  "retrieved_at": "2026-10-24",
+  "status": "approved",
+  "commercial_ok": true
+}

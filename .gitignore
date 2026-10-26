@@ -1,4 +1,15 @@
 node_modules/
+.next/
+.local/
+.env*
+!.env.example
+data/cache/
+test-results/
+playwright-report/
+output/
+*.tsbuildinfo
+__pycache__/
+*.pyc
 .env
 logs/
 *.log
@@ -7,3 +18,5 @@ dist/
 build/
 .DS_Store
 Thumbs.db
+apps/web/public/sw.js
+apps/web/public/offline-assets.json

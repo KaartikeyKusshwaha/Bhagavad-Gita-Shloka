@@ -1,0 +1,26 @@
+[Unit]
+Description=Open Scripture local Qwen query embeddings
+After=network.target
+
+[Service]
+Type=simple
+User=scripture
+Group=scripture
+WorkingDirectory=/opt/open-scripture-models/runtime/llama-b11857
+Environment=LD_LIBRARY_PATH=/opt/open-scripture-models/runtime/llama-b11857
+ExecStart=/opt/open-scripture-models/runtime/llama-b11857/llama-server --model /opt/open-scripture-models/Qwen3-Embedding-0.6B-Q8_0.gguf --alias qwen3-embedding-0.6b-q8_0:06507c7b4268 --host 127.0.0.1 --port 8084 --embedding --pooling last --ctx-size 2048 --batch-size 2048 --ubatch-size 2048 --threads 1 --threads-batch 1 --parallel 1 --no-webui --no-webui-mcp-proxy --log-disable
+Restart=on-failure
+RestartSec=15
+MemoryHigh=768M
+MemoryMax=850M
+MemorySwapMax=1G
+CPUQuota=50%
+Nice=15
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+UMask=0027
+
+[Install]
+WantedBy=multi-user.target

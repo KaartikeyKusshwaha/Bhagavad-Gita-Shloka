@@ -1,0 +1,23 @@
+{
+  "id": "tanzil-uthmani",
+  "name": "Tanzil Project · Quran Uthmani 1.1",
+  "url": "https://tanzil.net/",
+  "license": "CC-BY-3.0 with Tanzil verbatim-text terms",
+  "license_url": "https://tanzil.net/docs/Text_License",
+  "attribution": "Tanzil Project, Quran Uthmani text version 1.1. Copyright (C) 2007–2026 Tanzil Project. Copied verbatim; see the complete included notice.",
+  "display_rules": {
+    "layer": "Primary text",
+    "language": "Arabic",
+    "lang": "ar",
+    "direction": "rtl",
+    "preserve_verbatim": true,
+    "edition": "Uthmani 1.1; pause marks, sajdah signs and tatweel included. Bismillah prefixes are preserved exactly as supplied.",
+    "description": "Arabic Uthmani text from Tanzil. No English translation or transliteration is loaded for this edition.",
+    "copyright_notice": "# PLEASE DO NOT REMOVE OR CHANGE THIS COPYRIGHT BLOCK\n#====================================================================\n#\n#  Tanzil Quran Text (Uthmani, Version 1.1)\n#  Copyright (C) 2007-2026 Tanzil Project\n#  License: Creative Commons Attribution 3.0\n#\n#  This copy of the Quran text is carefully produced, highly \n#  verified and continuously monitored by a group of specialists \n#  at Tanzil Project.\n#\n#  TERMS OF USE:\n#\n#  - Permission is granted to copy and distribute verbatim copies \n#    of this text, but CHANGING IT IS NOT ALLOWED.\n#\n#  - This Quran text can be used in any website or application, \n#    provided that its source (Tanzil Project) is clearly indicated, \n#    and a link is made to tanzil.net to enable users to keep\n#    track of changes.\n#\n#  - This copyright notice shall be included in all verbatim copies \n#    of the text, and shall be reproduced appropriately in all files \n#    derived from or containing substantial portion of this text.\n#\n#  Please check updates at: http://tanzil.net/updates/\n#\n#====================================================================",
+    "bundle": "quran.json"
+  },
+  "checksum": "aaf2e85b84843b7a10205e53a26432c9c4dbb2395f9d415e39998b6a62065f79",
+  "retrieved_at": "2026-10-24",
+  "status": "approved",
+  "commercial_ok": true
+}

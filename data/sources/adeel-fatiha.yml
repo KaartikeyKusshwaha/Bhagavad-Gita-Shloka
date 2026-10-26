@@ -1,0 +1,20 @@
+{
+  "id": "adeel-fatiha",
+  "name": "Adeel Shaikh · Al-Fatiha human recitation",
+  "url": "https://commons.wikimedia.org/wiki/File:Surah-Fathia.flac",
+  "license": "CC-BY-SA-4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "commercial_ok": true,
+  "attribution": "Recitation and recording by Adeel Shaikh (Wikimedia Commons user YHWHYHWH). Unmodified recording, released under CC BY-SA 4.0. Source file dated 7 November 2011.",
+  "retrieved_at": "2026-10-24",
+  "checksum": "8d754957b229e1d326affc38c9e023879c82d52fabef60d31c0ec8f6cbbd51ff",
+  "status": "approved",
+  "display_rules": {
+    "bundle": "recitations.json",
+    "layer": "Human audio",
+    "scope": "Complete Surah 1, Al-Fatiha (all seven verses)",
+    "changes": "No changes to the externally hosted recording. Not aligned to individual verses.",
+    "upstream_sha1": "6cd50a6270f2be2d59ca9bc15957fcbb1fec1d56",
+    "hosting": "Streams from Wikimedia Commons only after the user opens the player. Playback availability and recitation quality require owner testing."
+  }
+}

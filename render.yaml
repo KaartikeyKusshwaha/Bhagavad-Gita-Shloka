@@ -1,0 +1,51 @@
+# Persistent PostgreSQL is external. Do not add Render's expiring Free database.
+services:
+  - type: web
+    name: open-scripture
+    runtime: node
+    plan: free
+    region: singapore
+    branch: codex/open-scripture-platform
+    buildCommand: corepack pnpm install --frozen-lockfile && corepack pnpm build
+    startCommand: corepack pnpm start
+    healthCheckPath: /v1/health
+    autoDeployTrigger: off
+    envVars:
+      - key: NODE_VERSION
+        value: 22.23.4
+      - key: HOST
+        value: 0.0.0.0
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: ADMIN_TOKEN
+        sync: false
+      - key: RATE_LIMIT_SECRET
+        sync: false
+      - key: LLM_BASE_URL
+        value: https://api.groq.com/openai/v1
+      - key: LLM_MODEL
+        value: openai/gpt-oss-20b
+      - key: MODEL_PROVIDER
+        value: gemini
+      - key: GEMINI_MODEL
+        value: gemini-3.6-flash
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: MODEL_API_KEY
+        sync: false
+      - key: EMBEDDING_MODEL
+        value: qwen3-embedding-0.6b-q8_0:06507c7b4268
+      - key: EMBEDDING_BASE_URL
+        sync: false
+      - key: EMBEDDING_API_KEY
+        sync: false
+      - key: CARTESIA_API_KEY
+        sync: false
+      - key: CARTESIA_MONTHLY_CHAR_LIMIT
+        value: '18000'
+      - key: YOURVOIC_API_KEY
+        sync: false
+      - key: YOURVOIC_CHAR_LIMIT
+        value: '2000'

@@ -1,0 +1,21 @@
+{
+  "id": "upanishad-katha-upanishad-edition",
+  "name": "Max Müller, 1884 · Katha-Upanishad",
+  "url": "https://archive.sacred-texts.com/hin/sbe15/index.htm",
+  "license": "Public-domain text; noncommercial archive republication permission",
+  "license_url": "https://sacred-texts.com/copyrights",
+  "commercial_ok": false,
+  "attribution": "Max Müller, 1884; Internet Sacred Text Archive transcription. Source wording retained; navigation, page markers and separated footnotes omitted. Reading-block numbers are platform locators.",
+  "retrieved_at": "2026-10-25",
+  "status": "approved",
+  "display_rules": {
+    "bundle": "library-manifest.json",
+    "layer": "Human translation",
+    "language": "English",
+    "lang": "en",
+    "direction": "ltr",
+    "machine_translation_allowed": true,
+    "description": "Max Müller’s historical English edition. The source’s khanda and vallī labels are retained; reading blocks are platform locators."
+  },
+  "checksum": "ec23bdf1fdd9a0df53b68d5e09ee2a4915613befc75fd07b1da67b76a4ceb351"
+}

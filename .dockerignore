@@ -1,0 +1,13 @@
+.git
+.env*
+!.env.example
+.local
+node_modules
+**/node_modules
+**/.next
+**/*.tsbuildinfo
+data/cache
+output
+playwright-report
+test-results
+legacy

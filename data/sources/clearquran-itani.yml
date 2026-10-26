@@ -1,0 +1,21 @@
+{
+  "id": "clearquran-itani",
+  "name": "ClearQuran · Talal Itani (God edition)",
+  "url": "https://www.clearquran.com/",
+  "license": "CC-BY-ND-4.0",
+  "license_url": "https://creativecommons.org/licenses/by-nd/4.0/",
+  "attribution": "Copyright © Talal Itani. ClearQuran, God edition, updated October 9, 2026. Reproduced verbatim under CC BY-ND 4.0; no endorsement. https://www.clearquran.com/",
+  "retrieved_at": "2026-10-25",
+  "status": "approved",
+  "commercial_ok": true,
+  "checksum": "606fa21e75e697099dc917f9642ebbef243c0f381999a78b9cbf56f48b9c6e9a",
+  "display_rules": {
+    "bundle": "quran-english.json",
+    "language": "English",
+    "lang": "en",
+    "preserve_verbatim": true,
+    "no_generative_ai": true,
+    "machine_translation_allowed": false,
+    "copyright_notice": "#===================================================================\n# Name: Clear Quran (God Edition)\n# Translator: Talal Itani\n# Language: English\n# Last Update: October 9, 2026\n# Source: https://ClearQuran.com\n# License: CC BY-ND 4.0 (https://creativecommons.org/licenses/by-nd/4.0/)\n#===================================================================\n"
+  }
+}

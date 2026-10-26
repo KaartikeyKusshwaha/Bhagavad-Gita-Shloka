@@ -1,0 +1,18 @@
+CREATE TABLE commentaries (id text PRIMARY KEY, passage_id text NOT NULL REFERENCES passages(id), source_id text NOT NULL REFERENCES sources(id), author text NOT NULL, tradition_school text NOT NULL, lang text NOT NULL, text text NOT NULL);
+CREATE VIEW published_commentaries AS SELECT c.* FROM commentaries c JOIN sources s ON s.id=c.source_id JOIN published_passages p ON p.id=c.passage_id WHERE s.status='approved';
+CREATE TABLE audio (id text PRIMARY KEY, passage_id text NOT NULL REFERENCES passages(id), source_id text NOT NULL REFERENCES sources(id), reciter text NOT NULL, lang text NOT NULL, url text NOT NULL, duration_ms int, license text NOT NULL, is_human boolean NOT NULL CHECK(is_human=true));
+CREATE VIEW published_audio AS SELECT a.* FROM audio a JOIN sources s ON s.id=a.source_id JOIN published_passages p ON p.id=a.passage_id WHERE s.status='approved';
+CREATE TABLE embeddings (passage_id text NOT NULL REFERENCES passages(id), translation_id text REFERENCES translations(id), model text NOT NULL, vector vector(1024), UNIQUE(passage_id,model));
+CREATE INDEX embeddings_hnsw ON embeddings USING hnsw(vector vector_cosine_ops);
+CREATE TABLE xrefs (from_passage_id text REFERENCES passages(id), to_passage_id text REFERENCES passages(id), kind text NOT NULL, source_id text REFERENCES sources(id), PRIMARY KEY(from_passage_id,to_passage_id,kind));
+CREATE TABLE themes (id text PRIMARY KEY, slug text UNIQUE NOT NULL, name_en text NOT NULL, name_hi text NOT NULL);
+CREATE TABLE passage_themes (passage_id text REFERENCES passages(id), theme_id text REFERENCES themes(id), weight real NOT NULL DEFAULT 1, PRIMARY KEY(passage_id,theme_id));
+CREATE TABLE verify_logs (id text PRIMARY KEY, created_at timestamptz NOT NULL DEFAULT now(), claim_hash text NOT NULL, verdict text NOT NULL, lang text NOT NULL);
+CREATE TABLE reports (id text PRIMARY KEY, passage_id text REFERENCES passages(id), kind text NOT NULL CHECK(kind IN ('error','license','bias')), message text NOT NULL, status text NOT NULL DEFAULT 'open', created_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE corrections (id text PRIMARY KEY, passage_id text NOT NULL REFERENCES passages(id), report_id text NOT NULL REFERENCES reports(id), before jsonb NOT NULL, after jsonb NOT NULL, approved_by text NOT NULL, date timestamptz NOT NULL DEFAULT now());
+CREATE TABLE misquotes (id text PRIMARY KEY, claim_text text NOT NULL, claimed_work text, verdict text NOT NULL, evidence_passage_ids jsonb NOT NULL DEFAULT '[]', published boolean NOT NULL DEFAULT false);
+CREATE TABLE reviewers (id text PRIMARY KEY, name text NOT NULL, tradition_id text REFERENCES traditions(id), school text NOT NULL DEFAULT '', active boolean NOT NULL DEFAULT true);
+CREATE TABLE misquote_approvals (misquote_id text REFERENCES misquotes(id), reviewer_id text REFERENCES reviewers(id), PRIMARY KEY(misquote_id,reviewer_id));
+CREATE VIEW published_misquotes AS SELECT m.* FROM misquotes m WHERE m.published=true AND (SELECT count(*) FROM misquote_approvals a JOIN reviewers r ON r.id=a.reviewer_id WHERE a.misquote_id=m.id AND r.active)>=2;
+CREATE TABLE scholar_questions (id text PRIMARY KEY, tradition_id text NOT NULL REFERENCES traditions(id), question text NOT NULL, reviewer_id text REFERENCES reviewers(id), answer text, status text NOT NULL DEFAULT 'queued', created_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE lessons (id text PRIMARY KEY, title text NOT NULL, passage_ids jsonb NOT NULL, questions jsonb NOT NULL, created_at timestamptz NOT NULL DEFAULT now());

@@ -1,0 +1,21 @@
+{
+  "id": "web-english",
+  "name": "World English Bible · Protestant edition",
+  "url": "https://ebible.org/engwebp/",
+  "license": "Public Domain",
+  "license_url": "https://ebible.org/engwebp/copyright.htm",
+  "commercial_ok": true,
+  "attribution": "World English Bible contributors, public-domain Protestant edition via eBible.org. Verse wording retained; publisher notes and cross-reference markers omitted.",
+  "retrieved_at": "2026-10-25",
+  "status": "approved",
+  "display_rules": {
+    "bundle": "library-manifest.json",
+    "layer": "Human translation",
+    "language": "English",
+    "lang": "en",
+    "direction": "ltr",
+    "machine_translation_allowed": true,
+    "description": "Human English translation; the original Hebrew/Greek is not loaded in this edition."
+  },
+  "checksum": "ec23bdf1fdd9a0df53b68d5e09ee2a4915613befc75fd07b1da67b76a4ceb351"
+}

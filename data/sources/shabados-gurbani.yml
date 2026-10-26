@@ -1,0 +1,20 @@
+{
+  "id": "shabados-gurbani",
+  "name": "Shabad OS · Sri Guru Granth Sahib",
+  "url": "https://github.com/shabados/database/releases/tag/4.8.7",
+  "license": "Public Domain",
+  "license_url": "https://github.com/shabados/shabados/blob/main/database/README.md",
+  "commercial_ok": true,
+  "attribution": "Sri Guru Granth Sahib; Shabad OS Database 4.8.7, Gurbani data public domain. Legacy Gurmukhi font encoding converted with gurmukhiutils 0.3.1 (MIT); Unicode Consortium mapping. Modern copyrighted translations are not included.",
+  "retrieved_at": "2026-10-25",
+  "status": "approved",
+  "display_rules": {
+    "bundle": "library-manifest.json",
+    "layer": "Primary text",
+    "language": "Punjabi (Gurmukhi)",
+    "lang": "pa",
+    "direction": "ltr",
+    "machine_translation_allowed": false
+  },
+  "checksum": "ec23bdf1fdd9a0df53b68d5e09ee2a4915613befc75fd07b1da67b76a4ceb351"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "swarupananda-1909",
+  "name": "Swami Swarupananda · Srimad-Bhagavad-Gita (1909)",
+  "url": "https://sacred-texts.com/book/srimad-bhagavad-gita",
+  "license": "Public-domain text; noncommercial host republication permission",
+  "license_url": "https://sacred-texts.com/copyrights",
+  "commercial_ok": false,
+  "attribution": "Swami Swarupananda (credited translator), Advaita Ashrama, 1909; Internet Sacred Text Archive transcription. Verse wording retained; page and footnote markers omitted. Combined verse ranges are preserved and labelled.",
+  "retrieved_at": "2026-10-25",
+  "checksum": "0937117f506c43b2bea4037ef62b4e0b5a763153f8129ddccaf69f3cd9fd7e0e",
+  "status": "approved",
+  "display_rules": {
+    "layer": "Translation",
+    "bundle": "gita-comparison.json",
+    "edition": "1909 English edition. Chapter 13 uses verses 1–34; its unnumbered opening question is not loaded. Some translations cover a labelled range of verses.",
+    "reuse_scope": "Noncommercial college website, offline packs and attributed classroom sharing. Commercial reuse is not approved by this source record."
+  }
+}

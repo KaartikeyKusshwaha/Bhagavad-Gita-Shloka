@@ -1,0 +1,20 @@
+{
+  "id": "irv-hindi",
+  "name": "Indian Revised Version · Hindi 2019",
+  "url": "https://ebible.org/hin2017/",
+  "license": "CC-BY-SA-4.0",
+  "license_url": "https://ebible.org/hin2017/copyright.htm",
+  "commercial_ok": true,
+  "attribution": "Copyright © 2017, 2018, 2019 Bridge Connectivity Solutions. Indian Revised Version Hindi; CC BY-SA 4.0. Text unchanged except removal of footnote/reference markup.",
+  "retrieved_at": "2026-10-25",
+  "status": "approved",
+  "display_rules": {
+    "bundle": "library-manifest.json",
+    "layer": "Primary text",
+    "language": "Hindi",
+    "lang": "hi",
+    "direction": "ltr",
+    "machine_translation_allowed": true
+  },
+  "checksum": "ec23bdf1fdd9a0df53b68d5e09ee2a4915613befc75fd07b1da67b76a4ceb351"
+}

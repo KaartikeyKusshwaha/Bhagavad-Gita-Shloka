@@ -1,0 +1,24 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: scripture
+      POSTGRES_USER: scripture
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+    ports: ["127.0.0.1:5432:5432"]
+    volumes: ["scripture-db:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U scripture"]
+      interval: 5s
+      retries: 10
+  api:
+    build: {context: .., dockerfile: infra/Dockerfile}
+    environment:
+      DATABASE_URL: postgresql://scripture:${POSTGRES_PASSWORD}@db:5432/scripture
+      HOST: 0.0.0.0
+      PORT: 3100
+    ports: ["127.0.0.1:3100:3100"]
+    depends_on:
+      db: {condition: service_healthy}
+volumes:
+  scripture-db:

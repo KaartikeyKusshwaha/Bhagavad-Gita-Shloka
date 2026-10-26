@@ -1,0 +1,4 @@
+# Offline source preparation only; never installed on the website server.
+beautifulsoup4==4.15.0
+lxml==6.0.2
+gurmukhiutils==0.3.1

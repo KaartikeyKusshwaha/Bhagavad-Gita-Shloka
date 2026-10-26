@@ -1,0 +1,3765 @@
+{
+  "version": "2026-10-25",
+  "works": [
+    {
+      "id": "bible-genesis",
+      "title": "Genesis",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-genesis.json.gz",
+      "checksum": "9cd35a039bd05628bf125dcc7de3c78a6260084a069452d11bb0aae3c33fcc8c",
+      "passages": 1533,
+      "sections": 50,
+      "first_ref": "Genesis 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Torah / Pentateuch",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Genesis",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Gen"
+        ],
+        "canonical_order": 1
+      }
+    },
+    {
+      "id": "bible-exodus",
+      "title": "Exodus",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-exodus.json.gz",
+      "checksum": "14573884f950a7a0e0fb72a8acdc7e640d01da41ba4b36297e79789d8eb33ab2",
+      "passages": 1213,
+      "sections": 40,
+      "first_ref": "Exodus 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Torah / Pentateuch",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Exodus",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Exo"
+        ],
+        "canonical_order": 2
+      }
+    },
+    {
+      "id": "bible-leviticus",
+      "title": "Leviticus",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-leviticus.json.gz",
+      "checksum": "7981650fd47f8c46be205573901e9a3539a4c5c3954869b64eceb0c135f772e3",
+      "passages": 859,
+      "sections": 27,
+      "first_ref": "Leviticus 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Torah / Pentateuch",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Leviticus",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Lev"
+        ],
+        "canonical_order": 3
+      }
+    },
+    {
+      "id": "bible-numbers",
+      "title": "Numbers",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-numbers.json.gz",
+      "checksum": "9ad5a853ec807c090d9e9da1215ade96db6f06b1cbdd59748cc9e50d5bbef117",
+      "passages": 1288,
+      "sections": 36,
+      "first_ref": "Numbers 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Torah / Pentateuch",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Numbers",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Num"
+        ],
+        "canonical_order": 4
+      }
+    },
+    {
+      "id": "bible-deuteronomy",
+      "title": "Deuteronomy",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-deuteronomy.json.gz",
+      "checksum": "69b68694333a23c1d9b8866263fd6d71e0e9fae433a8381808bba48468427536",
+      "passages": 959,
+      "sections": 34,
+      "first_ref": "Deuteronomy 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Torah / Pentateuch",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Deuteronomy",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Deu"
+        ],
+        "canonical_order": 5
+      }
+    },
+    {
+      "id": "bible-joshua",
+      "title": "Joshua",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-joshua.json.gz",
+      "checksum": "369e0580ff7ac35492607f8b2ac91de41589d5cc7d4d7f449ae51751653dabb3",
+      "passages": 658,
+      "sections": 24,
+      "first_ref": "Joshua 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Historical books",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Joshua",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Jos"
+        ],
+        "canonical_order": 6
+      }
+    },
+    {
+      "id": "bible-judges",
+      "title": "Judges",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-judges.json.gz",
+      "checksum": "0b946508ca80ddd3ca594d93bc777f40afdba60e3e4ff7260dba88c488d807c9",
+      "passages": 618,
+      "sections": 21,
+      "first_ref": "Judges 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Historical books",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Judges",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Jdg"
+        ],
+        "canonical_order": 7
+      }
+    },
+    {
+      "id": "bible-ruth",
+      "title": "Ruth",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-ruth.json.gz",
+      "checksum": "9c192e1fa9164f0a918c14a73dda28216cf657c12bf6a521f162df8e4531a83e",
+      "passages": 85,
+      "sections": 4,
+      "first_ref": "Ruth 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Historical books",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Ruth",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Rut"
+        ],
+        "canonical_order": 8
+      }
+    },
+    {
+      "id": "bible-1-samuel",
+      "title": "1 Samuel",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-1-samuel.json.gz",
+      "checksum": "1386e92330ec90132b335ea6bb16bc8bcc8faf2ee474f3759fcab29c279badc3",
+      "passages": 810,
+      "sections": 31,
+      "first_ref": "1 Samuel 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Historical books",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "1 Samuel",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "1Sa"
+        ],
+        "canonical_order": 9
+      }
+    },
+    {
+      "id": "bible-2-samuel",
+      "title": "2 Samuel",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-2-samuel.json.gz",
+      "checksum": "77caa356673939644395f2e3ce71dcef75b4752f60e3e718f1e088f60c523130",
+      "passages": 695,
+      "sections": 24,
+      "first_ref": "2 Samuel 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Historical books",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "2 Samuel",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "2Sa"
+        ],
+        "canonical_order": 10
+      }
+    },
+    {
+      "id": "bible-1-kings",
+      "title": "1 Kings",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-1-kings.json.gz",
+      "checksum": "651723fc6f52a478ac4d96b442f9d972134fe103c2e19b602bfc88bffe91ce62",
+      "passages": 816,
+      "sections": 22,
+      "first_ref": "1 Kings 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Historical books",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "1 Kings",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "1Ki"
+        ],
+        "canonical_order": 11
+      }
+    },
+    {
+      "id": "bible-2-kings",
+      "title": "2 Kings",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-2-kings.json.gz",
+      "checksum": "681325851293b9493f191398ca3063dff956d68d9a9cef716c3212e7ee1e96bb",
+      "passages": 719,
+      "sections": 25,
+      "first_ref": "2 Kings 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Historical books",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "2 Kings",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "2Ki"
+        ],
+        "canonical_order": 12
+      }
+    },
+    {
+      "id": "bible-1-chronicles",
+      "title": "1 Chronicles",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-1-chronicles.json.gz",
+      "checksum": "5033ad9552c14246a7deb5ef217db02bc9314e809ec9c569e920f4f5ff023d35",
+      "passages": 942,
+      "sections": 29,
+      "first_ref": "1 Chronicles 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Historical books",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "1 Chronicles",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "1Ch"
+        ],
+        "canonical_order": 13
+      }
+    },
+    {
+      "id": "bible-2-chronicles",
+      "title": "2 Chronicles",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-2-chronicles.json.gz",
+      "checksum": "992c137aa589e3e0ed940183fe064337f72380b078af1ab036e9a045bc7826b4",
+      "passages": 822,
+      "sections": 36,
+      "first_ref": "2 Chronicles 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Historical books",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "2 Chronicles",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "2Ch"
+        ],
+        "canonical_order": 14
+      }
+    },
+    {
+      "id": "bible-ezra",
+      "title": "Ezra",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-ezra.json.gz",
+      "checksum": "6f20a3f6da94c85c10774a75d45c4e0df2bc03e5bb6a5dca85df461836a270c4",
+      "passages": 280,
+      "sections": 10,
+      "first_ref": "Ezra 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Historical books",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Ezra",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Ezr"
+        ],
+        "canonical_order": 15
+      }
+    },
+    {
+      "id": "bible-nehemiah",
+      "title": "Nehemiah",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-nehemiah.json.gz",
+      "checksum": "bf38f17ee72e1ba1f6d466999d2655d8f0e1489d3d63573394778bf42aa28a45",
+      "passages": 406,
+      "sections": 13,
+      "first_ref": "Nehemiah 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Historical books",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Nehemiah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Neh"
+        ],
+        "canonical_order": 16
+      }
+    },
+    {
+      "id": "bible-esther",
+      "title": "Esther",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-esther.json.gz",
+      "checksum": "6eb7c3afca0e185e3cde594440d47056e553ad9a770bb4ddff44167f6cf81905",
+      "passages": 167,
+      "sections": 10,
+      "first_ref": "Esther 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Historical books",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Esther",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Est"
+        ],
+        "canonical_order": 17
+      }
+    },
+    {
+      "id": "bible-job",
+      "title": "Job",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-job.json.gz",
+      "checksum": "22145d21eeaa91dbb091df7723c895152496ec881772f86421e5b4346925c566",
+      "passages": 1070,
+      "sections": 42,
+      "first_ref": "Job 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Wisdom & poetry",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Job",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Job"
+        ],
+        "canonical_order": 18
+      }
+    },
+    {
+      "id": "bible-psalms",
+      "title": "Psalms",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-psalms.json.gz",
+      "checksum": "cce67dd3772d358171be16c31d8ab113603b5878ff1d2c1113bd3f566b7e3ada",
+      "passages": 2461,
+      "sections": 150,
+      "first_ref": "Psalms 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Wisdom & poetry",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Psalms",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Psa"
+        ],
+        "canonical_order": 19
+      }
+    },
+    {
+      "id": "bible-proverbs",
+      "title": "Proverbs",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-proverbs.json.gz",
+      "checksum": "482f4e46ec5e78515e58c23be89cd8e10766b2656282f4074a0e51b550fcc36b",
+      "passages": 915,
+      "sections": 31,
+      "first_ref": "Proverbs 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Wisdom & poetry",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Proverbs",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Pro"
+        ],
+        "canonical_order": 20
+      }
+    },
+    {
+      "id": "bible-ecclesiastes",
+      "title": "Ecclesiastes",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-ecclesiastes.json.gz",
+      "checksum": "d16fb274dad6d7c1bcce630250861d1d8eb8269bef91a72546d0abe9d6727c57",
+      "passages": 222,
+      "sections": 12,
+      "first_ref": "Ecclesiastes 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Wisdom & poetry",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Ecclesiastes",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Ecc"
+        ],
+        "canonical_order": 21
+      }
+    },
+    {
+      "id": "bible-song-of-solomon",
+      "title": "Song of Solomon",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-song-of-solomon.json.gz",
+      "checksum": "3f0879e0a6e5bb8a981be4b5e580aa9dc860c8d47e47d814d5b49430483b78c9",
+      "passages": 117,
+      "sections": 8,
+      "first_ref": "Song of Solomon 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Wisdom & poetry",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Song of Solomon",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Sng"
+        ],
+        "canonical_order": 22
+      }
+    },
+    {
+      "id": "bible-isaiah",
+      "title": "Isaiah",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-isaiah.json.gz",
+      "checksum": "1e2d9db212f87f27b92e71ce40f7a71a6589f9cd268c50e18aa58e427f888d43",
+      "passages": 1292,
+      "sections": 66,
+      "first_ref": "Isaiah 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Isaiah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Isa"
+        ],
+        "canonical_order": 23
+      }
+    },
+    {
+      "id": "bible-jeremiah",
+      "title": "Jeremiah",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-jeremiah.json.gz",
+      "checksum": "a6959993db35584a52ada6960dae965c40183a000ee0df5c629943d1311bba68",
+      "passages": 1364,
+      "sections": 52,
+      "first_ref": "Jeremiah 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Jeremiah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Jer"
+        ],
+        "canonical_order": 24
+      }
+    },
+    {
+      "id": "bible-lamentations",
+      "title": "Lamentations",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-lamentations.json.gz",
+      "checksum": "87e4544926944849c629368b1b963c5b692f3af39a56515193c090c976ff6da4",
+      "passages": 154,
+      "sections": 5,
+      "first_ref": "Lamentations 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Lamentations",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Lam"
+        ],
+        "canonical_order": 25
+      }
+    },
+    {
+      "id": "bible-ezekiel",
+      "title": "Ezekiel",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-ezekiel.json.gz",
+      "checksum": "485f6d99bf46dc7af14fc75f727865b386698b76acc2af14bf20063ab232ba7b",
+      "passages": 1273,
+      "sections": 48,
+      "first_ref": "Ezekiel 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Ezekiel",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Eze"
+        ],
+        "canonical_order": 26
+      }
+    },
+    {
+      "id": "bible-daniel",
+      "title": "Daniel",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-daniel.json.gz",
+      "checksum": "5b9a2d0380c9183a6882dc688dbcbfed21a4caec545e9f96dd3233a5604cd1b6",
+      "passages": 357,
+      "sections": 12,
+      "first_ref": "Daniel 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Daniel",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Dan"
+        ],
+        "canonical_order": 27
+      }
+    },
+    {
+      "id": "bible-hosea",
+      "title": "Hosea",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-hosea.json.gz",
+      "checksum": "9a56073cb2bb65f6a57d5520fe53053512ab98b5c8b412655fd3ffb4c4644888",
+      "passages": 197,
+      "sections": 14,
+      "first_ref": "Hosea 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Hosea",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Hos"
+        ],
+        "canonical_order": 28
+      }
+    },
+    {
+      "id": "bible-joel",
+      "title": "Joel",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-joel.json.gz",
+      "checksum": "25ea2ba95691909c7bd686f5d5bcde0f89f8a0cc32e282c543ce8179574caee8",
+      "passages": 73,
+      "sections": 3,
+      "first_ref": "Joel 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Joel",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Jol"
+        ],
+        "canonical_order": 29
+      }
+    },
+    {
+      "id": "bible-amos",
+      "title": "Amos",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-amos.json.gz",
+      "checksum": "42847aa5cfb88fff3f62794f705e465ed367c8e999d573f7b06f2e2d3684e6c5",
+      "passages": 146,
+      "sections": 9,
+      "first_ref": "Amos 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Amos",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Amo"
+        ],
+        "canonical_order": 30
+      }
+    },
+    {
+      "id": "bible-obadiah",
+      "title": "Obadiah",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-obadiah.json.gz",
+      "checksum": "643c7967e00d536fdfa460b6025e1a143a11788f7b984ab3d4a5132bf4578420",
+      "passages": 21,
+      "sections": 1,
+      "first_ref": "Obadiah 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Obadiah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Oba"
+        ],
+        "canonical_order": 31
+      }
+    },
+    {
+      "id": "bible-jonah",
+      "title": "Jonah",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-jonah.json.gz",
+      "checksum": "589fc7ca5d82e3f406aca4fb21b33174d7604980bbb83cc8525b5fbf7b5d29a4",
+      "passages": 48,
+      "sections": 4,
+      "first_ref": "Jonah 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Jonah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Jon"
+        ],
+        "canonical_order": 32
+      }
+    },
+    {
+      "id": "bible-micah",
+      "title": "Micah",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-micah.json.gz",
+      "checksum": "4b9dbfbb5a209b02ce0936f76807fa422db6514ea849f2234955251c181bb4ee",
+      "passages": 105,
+      "sections": 7,
+      "first_ref": "Micah 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Micah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Mic"
+        ],
+        "canonical_order": 33
+      }
+    },
+    {
+      "id": "bible-nahum",
+      "title": "Nahum",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-nahum.json.gz",
+      "checksum": "0371f5b09844c7f9b85efc3f5cc9d6f7faa5eecb4d0aa6618686a8b92c3cb106",
+      "passages": 47,
+      "sections": 3,
+      "first_ref": "Nahum 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Nahum",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Nah"
+        ],
+        "canonical_order": 34
+      }
+    },
+    {
+      "id": "bible-habakkuk",
+      "title": "Habakkuk",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-habakkuk.json.gz",
+      "checksum": "c958cc0baa44f6cb4e6166856f7df4ce1c55d77d72ea5f3cba0ef63dfb353fae",
+      "passages": 56,
+      "sections": 3,
+      "first_ref": "Habakkuk 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Habakkuk",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Hab"
+        ],
+        "canonical_order": 35
+      }
+    },
+    {
+      "id": "bible-zephaniah",
+      "title": "Zephaniah",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-zephaniah.json.gz",
+      "checksum": "26e06b2ee4026dbe47a29360ea5fd1ca48e59a47ba339dfa00764d4f3dcced90",
+      "passages": 53,
+      "sections": 3,
+      "first_ref": "Zephaniah 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Zephaniah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Zep"
+        ],
+        "canonical_order": 36
+      }
+    },
+    {
+      "id": "bible-haggai",
+      "title": "Haggai",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-haggai.json.gz",
+      "checksum": "c84b9915719eef9312a8f9120ae8bed0755224e892e2f4105037d9a1a7cf8c28",
+      "passages": 38,
+      "sections": 2,
+      "first_ref": "Haggai 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Haggai",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Hag"
+        ],
+        "canonical_order": 37
+      }
+    },
+    {
+      "id": "bible-zechariah",
+      "title": "Zechariah",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-zechariah.json.gz",
+      "checksum": "04938a5b1be7e6a43aae7883e853f204d5249e78946e73aee67c5fecaef3f131",
+      "passages": 211,
+      "sections": 14,
+      "first_ref": "Zechariah 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Zechariah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Zec"
+        ],
+        "canonical_order": 38
+      }
+    },
+    {
+      "id": "bible-malachi",
+      "title": "Malachi",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-malachi.json.gz",
+      "checksum": "9f3fdc2d580eb702c3fb07684918323527c3991ec2b1249bb637abff3ccbe009",
+      "passages": 55,
+      "sections": 4,
+      "first_ref": "Malachi 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Malachi",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Mal"
+        ],
+        "canonical_order": 39
+      }
+    },
+    {
+      "id": "bible-matthew",
+      "title": "Matthew",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-matthew.json.gz",
+      "checksum": "b99574956a707f6b29f724f10a2d85bc4851bf5621a03a37a2a6b6effba0beb6",
+      "passages": 1071,
+      "sections": 28,
+      "first_ref": "Matthew 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Gospels & Acts",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Matthew",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Mat"
+        ],
+        "canonical_order": 40
+      }
+    },
+    {
+      "id": "bible-mark",
+      "title": "Mark",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-mark.json.gz",
+      "checksum": "6cf108df0f3d7dfe1076643f9040cc98a081b692dd08e5b93d92b2ba3d3e2142",
+      "passages": 678,
+      "sections": 16,
+      "first_ref": "Mark 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Gospels & Acts",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Mark",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Mrk"
+        ],
+        "canonical_order": 41
+      }
+    },
+    {
+      "id": "bible-luke",
+      "title": "Luke",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-luke.json.gz",
+      "checksum": "187bdd9728975396102f1cd94bf92af3d5d4d223a0855869f91f39a58219b655",
+      "passages": 1150,
+      "sections": 24,
+      "first_ref": "Luke 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Gospels & Acts",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Luke",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Luk"
+        ],
+        "canonical_order": 42
+      }
+    },
+    {
+      "id": "bible-john",
+      "title": "John",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-john.json.gz",
+      "checksum": "5cf38799d3b86c4c3bb5369e617b64ab9749c6554f28477483fd260bae7f02e7",
+      "passages": 879,
+      "sections": 21,
+      "first_ref": "John 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Gospels & Acts",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "John",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Jhn"
+        ],
+        "canonical_order": 43
+      }
+    },
+    {
+      "id": "bible-acts",
+      "title": "Acts",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-acts.json.gz",
+      "checksum": "c0bb8abefad6d3492f2209a242795cf47d0c2bf4383d94a14632480784a5c7ff",
+      "passages": 1004,
+      "sections": 28,
+      "first_ref": "Acts 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Gospels & Acts",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Acts",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Act"
+        ],
+        "canonical_order": 44
+      }
+    },
+    {
+      "id": "bible-romans",
+      "title": "Romans",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-romans.json.gz",
+      "checksum": "c9d1a55982ad8813562e25fd4eef1c9f476d09511e42374fe24141acf58b9199",
+      "passages": 433,
+      "sections": 16,
+      "first_ref": "Romans 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Romans",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Rom"
+        ],
+        "canonical_order": 45
+      }
+    },
+    {
+      "id": "bible-1-corinthians",
+      "title": "1 Corinthians",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-1-corinthians.json.gz",
+      "checksum": "698d47c54d2889f96421d94a0d70e4cb67ea8b200893be8aa96c2dd669fafb9d",
+      "passages": 437,
+      "sections": 16,
+      "first_ref": "1 Corinthians 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "1 Corinthians",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "1Co"
+        ],
+        "canonical_order": 46
+      }
+    },
+    {
+      "id": "bible-2-corinthians",
+      "title": "2 Corinthians",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-2-corinthians.json.gz",
+      "checksum": "8ee778fc308c5157fc8fce4597742bff07d090a11d534b7f154c61d0b7f4febd",
+      "passages": 257,
+      "sections": 13,
+      "first_ref": "2 Corinthians 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "2 Corinthians",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "2Co"
+        ],
+        "canonical_order": 47
+      }
+    },
+    {
+      "id": "bible-galatians",
+      "title": "Galatians",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-galatians.json.gz",
+      "checksum": "4fab01c2d315e11b04fb3732cc342779c3d06a773077ce12dafcb20be8ea6300",
+      "passages": 149,
+      "sections": 6,
+      "first_ref": "Galatians 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Galatians",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Gal"
+        ],
+        "canonical_order": 48
+      }
+    },
+    {
+      "id": "bible-ephesians",
+      "title": "Ephesians",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-ephesians.json.gz",
+      "checksum": "9445ed2208c0153382020cba4933289508e444185008ebc034e8fb0cf5bc42f2",
+      "passages": 155,
+      "sections": 6,
+      "first_ref": "Ephesians 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Ephesians",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Eph"
+        ],
+        "canonical_order": 49
+      }
+    },
+    {
+      "id": "bible-philippians",
+      "title": "Philippians",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-philippians.json.gz",
+      "checksum": "994550d3c0cac995046184196bba6c60df657854dd1f7d60dc13d4581457507e",
+      "passages": 104,
+      "sections": 4,
+      "first_ref": "Philippians 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Philippians",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Php"
+        ],
+        "canonical_order": 50
+      }
+    },
+    {
+      "id": "bible-colossians",
+      "title": "Colossians",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-colossians.json.gz",
+      "checksum": "5f0c87a7f2b5eba3b7cd23fe835e17f706962d6d69dfdbb3b0b018d1b7ab996a",
+      "passages": 95,
+      "sections": 4,
+      "first_ref": "Colossians 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Colossians",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Col"
+        ],
+        "canonical_order": 51
+      }
+    },
+    {
+      "id": "bible-1-thessalonians",
+      "title": "1 Thessalonians",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-1-thessalonians.json.gz",
+      "checksum": "88ec65c56db81fbd4beea4ae45bf8bbab64dac09a1f0c03f589815e5e9a5ca5a",
+      "passages": 89,
+      "sections": 5,
+      "first_ref": "1 Thessalonians 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "1 Thessalonians",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "1Th"
+        ],
+        "canonical_order": 52
+      }
+    },
+    {
+      "id": "bible-2-thessalonians",
+      "title": "2 Thessalonians",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-2-thessalonians.json.gz",
+      "checksum": "909388503ea3f3ae70ecdde5d32a2a6af9d1a5eba777633ad564a27fa0b52aae",
+      "passages": 47,
+      "sections": 3,
+      "first_ref": "2 Thessalonians 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "2 Thessalonians",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "2Th"
+        ],
+        "canonical_order": 53
+      }
+    },
+    {
+      "id": "bible-1-timothy",
+      "title": "1 Timothy",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-1-timothy.json.gz",
+      "checksum": "21243db4f29ffbb13534df6e236093635abe6c1dc9cfaaa0bf24d1416634a4ef",
+      "passages": 113,
+      "sections": 6,
+      "first_ref": "1 Timothy 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "1 Timothy",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "1Ti"
+        ],
+        "canonical_order": 54
+      }
+    },
+    {
+      "id": "bible-2-timothy",
+      "title": "2 Timothy",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-2-timothy.json.gz",
+      "checksum": "ffddb53c78955f5ec85de9937377651bcf4e8dadb07b6f5d70b4e7b0209f506e",
+      "passages": 83,
+      "sections": 4,
+      "first_ref": "2 Timothy 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "2 Timothy",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "2Ti"
+        ],
+        "canonical_order": 55
+      }
+    },
+    {
+      "id": "bible-titus",
+      "title": "Titus",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-titus.json.gz",
+      "checksum": "57f8bb594997cf34130f74ee22997e0ecf39107e5fc60ffb1d988bc424900bdb",
+      "passages": 46,
+      "sections": 3,
+      "first_ref": "Titus 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Titus",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Tit"
+        ],
+        "canonical_order": 56
+      }
+    },
+    {
+      "id": "bible-philemon",
+      "title": "Philemon",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-philemon.json.gz",
+      "checksum": "2b48098598a32ae5a74371b751998ade6a348e6153e9633ca1338513731b45e4",
+      "passages": 25,
+      "sections": 1,
+      "first_ref": "Philemon 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Philemon",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Phm"
+        ],
+        "canonical_order": 57
+      }
+    },
+    {
+      "id": "bible-hebrews",
+      "title": "Hebrews",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-hebrews.json.gz",
+      "checksum": "c4062df5838addb1a92387194fd49a175ea7c2bec961490a0d387cf7e24063db",
+      "passages": 303,
+      "sections": 13,
+      "first_ref": "Hebrews 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Hebrews",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Heb"
+        ],
+        "canonical_order": 58
+      }
+    },
+    {
+      "id": "bible-james",
+      "title": "James",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-james.json.gz",
+      "checksum": "38893fc9088bb6806467f0ea10b766ae03d6d176f3a4b3a4b97fa2f7c7919bd4",
+      "passages": 108,
+      "sections": 5,
+      "first_ref": "James 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "James",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Jas"
+        ],
+        "canonical_order": 59
+      }
+    },
+    {
+      "id": "bible-1-peter",
+      "title": "1 Peter",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-1-peter.json.gz",
+      "checksum": "409d12193e83f492c5f73b42017a49073488aed68929b0cf4656a5ca285d72a9",
+      "passages": 105,
+      "sections": 5,
+      "first_ref": "1 Peter 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "1 Peter",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "1Pe"
+        ],
+        "canonical_order": 60
+      }
+    },
+    {
+      "id": "bible-2-peter",
+      "title": "2 Peter",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-2-peter.json.gz",
+      "checksum": "1b187651a177c97a4af06c93ce2713c95840e15719db76594c93e3f91b4cf62b",
+      "passages": 61,
+      "sections": 3,
+      "first_ref": "2 Peter 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "2 Peter",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "2Pe"
+        ],
+        "canonical_order": 61
+      }
+    },
+    {
+      "id": "bible-1-john",
+      "title": "1 John",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-1-john.json.gz",
+      "checksum": "d235daa7fbc5d16390382ccf385ae552f53cf546167ef6843392425cfd4d9a33",
+      "passages": 105,
+      "sections": 5,
+      "first_ref": "1 John 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "1 John",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "1Jn"
+        ],
+        "canonical_order": 62
+      }
+    },
+    {
+      "id": "bible-2-john",
+      "title": "2 John",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-2-john.json.gz",
+      "checksum": "800bfff6e6fb2b6339fed3fa6c0e9ab2e20097bb65db56368bc0abb8cacd159d",
+      "passages": 13,
+      "sections": 1,
+      "first_ref": "2 John 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "2 John",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "2Jn"
+        ],
+        "canonical_order": 63
+      }
+    },
+    {
+      "id": "bible-3-john",
+      "title": "3 John",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-3-john.json.gz",
+      "checksum": "c82fc8368a61c01851e25092fbd59d9f867c4d8648817307af503d188839796f",
+      "passages": 14,
+      "sections": 1,
+      "first_ref": "3 John 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "3 John",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "3Jn"
+        ],
+        "canonical_order": 64
+      }
+    },
+    {
+      "id": "bible-jude",
+      "title": "Jude",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-jude.json.gz",
+      "checksum": "f9500f7cd41f73dcc209bc4451fdd74026ea09bc2527ce9950aaf2ecdf9816ca",
+      "passages": 25,
+      "sections": 1,
+      "first_ref": "Jude 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Jude",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Jud"
+        ],
+        "canonical_order": 65
+      }
+    },
+    {
+      "id": "bible-revelation",
+      "title": "Revelation",
+      "tradition": "christianity",
+      "source_id": "web-english",
+      "file": "library/bible-revelation.json.gz",
+      "checksum": "6057d10b6e28141afadb1b916af9deea8610441744405e45aa04dd9cec407f21",
+      "passages": 404,
+      "sections": 22,
+      "first_ref": "Revelation 1.1",
+      "languages": [
+        "en",
+        "hi"
+      ],
+      "metadata": {
+        "group": "Letters & Revelation",
+        "description": "World English Bible, with the licensed Hindi IRV edition where verse references align.",
+        "reference_prefix": "Revelation",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "The Bible",
+        "aliases": [
+          "Rev"
+        ],
+        "canonical_order": 66
+      }
+    },
+    {
+      "id": "tanakh-genesis",
+      "title": "Genesis",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-genesis.json.gz",
+      "checksum": "e473efab386f079cdab61dc3e6dce4e2ef2514fbf1bbbac10a44895cefe0c978",
+      "passages": 1533,
+      "sections": 50,
+      "first_ref": "Tanakh Genesis 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Torah",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Genesis",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Genesis",
+          "Torah Genesis"
+        ],
+        "canonical_order": 1
+      }
+    },
+    {
+      "id": "tanakh-exodus",
+      "title": "Exodus",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-exodus.json.gz",
+      "checksum": "8769d20c6ee0629928d4b6f85ae5dc03b2c3080b3155cf761d1ddb5ff6809533",
+      "passages": 1213,
+      "sections": 40,
+      "first_ref": "Tanakh Exodus 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Torah",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Exodus",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Exodus",
+          "Torah Exodus"
+        ],
+        "canonical_order": 2
+      }
+    },
+    {
+      "id": "tanakh-leviticus",
+      "title": "Leviticus",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-leviticus.json.gz",
+      "checksum": "1c62af2896c934a03e6f91b7aa5d584cabddace547fb2dcd4946e7c27e81b0a3",
+      "passages": 859,
+      "sections": 27,
+      "first_ref": "Tanakh Leviticus 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Torah",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Leviticus",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Leviticus",
+          "Torah Leviticus"
+        ],
+        "canonical_order": 3
+      }
+    },
+    {
+      "id": "tanakh-numbers",
+      "title": "Numbers",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-numbers.json.gz",
+      "checksum": "57047531c4d4d02cfc74d0ceb375adc90939fcb4161797a64b4ca188694988a6",
+      "passages": 1288,
+      "sections": 36,
+      "first_ref": "Tanakh Numbers 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Torah",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Numbers",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Numbers",
+          "Torah Numbers"
+        ],
+        "canonical_order": 4
+      }
+    },
+    {
+      "id": "tanakh-deuteronomy",
+      "title": "Deuteronomy",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-deuteronomy.json.gz",
+      "checksum": "034125f02346b8dffddce0c3c1311553c870e3cb7d439b6e7b9ca745c8309fce",
+      "passages": 959,
+      "sections": 34,
+      "first_ref": "Tanakh Deuteronomy 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Torah",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Deuteronomy",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Deuteronomy",
+          "Torah Deuteronomy"
+        ],
+        "canonical_order": 5
+      }
+    },
+    {
+      "id": "tanakh-joshua",
+      "title": "Joshua",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-joshua.json.gz",
+      "checksum": "a220020c0d391d5c7896c66c165e4b485769f57b138389ac566bf3084c60267b",
+      "passages": 658,
+      "sections": 24,
+      "first_ref": "Tanakh Joshua 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Joshua",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Joshua",
+          "Torah Joshua"
+        ],
+        "canonical_order": 6
+      }
+    },
+    {
+      "id": "tanakh-judges",
+      "title": "Judges",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-judges.json.gz",
+      "checksum": "0c8363a633c5591999c1589f93fe5c61884511a16a0325a6f0f58ab917e66ed7",
+      "passages": 618,
+      "sections": 21,
+      "first_ref": "Tanakh Judges 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Judges",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Judges",
+          "Torah Judges"
+        ],
+        "canonical_order": 7
+      }
+    },
+    {
+      "id": "tanakh-ruth",
+      "title": "Ruth",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-ruth.json.gz",
+      "checksum": "ad30d17fd7c2551c0853c4921314998ac29ca19950b76609ea1f74072b3e5f02",
+      "passages": 85,
+      "sections": 4,
+      "first_ref": "Tanakh Ruth 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Writings",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Ruth",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Ruth",
+          "Torah Ruth"
+        ],
+        "canonical_order": 8
+      }
+    },
+    {
+      "id": "tanakh-1-samuel",
+      "title": "1 Samuel",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-1-samuel.json.gz",
+      "checksum": "55b9aedd36f05a91b947dd510be173a6889fc31431df4ac73047b35900bb1b0c",
+      "passages": 810,
+      "sections": 31,
+      "first_ref": "Tanakh 1 Samuel 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh 1 Samuel",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS 1 Samuel",
+          "Torah 1 Samuel"
+        ],
+        "canonical_order": 9
+      }
+    },
+    {
+      "id": "tanakh-2-samuel",
+      "title": "2 Samuel",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-2-samuel.json.gz",
+      "checksum": "d67010d53c87b8abeabb6f5c0d86d943aa21d35619631007a4f2fc615f3a6676",
+      "passages": 695,
+      "sections": 24,
+      "first_ref": "Tanakh 2 Samuel 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh 2 Samuel",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS 2 Samuel",
+          "Torah 2 Samuel"
+        ],
+        "canonical_order": 10
+      }
+    },
+    {
+      "id": "tanakh-1-kings",
+      "title": "1 Kings",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-1-kings.json.gz",
+      "checksum": "a9a3eb4ccdc571a34e8ac15f9b1ae302298fa79480ec4c56e31467f6ad0baf14",
+      "passages": 816,
+      "sections": 22,
+      "first_ref": "Tanakh 1 Kings 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh 1 Kings",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS 1 Kings",
+          "Torah 1 Kings"
+        ],
+        "canonical_order": 11
+      }
+    },
+    {
+      "id": "tanakh-2-kings",
+      "title": "2 Kings",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-2-kings.json.gz",
+      "checksum": "a87d0ffec198d27c0ab0a8cd6d9d569209c2ca7e34570faef51e66eb10cca65d",
+      "passages": 719,
+      "sections": 25,
+      "first_ref": "Tanakh 2 Kings 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh 2 Kings",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS 2 Kings",
+          "Torah 2 Kings"
+        ],
+        "canonical_order": 12
+      }
+    },
+    {
+      "id": "tanakh-1-chronicles",
+      "title": "1 Chronicles",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-1-chronicles.json.gz",
+      "checksum": "ab0ed9a1b92e25d7320c2188c4fd3bb5f52bb484e203ff5598c87e4dd4263c7e",
+      "passages": 942,
+      "sections": 29,
+      "first_ref": "Tanakh 1 Chronicles 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Writings",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh 1 Chronicles",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS 1 Chronicles",
+          "Torah 1 Chronicles"
+        ],
+        "canonical_order": 13
+      }
+    },
+    {
+      "id": "tanakh-2-chronicles",
+      "title": "2 Chronicles",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-2-chronicles.json.gz",
+      "checksum": "e37e47aa5efb11af0f58a48cf70a86fd9d1a51c7cae7d8496774e5e0902bcdae",
+      "passages": 822,
+      "sections": 36,
+      "first_ref": "Tanakh 2 Chronicles 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Writings",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh 2 Chronicles",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS 2 Chronicles",
+          "Torah 2 Chronicles"
+        ],
+        "canonical_order": 14
+      }
+    },
+    {
+      "id": "tanakh-ezra",
+      "title": "Ezra",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-ezra.json.gz",
+      "checksum": "47339572b1095d44a556758bdcce79154fa9f92654379224e469230129977377",
+      "passages": 280,
+      "sections": 10,
+      "first_ref": "Tanakh Ezra 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Writings",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Ezra",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Ezra",
+          "Torah Ezra"
+        ],
+        "canonical_order": 15
+      }
+    },
+    {
+      "id": "tanakh-nehemiah",
+      "title": "Nehemiah",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-nehemiah.json.gz",
+      "checksum": "1b7b15e547bf7f75334ecaeae45b359855e142d6769446ef194883b11ca03380",
+      "passages": 406,
+      "sections": 13,
+      "first_ref": "Tanakh Nehemiah 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Writings",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Nehemiah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Nehemiah",
+          "Torah Nehemiah"
+        ],
+        "canonical_order": 16
+      }
+    },
+    {
+      "id": "tanakh-esther",
+      "title": "Esther",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-esther.json.gz",
+      "checksum": "c65bf4d3a2d01075008e95d98891fd472f371d3a5882a08bed5710d216e20f15",
+      "passages": 167,
+      "sections": 10,
+      "first_ref": "Tanakh Esther 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Writings",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Esther",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Esther",
+          "Torah Esther"
+        ],
+        "canonical_order": 17
+      }
+    },
+    {
+      "id": "tanakh-job",
+      "title": "Job",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-job.json.gz",
+      "checksum": "4f45ce6e63e7a583559a8397e5ddd1dd23d194bae16e03d7a34bc28a127fe027",
+      "passages": 1070,
+      "sections": 42,
+      "first_ref": "Tanakh Job 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Writings",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Job",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Job",
+          "Torah Job"
+        ],
+        "canonical_order": 18
+      }
+    },
+    {
+      "id": "tanakh-psalms",
+      "title": "Psalms",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-psalms.json.gz",
+      "checksum": "e67c4cc6d6be090e8d99a38fa33715802eb3e5abf5c7337fa28c64e69709625e",
+      "passages": 2461,
+      "sections": 150,
+      "first_ref": "Tanakh Psalms 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Writings",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Psalms",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Psalms",
+          "Torah Psalms"
+        ],
+        "canonical_order": 19
+      }
+    },
+    {
+      "id": "tanakh-proverbs",
+      "title": "Proverbs",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-proverbs.json.gz",
+      "checksum": "c227ccd615b9927fa7c204d8407a7289e16a571ddaa944ed90c9241b9ec9f815",
+      "passages": 915,
+      "sections": 31,
+      "first_ref": "Tanakh Proverbs 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Writings",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Proverbs",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Proverbs",
+          "Torah Proverbs"
+        ],
+        "canonical_order": 20
+      }
+    },
+    {
+      "id": "tanakh-ecclesiastes",
+      "title": "Ecclesiastes",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-ecclesiastes.json.gz",
+      "checksum": "e79ac67e56e64eac1521df621a71ca06ff9d6ea8488e56f0422e7c87543e11b1",
+      "passages": 222,
+      "sections": 12,
+      "first_ref": "Tanakh Ecclesiastes 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Writings",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Ecclesiastes",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Ecclesiastes",
+          "Torah Ecclesiastes"
+        ],
+        "canonical_order": 21
+      }
+    },
+    {
+      "id": "tanakh-song-of-solomon",
+      "title": "Song of Solomon",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-song-of-solomon.json.gz",
+      "checksum": "3f70d32659a1cf996360976481886175d02d89476dab29cbb6e26cb0617f15b1",
+      "passages": 117,
+      "sections": 8,
+      "first_ref": "Tanakh Song of Solomon 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Writings",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Song of Solomon",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Song of Solomon",
+          "Torah Song of Solomon"
+        ],
+        "canonical_order": 22
+      }
+    },
+    {
+      "id": "tanakh-isaiah",
+      "title": "Isaiah",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-isaiah.json.gz",
+      "checksum": "0c0923c29dcd8019e2b43c481bf0408354c6e1d1ab8318f146121a755afc8fd7",
+      "passages": 1292,
+      "sections": 66,
+      "first_ref": "Tanakh Isaiah 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Isaiah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Isaiah",
+          "Torah Isaiah"
+        ],
+        "canonical_order": 23
+      }
+    },
+    {
+      "id": "tanakh-jeremiah",
+      "title": "Jeremiah",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-jeremiah.json.gz",
+      "checksum": "4ac7b7a0fdfd19c23b96a66a188208301c32e267295a3720b5bae8fcd45642a4",
+      "passages": 1364,
+      "sections": 52,
+      "first_ref": "Tanakh Jeremiah 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Jeremiah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Jeremiah",
+          "Torah Jeremiah"
+        ],
+        "canonical_order": 24
+      }
+    },
+    {
+      "id": "tanakh-lamentations",
+      "title": "Lamentations",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-lamentations.json.gz",
+      "checksum": "83f64c5b2460e25f7a484342509a815adba2e6b3c4e2309fcaeed8d35e2a4ed9",
+      "passages": 154,
+      "sections": 5,
+      "first_ref": "Tanakh Lamentations 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Writings",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Lamentations",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Lamentations",
+          "Torah Lamentations"
+        ],
+        "canonical_order": 25
+      }
+    },
+    {
+      "id": "tanakh-ezekiel",
+      "title": "Ezekiel",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-ezekiel.json.gz",
+      "checksum": "1ffd7c8ff9f80a0e6ce29df3fdccddb1275c0c55cdc39640499c6f63ecd4a04f",
+      "passages": 1273,
+      "sections": 48,
+      "first_ref": "Tanakh Ezekiel 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Ezekiel",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Ezekiel",
+          "Torah Ezekiel"
+        ],
+        "canonical_order": 26
+      }
+    },
+    {
+      "id": "tanakh-daniel",
+      "title": "Daniel",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-daniel.json.gz",
+      "checksum": "f82d36509da3cf95e918ae8a407cb077c82e86d84ed3f5536448140e7c12670a",
+      "passages": 357,
+      "sections": 12,
+      "first_ref": "Tanakh Daniel 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Writings",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Daniel",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Daniel",
+          "Torah Daniel"
+        ],
+        "canonical_order": 27
+      }
+    },
+    {
+      "id": "tanakh-hosea",
+      "title": "Hosea",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-hosea.json.gz",
+      "checksum": "aa53cbc6ff71976ba7706b903c16fe11a01e9249de1598a34bd11f81371a0972",
+      "passages": 197,
+      "sections": 14,
+      "first_ref": "Tanakh Hosea 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Hosea",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Hosea",
+          "Torah Hosea"
+        ],
+        "canonical_order": 28
+      }
+    },
+    {
+      "id": "tanakh-joel",
+      "title": "Joel",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-joel.json.gz",
+      "checksum": "36b939b38f9aa6eb4dfe7c55c7cd4e37147379dc6b1bbe894f8621b2e7e787d5",
+      "passages": 73,
+      "sections": 3,
+      "first_ref": "Tanakh Joel 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Joel",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Joel",
+          "Torah Joel"
+        ],
+        "canonical_order": 29
+      }
+    },
+    {
+      "id": "tanakh-amos",
+      "title": "Amos",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-amos.json.gz",
+      "checksum": "d59b92152c503dd82b58effadfce999449e55dd8e82f6bbf239caeb0720597ae",
+      "passages": 146,
+      "sections": 9,
+      "first_ref": "Tanakh Amos 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Amos",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Amos",
+          "Torah Amos"
+        ],
+        "canonical_order": 30
+      }
+    },
+    {
+      "id": "tanakh-obadiah",
+      "title": "Obadiah",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-obadiah.json.gz",
+      "checksum": "8676fd139638a2022970c75c6bf53749fa1bae51a0412acc94b03c4d5c1c05b9",
+      "passages": 21,
+      "sections": 1,
+      "first_ref": "Tanakh Obadiah 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Obadiah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Obadiah",
+          "Torah Obadiah"
+        ],
+        "canonical_order": 31
+      }
+    },
+    {
+      "id": "tanakh-jonah",
+      "title": "Jonah",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-jonah.json.gz",
+      "checksum": "1dc1eda9dbf657a6af8c1e165e3c7d1b742e247fd56b6bbcf4b8104359d21ed0",
+      "passages": 48,
+      "sections": 4,
+      "first_ref": "Tanakh Jonah 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Jonah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Jonah",
+          "Torah Jonah"
+        ],
+        "canonical_order": 32
+      }
+    },
+    {
+      "id": "tanakh-micah",
+      "title": "Micah",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-micah.json.gz",
+      "checksum": "3057b53d23f62baf889b990c97e9e765d7fcc6d0345cd9cb46a52e8eba261ef0",
+      "passages": 105,
+      "sections": 7,
+      "first_ref": "Tanakh Micah 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Micah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Micah",
+          "Torah Micah"
+        ],
+        "canonical_order": 33
+      }
+    },
+    {
+      "id": "tanakh-nahum",
+      "title": "Nahum",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-nahum.json.gz",
+      "checksum": "a4409a80ef7650a495ad8d60a579b35df92878037c15b5d453c45c9ff127bc0f",
+      "passages": 47,
+      "sections": 3,
+      "first_ref": "Tanakh Nahum 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Nahum",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Nahum",
+          "Torah Nahum"
+        ],
+        "canonical_order": 34
+      }
+    },
+    {
+      "id": "tanakh-habakkuk",
+      "title": "Habakkuk",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-habakkuk.json.gz",
+      "checksum": "dea5be0b1da320b0b1dcdc7da2e904a663422f02eefa0fcaa0fcac2404ddc6f7",
+      "passages": 56,
+      "sections": 3,
+      "first_ref": "Tanakh Habakkuk 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Habakkuk",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Habakkuk",
+          "Torah Habakkuk"
+        ],
+        "canonical_order": 35
+      }
+    },
+    {
+      "id": "tanakh-zephaniah",
+      "title": "Zephaniah",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-zephaniah.json.gz",
+      "checksum": "b470cc33ecd98791215494faad8c2cee551d4593dfff3f9f1e56780f61d24cdc",
+      "passages": 53,
+      "sections": 3,
+      "first_ref": "Tanakh Zephaniah 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Zephaniah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Zephaniah",
+          "Torah Zephaniah"
+        ],
+        "canonical_order": 36
+      }
+    },
+    {
+      "id": "tanakh-haggai",
+      "title": "Haggai",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-haggai.json.gz",
+      "checksum": "e12820daec59e75f1b32c89ca697993dcdf1e23c5a4d5a444a0dba8f81651e27",
+      "passages": 38,
+      "sections": 2,
+      "first_ref": "Tanakh Haggai 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Haggai",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Haggai",
+          "Torah Haggai"
+        ],
+        "canonical_order": 37
+      }
+    },
+    {
+      "id": "tanakh-zechariah",
+      "title": "Zechariah",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-zechariah.json.gz",
+      "checksum": "786e56a39ad84428b49cd81b5ceb7b56ad30bd6e8fe0422bf1e0f6ba80d04712",
+      "passages": 211,
+      "sections": 14,
+      "first_ref": "Tanakh Zechariah 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Zechariah",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Zechariah",
+          "Torah Zechariah"
+        ],
+        "canonical_order": 38
+      }
+    },
+    {
+      "id": "tanakh-malachi",
+      "title": "Malachi",
+      "tradition": "judaism",
+      "source_id": "jps-1917",
+      "file": "library/tanakh-malachi.json.gz",
+      "checksum": "3d067517dccb743fcc17212066ff8b4aea19af04db1ed065deb83697baab92e4",
+      "passages": 55,
+      "sections": 4,
+      "first_ref": "Tanakh Malachi 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Prophets",
+        "description": "The Jewish Publication Society’s 1917 English edition, organized by its source book and verse identifiers.",
+        "reference_prefix": "Tanakh Malachi",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "family": "Tanakh · JPS 1917",
+        "aliases": [
+          "JPS Malachi",
+          "Torah Malachi"
+        ],
+        "canonical_order": 39
+      }
+    },
+    {
+      "id": "mahabharata",
+      "title": "Mahabharata",
+      "tradition": "hinduism",
+      "source_id": "ganguli-mahabharata",
+      "file": "library/mahabharata.json.gz",
+      "checksum": "74cb6ddc284a81f8c344b2988be3071f39c6453c6782ea237ac180ca5e9bb3de",
+      "passages": 7596,
+      "sections": 2090,
+      "first_ref": "Mahabharata 1.1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Epics & Mahākāvya",
+        "description": "Ganguli’s complete 18-book English text edition, with source section headings and explicit reading-block locators.",
+        "reference_prefix": "Mahabharata",
+        "section_label": "Section",
+        "passage_label": "Reading block",
+        "is_translation": true,
+        "family": "Itihāsa / Epics",
+        "aliases": [
+          "MB"
+        ]
+      }
+    },
+    {
+      "id": "valmiki-ramayana",
+      "title": "Valmiki Ramayana",
+      "tradition": "hinduism",
+      "source_id": "valmiki-ramayana-edition",
+      "file": "library/valmiki-ramayana.json.gz",
+      "checksum": "d354241f1ba5db47f7164de06edae9a1e822463331c3ab5ab729da22d400df9c",
+      "passages": 5127,
+      "sections": 494,
+      "first_ref": "Ramayana 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Epics & Mahākāvya",
+        "description": "Griffith’s historical English verse translation, organized by the archive’s books and cantos. Source omissions and numbering are retained; reading blocks are not Sanskrit shloka numbers.",
+        "reference_prefix": "Ramayana",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [],
+        "family": "Epics & Mahākāvya"
+      }
+    },
+    {
+      "id": "white-yajurveda",
+      "title": "White Yajurveda",
+      "tradition": "hinduism",
+      "source_id": "white-yajurveda-edition",
+      "file": "library/white-yajurveda.json.gz",
+      "checksum": "ce94d475909cc4f1e489d366f412fe03339cb8bce4c8060dd9e1ed29905ed4da",
+      "passages": 325,
+      "sections": 40,
+      "first_ref": "Yajurveda 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "The four Vedas",
+        "description": "The Vājasaneyi Saṃhitā in Griffith’s historical English edition, in 40 books. This is the White Yajurveda recension.",
+        "reference_prefix": "Yajurveda",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [],
+        "family": "The four Vedas"
+      }
+    },
+    {
+      "id": "atharvaveda",
+      "title": "Atharvaveda",
+      "tradition": "hinduism",
+      "source_id": "atharvaveda-edition",
+      "file": "library/atharvaveda.json.gz",
+      "checksum": "902bc3724d2fa4b3387e1ff9431398f0b67198c400b55b5f06920c17191301cb",
+      "passages": 970,
+      "sections": 724,
+      "first_ref": "Atharvaveda 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "The four Vedas",
+        "description": "Griffith’s historical English edition, arranged by source books and hymns. Reading-block locators are separate from source verse numbers.",
+        "reference_prefix": "Atharvaveda",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [],
+        "family": "The four Vedas"
+      }
+    },
+    {
+      "id": "rigveda",
+      "title": "Rigveda",
+      "tradition": "hinduism",
+      "source_id": "rigveda-edition",
+      "file": "library/rigveda.json.gz",
+      "checksum": "d78ea141191e886f33c23ac027b855c366ef21104d9f1f571b3a53c51db977bb",
+      "passages": 1535,
+      "sections": 1028,
+      "first_ref": "Rigveda 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "The four Vedas",
+        "description": "Griffith’s English hymns, arranged in ten books. A historical translation with source transcription limitations.",
+        "reference_prefix": "Rigveda",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [],
+        "family": "The four Vedas"
+      }
+    },
+    {
+      "id": "samaveda",
+      "title": "Samaveda",
+      "tradition": "hinduism",
+      "source_id": "samaveda-edition",
+      "file": "library/samaveda.json.gz",
+      "checksum": "9fd0b3590c187b3f334ba612a49e270a27ced79694754af9f9a7a4023f8a1406",
+      "passages": 453,
+      "sections": 453,
+      "first_ref": "Samaveda 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "The four Vedas",
+        "description": "English hymns in the source’s two parts, books, chapters and decades. Reading blocks retain source verse numbers in their text.",
+        "reference_prefix": "Samaveda",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true
+      }
+    },
+    {
+      "id": "acaranga-sutra",
+      "title": "Ācārāṅga Sutra",
+      "tradition": "jainism",
+      "source_id": "acaranga-sutra-edition",
+      "file": "library/acaranga-sutra.json.gz",
+      "checksum": "0b990ea5e24440ec43db618ed6731c16faac8be03a28d42eafc668dd334506bd",
+      "passages": 829,
+      "sections": 77,
+      "first_ref": "Ācārāṅga Sutra 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Jain āgamas",
+        "description": "Jacobi’s historical English edition, with the source lectures and lessons. This collection represents these texts, not every Jain canon.",
+        "reference_prefix": "Ācārāṅga Sutra",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [],
+        "family": "Jain āgamas"
+      }
+    },
+    {
+      "id": "kalpa-sutra",
+      "title": "Kalpa Sutra",
+      "tradition": "jainism",
+      "source_id": "kalpa-sutra-edition",
+      "file": "library/kalpa-sutra.json.gz",
+      "checksum": "d63d38eee6aea41bba01174d9c1196a35174685bbc49f0180c84031a031dd3ca",
+      "passages": 290,
+      "sections": 11,
+      "first_ref": "Kalpa Sutra 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Jain āgamas",
+        "description": "Jacobi’s historical English edition, with the source lectures and lessons. This collection represents these texts, not every Jain canon.",
+        "reference_prefix": "Kalpa Sutra",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [],
+        "family": "Jain āgamas"
+      }
+    },
+    {
+      "id": "uttaradhyayana-sutra",
+      "title": "Uttarādhyayana Sutra",
+      "tradition": "jainism",
+      "source_id": "uttaradhyayana-sutra-edition",
+      "file": "library/uttaradhyayana-sutra.json.gz",
+      "checksum": "6803cd1002ba92e090a7a0cc846f6d54387b341bb435f2d6df341db68cb6c5bc",
+      "passages": 844,
+      "sections": 36,
+      "first_ref": "Uttarādhyayana Sutra 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Jain āgamas",
+        "description": "Jacobi’s historical English edition, with the source lectures and lessons. This collection represents these texts, not every Jain canon.",
+        "reference_prefix": "Uttarādhyayana Sutra",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [],
+        "family": "Jain āgamas"
+      }
+    },
+    {
+      "id": "sutrakritanga",
+      "title": "Sūtrakṛtāṅga Sutra",
+      "tradition": "jainism",
+      "source_id": "sutrakritanga-edition",
+      "file": "library/sutrakritanga.json.gz",
+      "checksum": "d753ddd75116a737e7ac9a3105248b007ecb29e1931edb6543314786f280fa8f",
+      "passages": 797,
+      "sections": 33,
+      "first_ref": "Sūtrakṛtāṅga Sutra 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Jain āgamas",
+        "description": "Jacobi’s historical English edition, with the source lectures and lessons. This collection represents these texts, not every Jain canon.",
+        "reference_prefix": "Sūtrakṛtāṅga Sutra",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [],
+        "family": "Jain āgamas"
+      }
+    },
+    {
+      "id": "lotus-sutra",
+      "title": "Lotus Sutra",
+      "tradition": "buddhism",
+      "source_id": "lotus-sutra-edition",
+      "file": "library/lotus-sutra.json.gz",
+      "checksum": "842cb9951b446fa49476b51c9bb5c31091cd47d00fb894b5290a344db0177d1f",
+      "passages": 1192,
+      "sections": 27,
+      "first_ref": "Lotus 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Mahāyāna sūtras",
+        "description": "Kern’s historical English translation of the Saddharma Puṇḍarīka, in the source edition’s 27 chapters.",
+        "reference_prefix": "Lotus",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [],
+        "family": "Mahāyāna sūtras"
+      }
+    },
+    {
+      "id": "sutta-nipata",
+      "title": "Sutta Nipāta · numbered verses",
+      "tradition": "buddhism",
+      "source_id": "sutta-nipata-edition",
+      "file": "library/sutta-nipata.json.gz",
+      "checksum": "a14b4c979df626d3c67aef4a67e55f855fb9e184f201cec71d125db876f302ca",
+      "passages": 1051,
+      "sections": 5,
+      "first_ref": "Sutta Nipata 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Early Buddhist discourses",
+        "description": "Fausbøll’s historical English verse paragraphs in five parts. This verse selection omits prose interludes and editorial notes; source numbers remain in the text.",
+        "reference_prefix": "Sutta Nipata",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true
+      }
+    },
+    {
+      "id": "vendidad",
+      "title": "Avesta · Vendīdād",
+      "tradition": "zoroastrianism",
+      "source_id": "vendidad-edition",
+      "file": "library/vendidad.json.gz",
+      "checksum": "0d03fa45ca4d5d8cd8ae38ab06ff7755abb26fa7918d623cc603d1a22dde1b5e",
+      "passages": 945,
+      "sections": 22,
+      "first_ref": "Vendidad 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Avesta",
+        "description": "Darmesteter’s historical English translation of the Vendīdād, in 22 fargards. Other Avesta collections are not implied.",
+        "reference_prefix": "Vendidad",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [],
+        "family": "Avesta"
+      }
+    },
+    {
+      "id": "kojiki",
+      "title": "Kojiki",
+      "tradition": "shinto",
+      "source_id": "kojiki-edition",
+      "file": "library/kojiki.json.gz",
+      "checksum": "a5135b0056e20f0d523da15c713a675f9c6e4f01f6c18c0ef276a030bab7b6c8",
+      "passages": 439,
+      "sections": 180,
+      "first_ref": "Kojiki 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Early chronicles",
+        "description": "Chamberlain’s historical English edition in three volumes. Source numbering and historical language are retained.",
+        "reference_prefix": "Kojiki",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [],
+        "family": "Early chronicles"
+      }
+    },
+    {
+      "id": "tao-te-ching",
+      "title": "Tao Te Ching",
+      "tradition": "taoism",
+      "source_id": "tao-te-ching-edition",
+      "file": "library/tao-te-ching.json.gz",
+      "checksum": "0b5841d61de70718cebde44b9c483f7b032655c30742e8a4cc5eec75642b8d50",
+      "passages": 81,
+      "sections": 81,
+      "first_ref": "Tao 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Foundational texts",
+        "description": "Legge’s historical English edition in 81 chapters.",
+        "reference_prefix": "Tao",
+        "section_label": "Chapter",
+        "passage_label": "Passage",
+        "is_translation": true
+      }
+    },
+    {
+      "id": "analects",
+      "title": "Analects",
+      "tradition": "confucianism",
+      "source_id": "analects-edition",
+      "file": "library/analects.json.gz",
+      "checksum": "646eaba4c1fa2d85cdb56a0938c5d835dfab7642bbf18bf55821c29ba098a0a5",
+      "passages": 851,
+      "sections": 20,
+      "first_ref": "Analects 1.2",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "The Four Books",
+        "description": "Legge’s historical English edition, arranged in twenty books.",
+        "reference_prefix": "Analects",
+        "section_label": "Book",
+        "passage_label": "Passage",
+        "is_translation": true
+      }
+    },
+    {
+      "id": "upanishad-khandogya-upanishad",
+      "title": "Chandogya Upanishad",
+      "tradition": "hinduism",
+      "source_id": "upanishad-khandogya-upanishad-edition",
+      "file": "library/upanishad-khandogya-upanishad.json.gz",
+      "checksum": "138931f2e2a9b96bb7c14d8d422a686c23cd89fa338d4687b3b77a1f06f72714",
+      "passages": 589,
+      "sections": 154,
+      "first_ref": "Chandogya 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Upanishads",
+        "description": "Max Müller’s historical English edition. The source’s khanda and vallī labels are retained; reading blocks are platform locators.",
+        "reference_prefix": "Chandogya",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [
+          "Chandogya",
+          "Chandogya Upanishad",
+          "Khândogya Upanishad"
+        ],
+        "family": "Upanishads"
+      }
+    },
+    {
+      "id": "upanishad-talavakara-or-kena-upanishad",
+      "title": "Kena Upanishad",
+      "tradition": "hinduism",
+      "source_id": "upanishad-talavakara-or-kena-upanishad-edition",
+      "file": "library/upanishad-talavakara-or-kena-upanishad.json.gz",
+      "checksum": "41baff3739625bc314e1ca7350db06040dc7159340e6ba756792e6b7a83b5aa3",
+      "passages": 17,
+      "sections": 4,
+      "first_ref": "Kena 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Upanishads",
+        "description": "Max Müller’s historical English edition. The source’s khanda and vallī labels are retained; reading blocks are platform locators.",
+        "reference_prefix": "Kena",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [
+          "Kena",
+          "Kena Upanishad",
+          "Talavakâra or Kena-Upanishad"
+        ],
+        "family": "Upanishads"
+      }
+    },
+    {
+      "id": "upanishad-aitareya-aranyaka",
+      "title": "Aitareya Āraṇyaka",
+      "tradition": "hinduism",
+      "source_id": "upanishad-aitareya-aranyaka-edition",
+      "file": "library/upanishad-aitareya-aranyaka.json.gz",
+      "checksum": "887c176f6f26b9800eacfe991346d353f8ab10f7db2b5f9220aa96c676d41b55",
+      "passages": 441,
+      "sections": 59,
+      "first_ref": "Aitareya 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Upanishads",
+        "description": "Max Müller’s historical English edition. The source’s khanda and vallī labels are retained; reading blocks are platform locators.",
+        "reference_prefix": "Aitareya",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [
+          "Aitareya",
+          "Aitareya Āraṇyaka",
+          "Aitareya-Âranyaka"
+        ],
+        "family": "Upanishads"
+      }
+    },
+    {
+      "id": "upanishad-kaushitaki-upanishad",
+      "title": "Kaushitaki Upanishad",
+      "tradition": "hinduism",
+      "source_id": "upanishad-kaushitaki-upanishad-edition",
+      "file": "library/upanishad-kaushitaki-upanishad.json.gz",
+      "checksum": "9b42bce0bcaf546e5edf8398991d1ba123c7390d4c77433cc5f96d01df648b45",
+      "passages": 97,
+      "sections": 4,
+      "first_ref": "Kaushitaki 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Upanishads",
+        "description": "Max Müller’s historical English edition. The source’s khanda and vallī labels are retained; reading blocks are platform locators.",
+        "reference_prefix": "Kaushitaki",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [
+          "Kaushitaki",
+          "Kaushitaki Upanishad",
+          "Kaushîtaki-Upanishad"
+        ],
+        "family": "Upanishads"
+      }
+    },
+    {
+      "id": "upanishad-vagasaneyi-samhita-upanishad-sometimes-called-isavasya-or-isa-upa",
+      "title": "Isha Upanishad",
+      "tradition": "hinduism",
+      "source_id": "upanishad-vagasaneyi-samhita-upanishad-sometimes-called-isavasya-or-isa-upa-edition",
+      "file": "library/upanishad-vagasaneyi-samhita-upanishad-sometimes-called-isavasya-or-isa-upa.json.gz",
+      "checksum": "184ccdbd490a252e660263107fc118ee82aaf5fbe44a6023b2f3bd6ff927a60d",
+      "passages": 43,
+      "sections": 1,
+      "first_ref": "Isha 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Upanishads",
+        "description": "Max Müller’s historical English edition. The source’s khanda and vallī labels are retained; reading blocks are platform locators.",
+        "reference_prefix": "Isha",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [
+          "Isha",
+          "Isha Upanishad",
+          "Vâgasaneyi-Samhitâ-Upanishad, sometimes called Îsâvâsya or Îsâ-Upanishad."
+        ],
+        "family": "Upanishads"
+      }
+    },
+    {
+      "id": "upanishad-katha-upanishad",
+      "title": "Katha Upanishad",
+      "tradition": "hinduism",
+      "source_id": "upanishad-katha-upanishad-edition",
+      "file": "library/upanishad-katha-upanishad.json.gz",
+      "checksum": "64def67d00bf8927a072359b4a9557fc5f560f62ea92308e028d0e3417e67f91",
+      "passages": 93,
+      "sections": 6,
+      "first_ref": "Katha 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Upanishads",
+        "description": "Max Müller’s historical English edition. The source’s khanda and vallī labels are retained; reading blocks are platform locators.",
+        "reference_prefix": "Katha",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [
+          "Katha",
+          "Katha Upanishad",
+          "Katha-Upanishad"
+        ],
+        "family": "Upanishads"
+      }
+    },
+    {
+      "id": "upanishad-mundaka-upanishad",
+      "title": "Mundaka Upanishad",
+      "tradition": "hinduism",
+      "source_id": "upanishad-mundaka-upanishad-edition",
+      "file": "library/upanishad-mundaka-upanishad.json.gz",
+      "checksum": "bad9f6fba7e887ccd6735ec3f1a15d6bdd4f3d29ae1a9954acf1a1a78e287c15",
+      "passages": 65,
+      "sections": 6,
+      "first_ref": "Mundaka 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Upanishads",
+        "description": "Max Müller’s historical English edition. The source’s khanda and vallī labels are retained; reading blocks are platform locators.",
+        "reference_prefix": "Mundaka",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [
+          "Mundaka",
+          "Mundaka Upanishad"
+        ],
+        "family": "Upanishads"
+      }
+    },
+    {
+      "id": "upanishad-taittiriyaka-upanishad",
+      "title": "Taittiriya Upanishad",
+      "tradition": "hinduism",
+      "source_id": "upanishad-taittiriyaka-upanishad-edition",
+      "file": "library/upanishad-taittiriyaka-upanishad.json.gz",
+      "checksum": "d73418a2e033c9599bc98949a3e95e7b10244fb5b16536ad1a33123027b33b1f",
+      "passages": 111,
+      "sections": 31,
+      "first_ref": "Taittiriya 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Upanishads",
+        "description": "Max Müller’s historical English edition. The source’s khanda and vallī labels are retained; reading blocks are platform locators.",
+        "reference_prefix": "Taittiriya",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [
+          "Taittiriya",
+          "Taittiriya Upanishad",
+          "Taittirîyaka-Upanishad"
+        ],
+        "family": "Upanishads"
+      }
+    },
+    {
+      "id": "upanishad-brihadaranyaka-upanishad",
+      "title": "Brihadaranyaka Upanishad",
+      "tradition": "hinduism",
+      "source_id": "upanishad-brihadaranyaka-upanishad-edition",
+      "file": "library/upanishad-brihadaranyaka-upanishad.json.gz",
+      "checksum": "82d69a2dbd0c22415081ce17bd832229f4a24b0669ff6035aa5f147c1052fbd1",
+      "passages": 608,
+      "sections": 47,
+      "first_ref": "Brihadaranyaka 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Upanishads",
+        "description": "Max Müller’s historical English edition. The source’s khanda and vallī labels are retained; reading blocks are platform locators.",
+        "reference_prefix": "Brihadaranyaka",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [
+          "Brihadaranyaka",
+          "Brihadaranyaka Upanishad",
+          "Brihadâranyaka Upanishad"
+        ],
+        "family": "Upanishads"
+      }
+    },
+    {
+      "id": "upanishad-svetasvatara-upanishad",
+      "title": "Shvetashvatara Upanishad",
+      "tradition": "hinduism",
+      "source_id": "upanishad-svetasvatara-upanishad-edition",
+      "file": "library/upanishad-svetasvatara-upanishad.json.gz",
+      "checksum": "030bc9fd26d4c6285a5fdab845bb1e6d19f1271e8bd5bfb4698c792e7d37efd9",
+      "passages": 92,
+      "sections": 6,
+      "first_ref": "Shvetashvatara 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Upanishads",
+        "description": "Max Müller’s historical English edition. The source’s khanda and vallī labels are retained; reading blocks are platform locators.",
+        "reference_prefix": "Shvetashvatara",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [
+          "Shvetashvatara",
+          "Shvetashvatara Upanishad",
+          "Svetâsvatara Upanishad"
+        ],
+        "family": "Upanishads"
+      }
+    },
+    {
+      "id": "upanishad-prasna-upanishad",
+      "title": "Prashna Upanishad",
+      "tradition": "hinduism",
+      "source_id": "upanishad-prasna-upanishad-edition",
+      "file": "library/upanishad-prasna-upanishad.json.gz",
+      "checksum": "b3a119fffc6ae3c67238fb1c103ae73ff1c9b0c06da8f2cba9d8bb6350db6bac",
+      "passages": 56,
+      "sections": 6,
+      "first_ref": "Prashna 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Upanishads",
+        "description": "Max Müller’s historical English edition. The source’s khanda and vallī labels are retained; reading blocks are platform locators.",
+        "reference_prefix": "Prashna",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [
+          "Prashna",
+          "Prashna Upanishad",
+          "Prasña Upanishad"
+        ],
+        "family": "Upanishads"
+      }
+    },
+    {
+      "id": "upanishad-maitrayana-brahmana-upanishad",
+      "title": "Maitri Upanishad",
+      "tradition": "hinduism",
+      "source_id": "upanishad-maitrayana-brahmana-upanishad-edition",
+      "file": "library/upanishad-maitrayana-brahmana-upanishad.json.gz",
+      "checksum": "829b8fc50dd301bc54112ba0d744cf58766dc8dd1437e15e64e695e44993cf5a",
+      "passages": 203,
+      "sections": 7,
+      "first_ref": "Maitri 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Upanishads",
+        "description": "Max Müller’s historical English edition. The source’s khanda and vallī labels are retained; reading blocks are platform locators.",
+        "reference_prefix": "Maitri",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [
+          "Maitri",
+          "Maitri Upanishad",
+          "Maitrâyana Brâhmana Upanishad"
+        ],
+        "family": "Upanishads"
+      }
+    },
+    {
+      "id": "guru-granth-sahib",
+      "title": "Sri Guru Granth Sahib",
+      "tradition": "sikhism",
+      "source_id": "shabados-gurbani",
+      "file": "library/guru-granth-sahib.json.gz",
+      "checksum": "95549229f1e681edbbe9bc8d887faea8747bd8d43e0ea24526a9cf186746ed8f",
+      "passages": 26566,
+      "sections": 1430,
+      "first_ref": "SGGS 1.1",
+      "languages": [
+        "pa"
+      ],
+      "metadata": {
+        "group": "Guru Granth Sahib",
+        "description": "The Gurmukhi text on 1,430 angs from Shabad OS. English translations from that database are not republished without edition permissions.",
+        "reference_prefix": "SGGS",
+        "section_label": "Ang",
+        "passage_label": "Line",
+        "is_translation": false
+      }
+    },
+    {
+      "id": "japji-sahib-macauliffe",
+      "title": "Japji Sahib · English",
+      "tradition": "sikhism",
+      "source_id": "macauliffe-japji",
+      "file": "library/japji-sahib-macauliffe.json.gz",
+      "checksum": "05b208e2287dc1a4294a8168b86bab764d78776e881d8c682e7f8f846d02f504",
+      "passages": 38,
+      "sections": 38,
+      "first_ref": "Japji 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Nitnem · historical English edition",
+        "description": "Macauliffe’s historical English translation (1909). Its reading blocks are not aligned to the separate Shabad OS Gurmukhi lines.",
+        "reference_prefix": "Japji",
+        "section_label": "Section",
+        "passage_label": "Reading block",
+        "is_translation": true
+      }
+    },
+    {
+      "id": "bahai-splendour",
+      "title": "Bahá’í writings · The Splendour of God",
+      "tradition": "bahai",
+      "source_id": "bahai-splendour-edition",
+      "file": "library/bahai-splendour.json.gz",
+      "checksum": "ae97d6ca1095e1a4a8d5d795889cdc30c503f34fb97519ffa0cf7f5f7f33a119",
+      "passages": 308,
+      "sections": 27,
+      "first_ref": "Splendour 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Historical translations & anthologies",
+        "description": "Eric Hammond’s 1909 historical anthology of Bahá’í writings, including Seven Valleys and tablets. These are historical translations and extracts, not the current authorized Reference Library editions.",
+        "reference_prefix": "Splendour",
+        "section_label": "Section",
+        "passage_label": "Passage",
+        "is_translation": true,
+        "aliases": [],
+        "family": "Historical translations & anthologies"
+      }
+    },
+    {
+      "id": "book-of-mormon",
+      "title": "Book of Mormon",
+      "tradition": "lds",
+      "source_id": "book-of-mormon-gutenberg",
+      "file": "library/book-of-mormon.json.gz",
+      "checksum": "323e3d21f080dd380287076be1af571989fecca4398c64e5111cfc38b3aab62c",
+      "passages": 6604,
+      "sections": 239,
+      "first_ref": "Book of Mormon 1 Nephi 1.1",
+      "languages": [
+        "en"
+      ],
+      "metadata": {
+        "group": "Scripture",
+        "description": "The historical English text from Project Gutenberg, with source book, chapter and verse identifiers.",
+        "reference_prefix": "Book of Mormon",
+        "section_label": "Chapter",
+        "passage_label": "Verse",
+        "is_translation": true,
+        "reference_units": [
+          "Book of Mormon 1 Nephi",
+          "Book of Mormon 2 Nephi",
+          "Book of Mormon Jacob",
+          "Book of Mormon Enos",
+          "Book of Mormon Jarom",
+          "Book of Mormon Omni",
+          "Book of Mormon Words of Mormon",
+          "Book of Mormon Mosiah",
+          "Book of Mormon Alma",
+          "Book of Mormon Helaman",
+          "Book of Mormon 3 Nephi",
+          "Book of Mormon 4 Nephi",
+          "Book of Mormon Mormon",
+          "Book of Mormon Ether",
+          "Book of Mormon Moroni"
+        ]
+      }
+    }
+  ]
+}

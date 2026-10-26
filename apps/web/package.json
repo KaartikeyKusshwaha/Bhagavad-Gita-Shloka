@@ -1,0 +1,10 @@
+{
+  "name": "@scripture/web",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "vitest run --passWithNoTests",
+    "build": "next build --webpack"
+  }
+}

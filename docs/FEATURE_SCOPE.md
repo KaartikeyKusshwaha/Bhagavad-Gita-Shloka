@@ -1,0 +1,192 @@
+# Finalized college-website scope
+
+Latest maintainer direction: one free multi-faith website, professional and simple,
+with three destinations (Explore, Read, Study). The source PDF is reference material;
+the conversation's explicit scope changes override its extra channels and business
+operations. No MCP server, WhatsApp bot, browser extension or separate Android app.
+
+## Agreed functionality
+
+1. Multi-faith source/work selection, using free APIs, reusable downloads or clearly
+   labelled external reading hosts. Expose exact collection/language coverage.
+2. Original text, human translations, available transliteration, correct section
+   counts, direct passage links, surrounding context and translation comparison.
+3. Reference, exact, fuzzy and semantic search, with source/language filters.
+4. Quotation matching and attribution checks, cited context and cautious explanation.
+5. Cited text questions and follow-up questions through an existing model provider.
+6. Push-to-talk input with transcript confirmation; TTS for explanations; licensed
+   human sacred recitations where available.
+7. Related-passages graph/list, with sourced links separate from suggested similarity.
+8. Cross-tradition theme browsing, with clear sources and no equivalence claims.
+9. Daily reading plans, progress and device-local bookmarks.
+10. Shareable classroom passage/question sets, without student accounts.
+11. Hide/reveal memorization practice, prompts, quizzes and spaced revision.
+12. Experimental spoken verse identification and omission/substitution feedback;
+    no claim of expert pronunciation/chanting assessment.
+13. Share links/cards, appearance/text-size controls, mobile and keyboard access.
+14. Offline reading and exact search for downloaded works.
+15. Attribution/license visibility, error reports, neutral content handling, privacy,
+    technical tests, deployment on Render or Oracle, and final owner testing.
+16. User-requested GitHub/LeetCode-style learning activity grid and ChatGPT-style
+    Explore conversations/search history. Keep browser-local by default, with
+    reopening, search, rename/delete, pause and clear controls.
+
+Universal coverage of every edition/language and 22 fully reviewed languages is
+not promised. Continuous interruptible voice, expert theological judgments,
+scholar/community organizations, business/legal setup, OCR and sermon/video
+checking are outside the initial agreed delivery or later enhancements.
+
+## Implemented versus pending
+
+The expanded implementation has 140 works across 13 traditions, totaling 120,858
+primary passages/reading blocks. The original 700 Gita passages, 6,236 preserved
+Tanzil Quran Arabic verses and 423 Dhammapada verses remain. ClearQuran adds 6,236
+verbatim human English Quran mappings under CC BY-ND 4.0, excluded from AI use.
+The Bible has the public-domain WEB Protestant edition and licensed Hindi IRV
+translations where explicit verse identifiers align. The Tanakh uses JPS 1917
+English; its 39 source book subdivisions are not a claim of 39 Jewish canonical books.
+Hinduism adds the Ramayana, Mahabharata, all four Vedas and 12 Upanishad/Āraṇyaka
+editions. Other imported works cover Jain āgamas, Lotus Sutra, Sutta Nipāta verse
+selections, Gurbani on 1,430 angs and historical English Japji, Vendīdād, Tao Te
+Ching, Analects, Kojiki, a historical Bahá’í anthology and the Book of Mormon.
+See `data/imports/library-manifest.json` for exact titles, sections and counts.
+These are identified editions and selections, with source transcription limitations;
+they are not a comprehensive collection of every text, recension or language.
+It provides exact/fuzzy/reference retrieval, conservative quotation
+checking, reader/context, source records and report API. Explore has a single
+composer and persistent device history. Study has real activity/streak counts,
+calendar keyboard navigation, bookmarks, and deliberate read marks.
+The reader has hide/reveal recall practice, experimental browser dictation,
+word-difference feedback and self-rated spaced review. Study tools provide a
+daily reading plan, revision queue and reference-based classroom share links.
+Explore dictation requires transcript review. Explanation playback uses installed
+local voices; actual microphone recognition and voice availability vary by browser.
+
+Ask now supports an existing Qwen model through a configured server: cited study
+paragraphs, previous-question/passage context and source-first display. The local
+Qwen3-1.7B runtime and Qwen3-Embedding-0.6B index have been exercised with actual
+requests. The 6,936 eligible Gita/Quran passages are indexed locally. SuttaCentral
+editions remain excluded from model use. Model availability is checked; a failure
+keeps retrieved evidence visible and states why an answer is unavailable.
+The reader now includes an interactive connection graph/list and Explore provides
+keyword-guided cross-tradition themes. Graph source-order links are distinct from
+automatic shared-word suggestions. No scholarly cross-reference dataset has yet
+been imported; that absence is stated in the graph.
+Downloadable editions now have a cached offline reader with exact/reference
+search, chapter selection and device-local progress. Human audio currently includes
+one complete Al-Fatiha recording by Adeel Shaikh (CC BY-SA 4.0), streamed only on
+request and explicitly labelled as a whole surah rather than verse-aligned audio.
+Word-order quizzes and attributed PNG cards are implemented inside the reader.
+The Oracle deployment hosts Qwen query embeddings and a verified 6,936-passage
+index; the new works have word/reference search and source retrieval. Their meaning
+embeddings have not yet been generated. Cited Ask uses the authorized Groq Free-plan account. Its actual
+model browser test passes meaning retrieval, cited follow-ups and history reload.
+The second Gita edition has 671 translation segments mapped to 700 verses, with
+24 combined ranges disclosed. Further editions are additions, not implied current
+coverage. Read now has religion tabs, grouped shelves, language/text filters,
+paginated long sections, coloured bookmarks, private notes and deliberate read
+marks that provide a return-to-reading link. Ask can explicitly include up to two
+relevant saved exchanges in addition to the current conversation context. Notes
+are never sent. This is retrieval and context, not model fine-tuning. Optional
+unreviewed study translations support 24 target languages only for eligible sources;
+they are never stored as canonical text or published human editions.
+Final owner acceptance remains pending. Source research or an empty
+workspace package does not count as a functioning feature.
+
+## Accounts (user-authorized 2026-10-25)
+
+Free username/password accounts now provide an individual Study dashboard. Signed-in
+bookmarks and notes, deliberate reading marks and return places, the activity grid,
+reading plans, spaced-revision cards, and saved Explore conversations synchronize to
+PostgreSQL. Guest reading stays local; guest imports are explicit and account entries
+win matching IDs. Preferences and downloaded public editions remain device-local.
+Explore history can still be paused, renamed, deleted or cleared; notes are not sent
+to Groq. AI context remains opt-in retrieval, not training.
+
+No email address, paid auth service or email verification is required. Sign-up shows a
+one-time recovery code; recovery rotates the code and revokes all sessions. Account
+settings support sign-out and password-confirmed permanent deletion. Sessions expire
+in seven days. Backups may retain deleted data until rotated. Account sync is not
+end-to-end encrypted. Conflicting device revisions stop saving with an explicit error
+and an export option; reload obtains the current server version. No automatic merge
+of concurrently edited dashboards is claimed.
+
+## Email-first access (latest user request)
+
+Sign in and Sign up have separate visible links and dedicated pages. Email addresses
+from Gmail and other providers work with a website password; usernames remain
+compatible. A new email entered at sign-in opens signup, while wrong passwords never
+create accounts. Optional Google sign-in uses authorization code + PKCE and verified
+identity tokens, and is exposed only when the Google OAuth client is configured.
+Password accounts require explicit authenticated linking, not email-only matching.
+Google-only accounts require fresh Google authentication for permanent deletion.
+Provider setup and current limits are documented in decision 013.
+
+## Visible account entry and profiles
+
+Guests now see a prominent welcome card on first opening a reading page in a browser
+session, with separate Sign up and Sign in links and an explicit Continue as guest
+choice. Dismissing it keeps guest reading uninterrupted for that session; account
+links remain in the header. It does not appear on account or offline pages.
+Signed-in users have a labelled Profile dropdown showing their name, email/username,
+sync status, dashboard, account details and sign-out. A profile details card appears
+in Study and on the account page. No fourth main navigation destination was added.
+
+## Latest access and appearance decision
+
+Explore, Read and Study now require an authenticated account. Guests opening these
+pages (including direct links) are sent to the signup/signin popup; their underlying
+page is not served. Reader data/action API endpoints also require a session when
+running the website, and their responses are no-store. Account access, sources,
+privacy/about and operational health remain public. Existing downloaded public
+editions are local copies and are not DRM-protected; requiring website sign-in does
+not retract material already downloaded. Browser-only guest reading is superseded.
+Dark maroon/red is the default palette, with a light rose reading option. Existing
+appearance preferences are migrated once to the new default, retaining text-size
+and font choices.
+
+## Required AI and reading sessions (latest)
+
+Ask and Verify require real configured-model inference for AI assessments. Service
+failures return an explicit error and Retry; a canned or source-only answer must
+not stand in for inference. Verify keeps the cited passage visible and provides a
+separate evidence-cited assessment, retaining deterministic quotation matching.
+See decision 015 for evidence and source restrictions.
+
+Reading has a continuous book layout, size and view controls, focus mode, account
+bookmarks/notes, and optional device-voice translation playback. An explicit session
+timer counts completed active reading minutes in the Study grid, separately from
+passages marked read. Hidden/unfocused tabs and idle time do not count.
+
+## Original-text audio and Next tracking (supersedes translation audio)
+
+Use Cartesia for eligible supported original source languages and YourVoic Aura
+Prime for Sanskrit. No human recordings, translation playback or substitute-language
+voices in the reader. Audio is generated on request and stored in a persistent
+shared source-text cache; replay consumes no new generation allowance. Provider
+errors and free-budget exhaustion are explicit. See decision 016 for exact caps.
+Next marks the passage being left read and saves its Study grid event before
+navigation, deduplicated per passage/day. A page load alone records nothing.
+
+## Verification evidence limits
+
+Verify can return a real model assessment explaining that the retrieved scriptures
+cannot establish a claim. It is labelled “Not established from these texts”, keeps
+related passages collapsed, and persists in account history. This does not decide
+the truth of modern historical claims. Scripture-based paragraphs still require
+valid citations; provider failures are errors, never successful substitute answers.
+See decision 017. The live website runs on Render Free with Neon Free PostgreSQL;
+the existing Oracle VM continues to supply the protected embedding model.
+
+## Gemini evidence research (latest)
+
+Gemini 3.6 Flash now has an explicit provider adapter for developed cited answers
+and bounded additional retrieval across permitted stored editions. Verify adds
+an AI meaning assessment (supported, contradicted, mixed or insufficient evidence)
+separate from exact quotation matching. Historical claims can retrieve English
+Wikipedia articles and accessible underlying reports on selected publishers;
+the interface identifies public sources and the limits of that discovery method.
+It does not claim whole-web coverage, universal certainty or model training.
+Long answers, verdicts and source links persist with private account history.
+Provider and retrieval failures remain explicit errors. No paid Google Search
+grounding or automatic model substitution is used. See decision 018.

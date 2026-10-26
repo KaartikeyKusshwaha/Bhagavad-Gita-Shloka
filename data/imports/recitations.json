@@ -1,0 +1,17 @@
+{
+  "tracks": [
+    {
+      "id": "adeel-fatiha",
+      "passage_id": "quran.1.1",
+      "source_id": "adeel-fatiha",
+      "reciter": "Adeel Shaikh",
+      "lang": "ar",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Surah-Fathia.flac",
+      "duration_ms": 49824,
+      "license": "CC-BY-SA-4.0",
+      "is_human": true,
+      "scope": "Complete Surah 1, Al-Fatiha (all seven verses)",
+      "upstream_sha1": "6cd50a6270f2be2d59ca9bc15957fcbb1fec1d56"
+    }
+  ]
+}
