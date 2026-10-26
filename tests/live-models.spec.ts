@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './e2e/reader-fixture';
 import AxeBuilder from '@axe-core/playwright';
 
 test('real model retrieval, cited follow-up and persisted Explore answer', async ({
@@ -64,4 +64,30 @@ test('real model retrieval, cited follow-up and persisted Explore answer', async
   ).json();
   expect(blocked.answer).toBeNull();
   expect(blocked.note).toContain('exclude this AI use');
+});
+
+test('Verify explains that a modern broadcast claim is not established by retrieved scripture', async ({
+  page,
+}) => {
+  test.setTimeout(150000);
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Verify', exact: true }).click();
+  await page
+    .getByRole('textbox', { name: 'Quotation to verify', exact: true })
+    .fill(
+      'In 1993, a man named George Jammal convinced CBS television to air a primetime special titled "The Incredible Discovery of Noah’s Ark". He claimed he had climbed a mountain in Turkey and found the physical remains of Noah’s Ark.',
+    );
+  await page.getByRole('button', { name: 'Send to Explore', exact: true }).click();
+  await expect(page.getByText('Not established from these texts', { exact: true })).toBeVisible({
+    timeout: 110000,
+  });
+  await expect(page.getByText('AI assessment · evidence limit', { exact: true })).toBeVisible();
+  await expect(page.locator('.response-explanation').first()).toContainText(
+    /evidence|passages|sources/i,
+  );
+  await expect(page.locator('.answer-citations a')).toHaveCount(0);
+  await expect(page.locator('.explore-error')).toHaveCount(0);
+  await page.waitForFunction(() => document.body.dataset.accountSync === 'ready');
+  await page.reload();
+  await expect(page.getByText('Not established from these texts', { exact: true })).toBeVisible();
 });

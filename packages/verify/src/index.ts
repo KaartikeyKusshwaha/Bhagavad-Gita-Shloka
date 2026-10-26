@@ -24,7 +24,10 @@ export interface ParsedClaim {
   lang: string;
 }
 export function parseClaim(input: string, source?: string): ParsedClaim {
-  const quoted = input.match(/["“]([^"”]+)["”]/);
+  // A quoted film/book title is part of the claim, not an alleged scripture quote.
+  const quoted = [...input.matchAll(/["“]([^"”]+)["”]/g)].find(
+    (m) => !/\b(?:titled|entitled|called|named)\s*$/i.test(input.slice(0, m.index)),
+  );
   const claimedWork =
     source ||
     (/\b(gita|bhagavad|गीता)\b/i.test(input)
@@ -143,18 +146,18 @@ export async function verifyClaim(db: Database, input: string, source?: string) 
         .map((p) => [p.id, p]),
     ).values(),
   ].slice(0, 8);
-  if (!evidence.length) {
-    note = matches.length
-      ? 'The retrieved editions do not permit AI use. Read the text-match evidence below.'
-      : 'No supporting source was retrieved. This does not establish that the claim is false. Try an exact quotation or reference.';
+  if (!evidence.length && matches.length) {
+    note = 'The retrieved editions do not permit AI use. Read the text-match evidence below.';
   } else {
     if (!modelConfigured('chat')) throw new AiServiceError();
     try {
       const generated = await generateCitedAnswer(
         `Assess this claim against the supplied source evidence: ${input}\nClaimed source: ${source ?? claim.claimedWork ?? 'unspecified'}. Text-match result: ${decision.verdict}. Explain whether these passages support, contradict, or leave the claim unresolved, and why. Distinguish wording from interpretation. Do not claim universal religious or historical truth.`,
         evidence,
+        [],
+        { claim: input },
       );
-      if (generated.paragraphs.length) {
+      if (generated.paragraphs.length || generated.unresolved) {
         answer = { ...generated, model: modelName('chat') };
         const cited = new Set(generated.paragraphs.flatMap((p) => p.citations));
         for (const p of evidence.filter((p) => cited.has(p.id)))
@@ -165,8 +168,9 @@ export async function verifyClaim(db: Database, input: string, source?: string) 
               match_type: 'reference',
               context: await getContext(db, p, 1, 1),
             });
-        note =
-          'AI evidence assessment, not a scholarly verdict. Check the cited edition and context.';
+        note = generated.unresolved
+          ? 'This result does not establish whether the claim is true or false beyond the retrieved texts.'
+          : 'AI evidence assessment, not a scholarly verdict. Check the cited edition and context.';
       } else
         note =
           'The model could not establish this claim from the retrieved evidence. The text check remains available.';

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import type { Passage, SearchHit } from './index.ts';
-import type { CitedAnswer } from '../../llm/src/provider.ts';
+import type { StudyAnswer } from '../../llm/src/provider.ts';
 
 export type ExploreMode = 'search' | 'verify' | 'ask';
 export interface ExploreReply {
@@ -12,7 +12,7 @@ export interface ExploreReply {
   note?: string;
   coverage_note?: string;
   safety?: { kind: string; message?: string };
-  answer?: (CitedAnswer & { model: string }) | null;
+  answer?: (StudyAnswer & { model: string }) | null;
 }
 export interface ExploreTurn {
   id: string;
@@ -148,6 +148,12 @@ const reply = z.object({
         )
         .max(3),
       model: z.string().max(150),
+      unresolved: z
+        .object({
+          claim_excerpt: z.string().min(3).max(800),
+          explanation: z.string().min(10).max(1400),
+        })
+        .optional(),
     })
     .nullable()
     .optional(),

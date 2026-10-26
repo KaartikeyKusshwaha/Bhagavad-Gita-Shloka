@@ -167,3 +167,13 @@ shared source-text cache; replay consumes no new generation allowance. Provider
 errors and free-budget exhaustion are explicit. See decision 016 for exact caps.
 Next marks the passage being left read and saves its Study grid event before
 navigation, deduplicated per passage/day. A page load alone records nothing.
+
+## Verification evidence limits
+
+Verify can return a real model assessment explaining that the retrieved scriptures
+cannot establish a claim. It is labelled “Not established from these texts”, keeps
+related passages collapsed, and persists in account history. This does not decide
+the truth of modern historical claims. Scripture-based paragraphs still require
+valid citations; provider failures are errors, never successful substitute answers.
+See decision 017. The live website runs on Render Free with Neon Free PostgreSQL;
+the existing Oracle VM continues to supply the protected embedding model.

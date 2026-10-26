@@ -6,6 +6,10 @@ This is a college-project beta. The [finalized website scope](docs/FEATURE_SCOPE
 records the maintainer's later decisions and takes precedence over extra channels
 and business operations in the original PDF.
 
+Live website: https://open-scripture.onrender.com. Deployment uses Render Free,
+Neon Free PostgreSQL and the existing protected Oracle embedding runtime;
+see [deployment notes](infra/RENDER.md). Render Free can sleep while idle.
+
 ## Current working slice
 
 - 140 works across 13 traditions: actual imported text, religion shelves, text and

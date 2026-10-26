@@ -30,6 +30,44 @@ test('Explore Verify requires a real assessment and reports a service failure ho
   await expect(page.locator('.assistant-response')).toBeVisible();
 });
 
+test('evidence-limit assessments keep related scripture separate and survive account history reload', async ({
+  page,
+  request,
+}) => {
+  const claim = 'A broadcaster aired a programme in 1993 about an ancient ship.';
+  const passage = (await (await request.get('/v1/passages/bhagavad-gita/BG-2.47')).json()).passage;
+  const explanation =
+    'The retrieved scripture cannot establish this broadcast claim. Contemporary historical records would be needed.';
+  await page.route('**/v1/verify', (route) =>
+    route.fulfill({
+      json: {
+        verdict: 'not_found',
+        matches: [{ passage }],
+        answer: {
+          model: 'synthetic-browser-contract-fixture',
+          paragraphs: [],
+          unresolved: { claim_excerpt: 'A broadcaster', explanation },
+        },
+      },
+    }),
+  );
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Verify', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Quotation to verify', exact: true }).fill(claim);
+  await page.getByRole('button', { name: 'Send to Explore', exact: true }).click();
+  await expect(page.getByText('Not established from these texts', { exact: true })).toBeVisible();
+  await expect(page.getByText(explanation, { exact: true })).toBeVisible();
+  await expect(page.getByRole('article', { name: 'BG 2.47', exact: true })).toBeHidden();
+  await expect(page.locator('.answer-citations a')).toHaveCount(0);
+  await page.waitForFunction(() => document.body.dataset.accountSync === 'ready');
+  await page.reload();
+  await expect(page.getByText(explanation, { exact: true })).toBeVisible();
+  await page
+    .getByText('Related passages · not verification of this claim', { exact: true })
+    .click();
+  await expect(page.getByRole('article', { name: 'BG 2.47', exact: true })).toBeVisible();
+});
+
 test('reader sessions save active minutes, exclude pauses, and restore preferences and bookmarks', async ({
   page,
   request,

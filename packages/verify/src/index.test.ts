@@ -31,3 +31,8 @@ it('resolves references across the full library rather than defaulting a Bible o
   expect(parseClaim('Does Genesis 1.1 describe creation?').claimedWork).toBe('bible-genesis');
   expect(parseClaim('What does BG 2.47 teach?').claimedRef).toBe('BG 2.47');
 });
+it('searches a historical claim in full instead of treating a quoted programme title as scripture', () => {
+  const claim =
+    'A broadcaster aired a special titled "The Reported Discovery" about an ancient ship.';
+  expect(parseClaim(claim).quote).toBe(claim);
+});

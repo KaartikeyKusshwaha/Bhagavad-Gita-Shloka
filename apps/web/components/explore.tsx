@@ -64,6 +64,7 @@ function historyGroup(date: string) {
 }
 function Reply({ turn }: { turn: ExploreTurn }) {
   const passages = turnPassages(turn.reply);
+  const unresolved = turn.reply.answer?.unresolved;
   if (turn.reply.safety)
     return (
       <div className="explore-safety" role="alert">
@@ -79,17 +80,26 @@ function Reply({ turn }: { turn: ExploreTurn }) {
         </span>
         <span>
           {turn.mode === 'verify'
-            ? turn.reply.verdict === 'accurate'
-              ? 'Wording found'
-              : turn.reply.verdict === 'misattributed'
-                ? 'Attribution differs'
-                : 'No exact quotation confirmed'
+            ? unresolved
+              ? 'Not established from these texts'
+              : turn.reply.verdict === 'accurate'
+                ? 'Wording found'
+                : turn.reply.verdict === 'misattributed'
+                  ? 'Attribution differs'
+                  : 'No exact quotation confirmed'
             : turn.mode === 'ask'
               ? 'From the collection'
               : `${passages.length} passage${passages.length === 1 ? '' : 's'} found`}
         </span>
       </div>
-      {passages.length > 0 ? (
+      {passages.length > 0 && unresolved ? (
+        <details className="more-evidence">
+          <summary>Related passages · not verification of this claim</summary>
+          {passages.map((p) => (
+            <PassageCard key={p.id} passage={p} compact />
+          ))}
+        </details>
+      ) : passages.length > 0 ? (
         <>
           <PassageCard passage={passages[0]} compact />
           {passages.length > 1 && (
@@ -114,15 +124,20 @@ function Reply({ turn }: { turn: ExploreTurn }) {
             </details>
           )}
         </>
-      ) : (
+      ) : !unresolved ? (
         <p className="response-note">
           No matching passage was found in the currently loaded texts. Try a shorter phrase or a
           specific reference.
         </p>
-      )}
+      ) : null}
       {turn.reply.answer && (
         <div className="response-explanation">
-          <span>AI study explanation · check the sources</span>
+          <span>
+            {unresolved
+              ? 'AI assessment · evidence limit'
+              : 'AI study explanation · check the sources'}
+          </span>
+          {unresolved && <p>{unresolved.explanation}</p>}
           {turn.reply.answer.paragraphs.map((paragraph, i) => (
             <div key={i}>
               <p>{paragraph.text}</p>
@@ -141,7 +156,11 @@ function Reply({ turn }: { turn: ExploreTurn }) {
               </div>
             </div>
           ))}
-          <SpeakExplanation text={turn.reply.answer.paragraphs.map((p) => p.text).join('\n')} />
+          <SpeakExplanation
+            text={
+              unresolved?.explanation ?? turn.reply.answer.paragraphs.map((p) => p.text).join('\n')
+            }
+          />
         </div>
       )}
       {(turn.reply.explanation || turn.reply.note) && (
@@ -707,7 +726,7 @@ export function Explore({
           {mode === 'ask'
             ? 'Ask sends your question and selected context to the configured AI provider. Answers cite source passages.'
             : mode === 'verify'
-              ? 'Verify sends your claim and permitted source evidence to the AI provider for a cited assessment. A wording match confirms text, not theological truth.'
+              ? 'Verify checks claims against the loaded scriptures using AI. It cannot independently establish modern historical events. A wording match confirms text, not theological truth.'
               : 'Search the published collection. Source and language availability vary.'}{' '}
           <Link href={mode === 'ask' ? '/privacy' : '/library'}>
             {mode === 'ask' ? 'Privacy' : 'Browse texts'}

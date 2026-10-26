@@ -85,3 +85,34 @@ it('never sends a restricted edition to the model', async () => {
   expect(mocks.generate).not.toHaveBeenCalled();
   expect(result.note).toContain('do not permit AI');
 });
+it('retains a real model evidence-limit assessment without inventing scripture citations', async () => {
+  setup();
+  const claim = 'A broadcaster aired a programme in 1993 about an archaeological discovery.';
+  const unresolved = {
+    claim_excerpt: 'A broadcaster aired a programme in 1993',
+    explanation:
+      'The retrieved scripture passages cannot establish this broadcast claim. Historical records would be needed.',
+  };
+  mocks.generate.mockResolvedValue({ paragraphs: [], unresolved });
+  const result = await verifyClaim({} as Database, claim);
+  if (!('verdict' in result)) throw new Error('Unexpected safety response');
+  expect(result.answer?.unresolved).toEqual(unresolved);
+  expect(result.answer?.paragraphs).toEqual([]);
+  expect(result.verdict).toBe('not_found');
+  expect(mocks.generate).toHaveBeenCalledWith(expect.any(String), expect.any(Array), [], { claim });
+});
+it('uses real inference for an evidence-limit result when retrieval returns no passages', async () => {
+  setup();
+  mocks.search.mockResolvedValue([]);
+  mocks.generate.mockResolvedValue({
+    paragraphs: [],
+    unresolved: {
+      claim_excerpt: 'A new broadcast',
+      explanation: 'No retrieved source can establish this broadcast claim.',
+    },
+  });
+  const result = await verifyClaim({} as Database, 'A new broadcast was aired yesterday.');
+  if (!('verdict' in result)) throw new Error('Unexpected safety response');
+  expect(mocks.generate).toHaveBeenCalledOnce();
+  expect(result.answer?.unresolved).toBeDefined();
+});

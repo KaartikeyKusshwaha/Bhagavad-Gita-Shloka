@@ -1,9 +1,23 @@
-# Render migration
+# Render deployment
 
-The requested target is a separate Render Free Node web service in Singapore,
-with persistent PostgreSQL on Neon Free. `render.yaml` records the configuration;
-it does not prove that a deployment exists. Deployment and migration verification
-must be recorded after the service is live.
+Live site: https://open-scripture.onrender.com (service `srv-dbfhsp0ae00c7385lq2g`).
+The initial deployment, `dep-dbfhsp8ae00c7385lrm0`, runs commit
+`99ee9c0fa0865d93b1de12d44aba0cdb3becf2fd`. Both the service and the Neon database
+were created on Free plans in Singapore. The old Oracle website URL redirects here;
+its web service is stopped and disabled, and its database backup is retained.
+Oracle continues to run the existing Qwen embedding model behind a separate HTTPS
+gateway. Only authenticated health and embedding requests are allowed; no public
+model UI or inference endpoint is exposed. Groq continues to handle Ask/Verify.
+
+Migration preserved 140 works, 120,858 passages, 39,154 translations, all 3 accounts,
+private reading records, 6,936 vectors, 2 cached WAVs and speech usage counters.
+Database TLS certificate validation was checked. Statistics were refreshed after
+restore. A final private-data synchronization preceded redirecting the old URL.
+Fourteen live Edge browser checks passed on the initial Render deployment. Both
+audio providers returned migrated cache HITs with byte-identical SHA-256 hashes.
+
+`render.yaml` records the reproducible service configuration. Secrets remain in the
+hosting environment and ignored local migration files, never in this repository.
 
 Use the existing `codex/open-scripture-platform` branch. Node is pinned to
 22.23.4, and Corepack uses the package's pinned pnpm version. The custom Fastify
@@ -21,8 +35,9 @@ Before switching the advertised URL, check database row counts, sign-up/sign-in,
 member-only routes, Next reading progress, bookmarks and Study grid persistence,
 cited Groq responses and original-language audio. Confirm existing cached audio
 returns the same bytes after a service restart without increasing provider usage.
-An embedding URL pointing at `127.0.0.1` on Oracle cannot be reused on Render.
-Resolve and test the embedding service separately before claiming parity.
+An embedding URL pointing at `127.0.0.1` cannot be reused on Render. The protected
+HTTPS gateway was tested with a real 1,024-dimensional response and public health
+reports both semantic retrieval and Groq ready. Keep its server-only credential.
 
 Render Free sleeps after 15 minutes idle and shares 750 monthly instance hours
 across the workspace. SentinelOps already exists in this workspace. Do not change

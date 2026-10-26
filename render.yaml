@@ -27,13 +27,21 @@ services:
         value: https://api.groq.com/openai/v1
       - key: LLM_MODEL
         value: openai/gpt-oss-20b
+      - key: MODEL_PROVIDER
+        value: groq
       - key: MODEL_API_KEY
+        sync: false
+      - key: EMBEDDING_MODEL
+        value: qwen3-embedding-0.6b-q8_0:06507c7b4268
+      - key: EMBEDDING_BASE_URL
+        sync: false
+      - key: EMBEDDING_API_KEY
         sync: false
       - key: CARTESIA_API_KEY
         sync: false
       - key: CARTESIA_MONTHLY_CHAR_LIMIT
-        value: "18000"
+        value: '18000'
       - key: YOURVOIC_API_KEY
         sync: false
       - key: YOURVOIC_CHAR_LIMIT
-        value: "2000"
+        value: '2000'

@@ -1,6 +1,11 @@
 import { it, expect, vi } from 'vitest';
 import type { Passage, Source } from '../../shared/src/index.ts';
-import { canUseAI, generateCitedAnswer, validateCitedAnswer } from './provider.ts';
+import {
+  canUseAI,
+  generateCitedAnswer,
+  validateCitedAnswer,
+  validateVerificationAssessment,
+} from './provider.ts';
 const source: Source = {
   id: 'fixture-source',
   name: 'Synthetic test fixture',
@@ -74,6 +79,53 @@ it('excludes source editions that disallow model use', () => {
     validateCitedAnswer(
       { paragraphs: [{ text: 'A plain study explanation.', citations: [restricted.id] }] },
       [restricted],
+    ),
+  ).toThrow();
+});
+it('accepts an evidence-limit assessment only as an unresolved result grounded in the submitted claim', () => {
+  const claim = 'A broadcaster aired a programme in 1993.';
+  const unresolved = {
+    claim_excerpt: 'A broadcaster',
+    explanation: 'The retrieved passages cannot establish this broadcast claim.',
+  };
+  expect(
+    validateVerificationAssessment({ paragraphs: [], unresolved }, [passage], claim).unresolved,
+  ).toEqual(unresolved);
+  expect(() =>
+    validateVerificationAssessment({ paragraphs: [], unresolved: null }, [passage], claim),
+  ).toThrow();
+  expect(() =>
+    validateVerificationAssessment(
+      { paragraphs: [], unresolved: { ...unresolved, claim_excerpt: 'Invented claim' } },
+      [passage],
+      claim,
+    ),
+  ).toThrow();
+  expect(() =>
+    validateVerificationAssessment(
+      { paragraphs: [{ text: 'An uncited assertion.', citations: [] }], unresolved: null },
+      [passage],
+      claim,
+    ),
+  ).toThrow();
+  expect(() =>
+    validateVerificationAssessment(
+      { paragraphs: [{ text: 'A cited explanation.', citations: [passage.id] }], unresolved },
+      [passage],
+      claim,
+    ),
+  ).toThrow();
+  expect(() =>
+    validateVerificationAssessment(
+      {
+        paragraphs: [],
+        unresolved: {
+          ...unresolved,
+          explanation: 'The source says “an invented quotation” about this broadcast.',
+        },
+      },
+      [passage],
+      claim,
     ),
   ).toThrow();
 });
