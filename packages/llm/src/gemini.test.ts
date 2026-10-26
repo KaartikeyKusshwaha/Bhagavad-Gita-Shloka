@@ -47,17 +47,23 @@ it('rejects incomplete output, quota exhaustion and invalid JSON without trying 
     .mockResolvedValueOnce(new Response('{}', { status: 429, headers: { 'retry-after': '64231' } }))
     .mockResolvedValueOnce(
       new Response(JSON.stringify({ status: 'completed', output_text: 'not JSON' })),
+    )
+    .mockResolvedValueOnce(
+      new Response(
+        JSON.stringify({ status: 'completed', output_text: '{"text":"Available again"}' }),
+      ),
     );
   vi.stubGlobal('fetch', fetcher);
   await expect(geminiJson('Explain', {}, schema)).rejects.toMatchObject({ code: 'AI_INCOMPLETE' });
   await expect(geminiJson('Explain', {}, schema)).rejects.toMatchObject({
     code: 'AI_RATE_LIMITED',
-    message: expect.stringContaining('18 hour(s)'),
+    message: expect.stringContaining('This service is currently unavailable.'),
   });
   await expect(geminiJson('Explain', {}, schema)).rejects.toMatchObject({
     code: 'AI_INVALID_RESPONSE',
   });
-  expect(fetcher).toHaveBeenCalledTimes(3);
+  expect(await geminiJson('Explain', {}, schema)).toEqual({ text: 'Available again' });
+  expect(fetcher).toHaveBeenCalledTimes(4);
 });
 it('accepts long cited answers and saves their assessment and public source metadata', () => {
   const source = {

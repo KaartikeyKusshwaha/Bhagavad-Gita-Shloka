@@ -55,16 +55,11 @@ export async function geminiJson<T>(
       throw new AiServiceError('AI_CONNECTION_FAILED');
     });
     if (!response.ok) {
-      const retrySeconds = Number(response.headers.get('retry-after') ?? 0);
-      const resetWait =
-        Number.isFinite(retrySeconds) && retrySeconds > 0
-          ? ` Retry in about ${Math.ceil(retrySeconds / 3600)} hour(s), when the provider quota resets.`
-          : ' Retry after the provider’s quota resets.';
       throw new AiServiceError(
         response.status === 429 ? 'AI_RATE_LIMITED' : 'AI_UNAVAILABLE',
         response.status === 429
-          ? `Gemini’s free usage limit was reached. No answer was produced.${resetWait}`
-          : 'Gemini could not complete this request. No substitute answer was produced. Please retry.',
+          ? 'This service is currently unavailable. It will resume when Gemini’s usage quota resets. Please try again then.'
+          : 'This service is currently unavailable. Please try again shortly.',
       );
     }
     const raw = await response.json();
